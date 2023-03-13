@@ -72,51 +72,97 @@
                                       <thead>
                                         <tr>
                                           <th></th>
-                                          <th>Origen</th>
-                                          <th>Destino</th>
-                                          <th>N° De Guia</th>
-                                          <th>Documento</th>
+                                          <th>Datos Origen</th>
+                                          <th>Datos Guia</th>
+
                                         </tr>
                                       </thead>
                                       <tbody>
                                         <tr ng-repeat="row in rows">
                                           <td align="center"><input type="checkbox" ng-model="row.delete"></td>
-                                          <td>
-                                            <select class="select2 form-select" ng-model="row.origen" name="datos_origen[]">
-                                                <option value="AK">Alaska</option>
-                                                <option value="HI">Hawaii</option>
-                                                <option value="CA">California</option>
-                                                <option value="NV">Nevada</option>
-                                                <option value="OR">Oregon</option>
-                                                <option value="WA">Washington</option>
-                                                <option value="AZ">Arizona</option>
-                                                <option value="CO">Colorado</option>
-                                             
-                                            </select>
-                                            {{-- <input class="form-control" ng-model="row.sexo" name="datos_sexo[]" placeholder="Nombres ..."> --}}
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                     Origen
+                                                    <select class="select2 form-select" ng-model="row.origen" name="datos_origen[]">
+                                                        <option value="AK">Alaska</option>
+                                                        <option value="HI">Hawaii</option>
+                                                        <option value="CA">California</option>
+                                                        <option value="NV">Nevada</option>
+                                                        <option value="OR">Oregon</option>
+                                                        <option value="WA">Washington</option>
+                                                        <option value="AZ">Arizona</option>
+                                                        <option value="CO">Colorado</option>
+                                                     
+                                                    </select>
+                                                </div>
+                                                <div class="col-6">
+                                                    Destino
+                                                    <select class="select2 form-select" ng-model="row.destino" name="datos_destino[]">
+                                                        <option value="AK">Alaska</option>
+                                                        <option value="HI">Hawaii</option>
+                                                        <option value="CA">California</option>
+                                                        <option value="NV">Nevada</option>
+                                                        <option value="OR">Oregon</option>
+                                                        <option value="WA">Washington</option>
+                                                        <option value="AZ">Arizona</option>
+                                                        <option value="CO">Colorado</option>
+                                                    </select>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    Cantidad
+                                                     <input class="form-control" type="text" ng-model="row.numeroguia" 
+                                                     name="datos_numero_guia[]" placeholder="5 cerditos">
+                                                 </div>
+                                            </div>
                                         </td>
-                                          <td>
-                                            <select class="select2 form-select" ng-model="row.destino" name="datos_destino[]">
-                                                <option value="AK">Alaska</option>
-                                                <option value="HI">Hawaii</option>
-                                                <option value="CA">California</option>
-                                                <option value="NV">Nevada</option>
-                                                <option value="OR">Oregon</option>
-                                                <option value="WA">Washington</option>
-                                                <option value="AZ">Arizona</option>
-                                                <option value="CO">Colorado</option>
-                                             
-                                            </select>
-                                            {{-- <input class="form-control" ng-model="row.tipodni" name="datos_tipo_dni[]" placeholder="Apellidos ..."> --}}
-                                        </td>
-                                          <td>
-                                            <input class="form-control" type="text" ng-model="row.numeroguia" name="datos_numero_guia[]" placeholder="GUI092827272"></td>
-                                          <td>
-                                            <input class="form-control" type="file" ng-model="row.imagen" name="datos_imagen[]"></td>
-
-                                            {{-- <input class="form-control" ng-model="row.a_names" name="datos_estudia[]" placeholder="Apellidos ..."> --}}
-            
-                                        </td>
+                                        <td>
+                                           <div class="row">
+                                                <div class="col-md-6">
+                                                    GUIA DE REMISION REMITENTE 
+                                                    <input class="form-control" type="text" ng-model="row.numeroguia" 
+                                                    name="datos_numero_guia[]" placeholder="GUI092827272-R">
+                                        
+                                                </div>
+                                                <div class="col-md-6">
+                                                    Documento
+                                                    <input class="form-control" type="file" ng-model="row.numeroguia" 
+                                                    name="datos_numero_guia[]" placeholder="GUI092827272-T">
+                                        
+                                                </div>
+                                           </div>
+                                           <div class="row">
+                                            <div class="col-md-6">
+                                                GUIA DE REMISION TRANSPORTISTA 
+                                                <input class="form-control" type="text" ng-model="row.numeroguia" 
+                                                name="datos_numero_guia[]" placeholder="GUI092827272-R">
+                                    
+                                            </div>
+                                            <div class="col-md-6">
+                                                Documento
+                                                <input class="form-control" type="file" ng-model="row.numeroguia" 
+                                                name="datos_numero_guia[]" placeholder="GUI092827272-T">
+                                    
+                                            </div>
+                                       </div>
+                                           <div class="row">
+                                            <div class="col-md-6">
+                                                FICHA DE RECEPCION
+                                                <input class="form-control" type="text" ng-model="row.numeroguia" 
+                                                name="datos_numero_guia[]" placeholder="GUI092827272">
+                                    
+                                            </div>
+                                            <div class="col-md-6">
+                                                Documento
+                                                <input class="form-control" type="file" ng-model="row.numeroguia" 
+                                                name="datos_numero_guia[]" placeholder="GUI092827272-T">
+                                    
+                                            </div>
+                                       </div>
+                                        
                                         </tr>
                                       </tbody>
                                     </table>
@@ -138,14 +184,9 @@
                                         <div class="mb-1">
                                             <label class="form-label" for="city-column">N° de Placa</label>
                                             <select class="select2 form-select" ng-model="row.destino" name="datos_destino[]">
-                                                <option value="AK">Alaska</option>
-                                                <option value="HI">Hawaii</option>
-                                                <option value="CA">California</option>
-                                                <option value="NV">Nevada</option>
-                                                <option value="OR">Oregon</option>
-                                                <option value="WA">Washington</option>
-                                                <option value="AZ">Arizona</option>
-                                                <option value="CO">Colorado</option>
+                                                <option value="AK">ASE740 </option>
+                                                <option value="HI">ASE740</option>
+                                                <option value="CA">AZQ855</option>
                                              
                                             </select>
                                         </div>
@@ -154,14 +195,9 @@
                                         <div class="mb-1">
                                             <label class="form-label" for="country-floating">Categoria</label>
                                             <select class="select2 form-select" ng-model="row.destino" name="datos_destino[]">
-                                                <option value="AK">Alaska</option>
-                                                <option value="HI">Hawaii</option>
-                                                <option value="CA">California</option>
-                                                <option value="NV">Nevada</option>
-                                                <option value="OR">Oregon</option>
-                                                <option value="WA">Washington</option>
-                                                <option value="AZ">Arizona</option>
-                                                <option value="CO">Colorado</option>
+                                                <option value="AK">N3</option>
+                                                <option value="HI">N2</option>
+                                                <option value="CA">N3</option>
                                              
                                             </select>
                                         </div>
@@ -169,38 +205,37 @@
                                     <div class="col-md-6 col-12">
                                         <div class="mb-1">
                                             <label class="form-label" for="city-column">Chofer</label>
-                                            <input type="text" id="city-column" class="form-control" placeholder="Nombre Chofer" name="chofer">
+                                            <input type="text" id="city-column" class="form-control" placeholder="Juan Ivan, Vargas Alcantara" name="chofer">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="mb-1">
                                             <label class="form-label" for="city-column">DNI</label>
-                                            <input type="text" id="city-column" class="form-control" placeholder="15 cerditos" name="dni">
+                                            <input type="text" id="city-column" class="form-control" placeholder="40256513" name="dni">
                                         </div>
                                     </div>
-                                    <div class="col-md-12s col-12">
+                                    <div class="col-md-12 col-12">
                                         <div class="mb-1">
                                             <label class="form-label" for="city-column">Ayudantes</label>
                                             <select class="form-select" id="normalMultiSelect" multiple="multiple">
-                                                <option selected="selected">Square</option>
-                                                <option>Rectangle</option>
-                                                <option selected="selected">Rombo</option>
-                                                <option>Romboid</option>
-                                                <option>Trapeze</option>
-                                                <option>Triangle</option>
-                                                <option selected="selected">Polygon</option>
-                                                <option>Regular polygon</option>
-                                                <option>Circumference</option>
-                                                <option>Circle</option>
-                                            </select> </div>
-                                    </div>
+                                                <option selected="selected">Alfonso, Llocclla Navarro</option>
+                                                <option>Edher Lizardo, Cajahuanca Gomez</option>
+                                                <option selected="selected">Jonathan Henry, Paucar Ilizarbe</option>
+                                                <option>Darvin Lenin, Soto Guillen</option>
+                                            </select>
+                                            </div>
                                 </div>
+                            </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-1">
                                     <label class="form-label" for="exampleFormControlTextarea1">Observaciones</label>
                                     <textarea class="form-control" id="observaciones" name="observaciones" rows="8" placeholder="Textarea"></textarea>
                                 </div>
+                            </div>
+                            <div class="col-md-8">
+                                <button type="button" class="btn btn-success mt-12" >Finalizar</button>
+                                <button type="button" class="btn btn-secondary mt-12">Guardar</button>
                             </div>
                         </div>
                     </form>
@@ -225,8 +260,7 @@
          {
          delete:false,
          names:'',
-         last_names:'',
-           a_names:''
+         last_names:''
          }
        ];
       /**
@@ -236,8 +270,7 @@
         $scope.rows.push({
           delete:false,
           names:'',
-          last_names:'',
-          a_names:''
+          last_names:''
         })
       };
       /**

@@ -30,9 +30,7 @@
     <div class="row" id="basic-table">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Table Solicitudes</h4>
-                </div>
+             
                 <div class="card-body">
                     {{-- <p class="card-text">
                         Using the most basic table Leanne Grahamup, here’s how <code>.table</code>-based tables look in Bootstrap. You
@@ -43,20 +41,87 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Project</th>
-                                <th>Client</th>
-                                <th>Users</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th>ID</th>
+                                <th>DESTINO ORIGEN</th>
+                                <th>HORA DE SALIDA</th>
+                                <th>HORA ORIGEN</th>
+                                <th>MATRICULA</th>
+                                <th>NOMBRE</th>
+                                <th>ESTADO</th>
+                                <th>ACCIONES</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                
+                            <tr> 
+                                <td>UID0313194041</td>
+                                <td>HUARANGOS</td>
+                                <td>12:00 PM</td>
+                                <td>15:00 PM</td>
+                                <td>B6C754</td>
+                                <td>Juan Perez</td>
+                                <td><span class="badge bg-warning">Guardado</span></td>
+                                <td><i data-feather='edit'></i>Editar</td>
                             </tr>
-                        
-                               
-                           
+                            <tr> 
+                                <td>UID03131940321</td>
+                                <td>ESMERALDA CORP S.A.C.</td>
+                                <td>12:00 PM</td>
+                                <td>15:00 PM</td>
+                                <td>AKJ888</td>
+                                <td>Juan Perez</td>
+                                <td><span class="badge bg-success">Finalizado</span></td>
+                                <td><i data-feather='edit'></i>Editar</td>
+                            </tr>
+                            <tr> 
+                                <td>UID03333194041</td>
+                                <td>FRIGORIFICO LA COLONIAL S.A.C.</td>
+                                <td>12:00 PM</td>
+                                <td>15:00 PM</td>
+                                <td>BSO786</td>
+                                <td>Juan Perez</td>
+                                <td><span class="badge bg-success">Finalizado</span></td>
+                                <td><i data-feather='edit'></i>Editar</td>
+                            </tr>
+                            <tr> 
+                                <td>UID0313114041</td>
+                                <td>INVERSIONES PECUARIAS LURIN S A</td>
+                                <td>12:00 PM</td>
+                                <td>15:00 PM</td>
+                                <td>AKJ888</td>
+                                <td>Juan Perez</td>
+                                <td><span class="badge bg-success">Finalizado</span></td>
+                                <td><i data-feather='edit'></i>Editar</td>
+                            </tr>
+                            <tr> 
+                                <td>UID0313111041</td>
+                                <td>CAMAL CONCHUCOS S A</td>
+                                <td>12:00 PM</td>
+                                <td>15:00 PM</td>
+                                <td>AKJ888</td>
+                                <td>Juan Perez</td>
+                                <td><span class="badge bg-warning">Guardado</span></td>
+                                <td><i data-feather='edit'></i>Editar</td>
+                            </tr>
+                            <tr> 
+                                <td>UID0313166041</td>
+                                <td>FRIGORIFICO CAMAL SAN PEDRO S.A.C.</td>
+                                <td>12:00 PM</td>
+                                <td>15:00 PM</td>
+                                <td>AKJ888</td>
+                                <td>Juan Perez</td>
+                                <td><span class="badge bg-warning">Guardado</span></td>
+                                <td><i data-feather='edit'></i>Editar</td>
+                            </tr>
+                            <tr> 
+                                <td>UID0313194001</td>
+                                <td>ESMERALDA CORP S.A.C.</td>
+                                <td>12:00 PM</td>
+                                <td>15:00 PM</td>
+                                <td>AZQ855</td>
+                                <td>Juan Perez</td>
+                                <td><span class="badge bg-warning">Guardado</span></td>
+                                <td><i data-feather='edit'></i>Editar</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

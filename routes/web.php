@@ -29,3 +29,13 @@ Route::view('/dashboard', "admin.index")->name('admin.index');
 
 // rutas solicitudes
 Route::view('/nuevaSolicitud', "admin.solicitudes")->name('admin.solicitudes');
+
+// rutas choferes
+Route::view('/choferes', "admin.choferes")->name('admin.choferes');
+// rutas estadisticas
+Route::view('/estadisticas', "admin.estadisticas")->name('admin.estadisticas');
+// rutas usuarios
+Route::view('/usuarios', "admin.usuarios")->name('admin.usuarios');
+// rutas operarios
+Route::view('/operarios', "admin.operarios")->name('admin.operarios');
+Route::view('/vehiculos', "admin.vehiculos")->name('admin.vehiculos');

@@ -77,9 +77,9 @@
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                 <li class=" nav-item"><a class="d-flex align-items-center" href="index.html"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Estadisticas</span><span class="badge badge-light-warning rounded-pill ms-auto me-1">2</span></a>
                     <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="dashboard-analytics.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Analytics</span></a>
+                        <li><a class="d-flex align-items-center" href="{{route('admin.estadisticas')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Analytics</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="dashboard-analytics.html">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.usuarios')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Usuarios</span></a>
                         </li>
                         {{-- <li><a class="d-flex align-items-center" href="dashboard-ecommerce.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="eCommerce">eCommerce</span></a> --}}
@@ -88,13 +88,13 @@
                 </li>
                 <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Apps &amp; Pages</span><i data-feather="more-horizontal"></i>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.solicitudes')}}"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Email">Solicitudes</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.index')}}"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Email">Solicitudes</span></a>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="app-chat.html"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Chat">Registros <br> Operarios</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.operarios')}}"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Chat">Registros <br> Operarios</span></a>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="app-todo.html"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Todo">Registros <br> Vehiculares</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.vehiculos')}}"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Todo">Registros <br> Vehiculares</span></a>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="app-todo.html"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Todo">Gestión <br> de Guías</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.choferes')}}"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Todo">Gestión <br> de Guías</span></a>
                     
                 </li>
                 <li class=" nav-item"><a class="d-flex align-items-center" href="app-todo.html">
