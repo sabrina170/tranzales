@@ -13,16 +13,20 @@ return new class extends Migration
     {
         Schema::create('vehiculos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombres_cho');
-            $table->string('apellido_ma_cho', 30);
-            $table->string('apellido_pa_cho', 30);
-            $table->integer('tipo_dni_cho');
-            $table->integer('dni_cho');
-            $table->integer('estado_cho');
-            $table->string('brevete_cho', 50);
-            $table->date('fecha_ven_cho');
-            $table->integer('celular_cho');
-            $table->integer('tipo_cho');
+            $table->string('unidad');
+            $table->string('marca', 30);
+            $table->string('placa', 30);
+            $table->string('tar_circulacion', 15);
+            $table->string('n_certificado', 50);
+            $table->date('fecha_ven_citv');
+            $table->string('soat', 50);
+            $table->date('fecha_ven_soat');
+            $table->string('categoria', 10);
+            $table->string('seria_chasis', 70);
+            $table->integer('anois_fab');
+            $table->integer('n_ejes');
+            $table->integer('carga_util');
+            $table->integer('peso_seco');
             $table->rememberToken();
             $table->timestamps();
         });

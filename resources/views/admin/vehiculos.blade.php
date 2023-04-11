@@ -225,7 +225,7 @@
                                 <td>N3</td>
                                 <td><a href=""><i data-feather='eye'></i>Detalles</a>
                                     <a href=""><i data-feather='edit'></i>Editar</a></td>
-                            </tr>
+                            </tr>   
                             
                             
                         </tbody>

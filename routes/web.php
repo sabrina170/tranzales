@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
@@ -28,7 +29,9 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::view('/dashboard', "admin.index")->name('admin.index');
 
 // rutas solicitudes
-Route::view('/nuevaSolicitud', "admin.solicitudes")->name('admin.solicitudes');
+// Route::view('/nuevaSolicitud', "admin.solicitudes")->name('admin.solicitudes');
+Route::get('/nuevaSolicitud2', [AdminController::class, 'show_agregar_soli'])->name('admin.nueva-solicitud');
+
 
 // rutas choferes
 Route::view('/choferes', "admin.choferes")->name('admin.choferes');

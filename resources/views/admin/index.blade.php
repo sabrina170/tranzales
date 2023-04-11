@@ -21,7 +21,7 @@
     </div>
     <div class="content-header-left text-md-end col-md-3 col-12 d-md-block d-none">
         <div class="mb-1 breadcrumb-left">
-            <a href="{{route('admin.solicitudes')}}" type="button" class="btn btn-danger waves-effect waves-float waves-light">Agregar +</a>
+            <a href="{{route('admin.nueva-solicitud')}}" type="button" class="btn btn-danger waves-effect waves-float waves-light">Agregar +</a>
         </div>
     </div>
 </div>
@@ -203,10 +203,6 @@ $(document).ready( function () {
 
 } );
 
-
-          
-
-  </script>
+</script>
 @endsection
 
-<!-- MENU -->

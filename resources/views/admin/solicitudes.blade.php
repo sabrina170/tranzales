@@ -37,8 +37,16 @@
                             <div class="col-md-3 col-12">
                                 <div class="mb-1">
                                     <label class="form-label" for="first-name-column">Nombre Cliente</label>
-                                    <input type="text" id="first-name-column" class="form-control" placeholder="Nombre cliente" name="nombre_cliente">
-                                </div>
+                                    <select class="select2 form-select" ng-model="row.origen" name="datos_origen[]">
+                                        <option value="AK" selected>SANTO MARTIN-LIMA-LIMA-VENTANILLA</option>
+                                        <option value="HI">HUARANGOS-LIMA-CAÑETE-NUEVO IMPERIAL </option>
+                                        <option value="CA">HUARANGOS -LIMA-LIMA-PACHACAMAC</option>
+                                        <option value="NV">HUARANGOS -LIMA-LIMA-PACHACAMAC</option>
+                                        <option value="OR">HUARANGOS -LIMA-HUAROCHIRI-HUAROCHIRI</option>
+                                        <option value="WA">PAMPA FLORES-LIMA-PACHACAMAC-PACHACAMAC</option>
+                                        <option value="AZ">MONTELIRIO-LIMA-CAÑETE-SAN VICENTE DE CAÑETE</option>
+                                    
+                                    </select> </div>
                             </div>
                             <div class="col-md-3 col-12">
                                 <div class="mb-1">
@@ -83,30 +91,29 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-6">
-                                                     Origen
+                                                     Sucursales (Origen)
                                                     <select class="select2 form-select" ng-model="row.origen" name="datos_origen[]">
-                                                        <option value="AK">Alaska</option>
-                                                        <option value="HI">Hawaii</option>
-                                                        <option value="CA">California</option>
-                                                        <option value="NV">Nevada</option>
-                                                        <option value="OR">Oregon</option>
-                                                        <option value="WA">Washington</option>
-                                                        <option value="AZ">Arizona</option>
-                                                        <option value="CO">Colorado</option>
+                                                        <option value="AK" selected>CAMAL CONCHUCOS S A</option>
+                                                        <option value="HI">FRIGORIFICO LA COLONIAL S.A.C.
+                                                        </option>
+                                                        <option value="CA">FRIGORIFICO CAMAL SAN PEDRO S.A.C.
+                                                        </option>
                                                      
                                                     </select>
                                                 </div>
                                                 <div class="col-6">
                                                     Destino
                                                     <select class="select2 form-select" ng-model="row.destino" name="datos_destino[]">
-                                                        <option value="AK">Alaska</option>
-                                                        <option value="HI">Hawaii</option>
-                                                        <option value="CA">California</option>
-                                                        <option value="NV">Nevada</option>
-                                                        <option value="OR">Oregon</option>
-                                                        <option value="WA">Washington</option>
-                                                        <option value="AZ">Arizona</option>
-                                                        <option value="CO">Colorado</option>
+                                                        <option value="AK" selected>INVERSIONES PECUARIAS LURIN S A
+                                                        </option>
+                                                        <option value="HI">CAMAL FRIGORIFICO LURIN SOCIEDAD ANONIMA CERRADA
+                                                        </option>
+                                                        <option value="CA">ESMERALDA CORP S.A.C.
+                                                        </option>
+                                                        <option value="NV">CAMAL FRIGORIFICO LURIN SOCIEDAD ANONIMA CERRADA
+                                                        </option>
+                                                        <option value="OR">FRIGORIFICO LA COLONIAL S.A.C.
+                                                        </option>
                                                     </select>
                                                 </div>
                                                 
@@ -114,8 +121,8 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     Cantidad
-                                                     <input class="form-control" type="text" ng-model="row.numeroguia" 
-                                                     name="datos_numero_guia[]" placeholder="5 cerditos">
+                                                     <input class="form-control" type="text" ng-model="row.cantidad" 
+                                                     name="datos_cantidad[]" placeholder="5 cerditos">
                                                  </div>
                                             </div>
                                         </td>
@@ -123,42 +130,42 @@
                                            <div class="row">
                                                 <div class="col-md-6">
                                                     GUIA DE REMISION REMITENTE 
-                                                    <input class="form-control" type="text" ng-model="row.numeroguia" 
-                                                    name="datos_numero_guia[]" placeholder="GUI092827272-R">
+                                                    <input class="form-control" type="text" ng-model="row.numeroguiare" 
+                                                    name="datos_numero_guia_re[]" placeholder="GUI092827272-R">
                                         
                                                 </div>
                                                 <div class="col-md-6">
                                                     Documento
-                                                    <input class="form-control" type="file" ng-model="row.numeroguia" 
-                                                    name="datos_numero_guia[]" placeholder="GUI092827272-T">
+                                                    <input class="form-control" type="file" ng-model="row.docrec" 
+                                                    name="datos_doc_rec[]" placeholder="GUI092827272-T">
                                         
                                                 </div>
                                            </div>
                                            <div class="row">
                                             <div class="col-md-6">
                                                 GUIA DE REMISION TRANSPORTISTA 
-                                                <input class="form-control" type="text" ng-model="row.numeroguia" 
-                                                name="datos_numero_guia[]" placeholder="GUI092827272-R">
+                                                <input class="form-control" type="text" ng-model="row.numeroguiatra" 
+                                                name="datos_numero_guia_tra[]" placeholder="GUI092827272-R">
                                     
                                             </div>
                                             <div class="col-md-6">
                                                 Documento
-                                                <input class="form-control" type="file" ng-model="row.numeroguia" 
-                                                name="datos_numero_guia[]" placeholder="GUI092827272-T">
+                                                <input class="form-control" type="file" ng-model="row.doctra" 
+                                                name="datos_doctra[]" placeholder="GUI092827272-T">
                                     
                                             </div>
                                        </div>
                                            <div class="row">
                                             <div class="col-md-6">
                                                 FICHA DE RECEPCION
-                                                <input class="form-control" type="text" ng-model="row.numeroguia" 
-                                                name="datos_numero_guia[]" placeholder="GUI092827272">
+                                                <input class="form-control" type="text" ng-model="row.ficharece" 
+                                                name="datos_ficha_rece[]" placeholder="GUI092827272">
                                     
                                             </div>
                                             <div class="col-md-6">
                                                 Documento
-                                                <input class="form-control" type="file" ng-model="row.numeroguia" 
-                                                name="datos_numero_guia[]" placeholder="GUI092827272-T">
+                                                <input class="form-control" type="file" ng-model="row.docrece" 
+                                                name="datos_doc_rece[]" placeholder="GUI092827272-T">
                                     
                                             </div>
                                        </div>
