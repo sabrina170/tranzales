@@ -10,7 +10,7 @@
                 <h2 class="content-header-title float-start mb-0">Modulo</h2>
                 <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Vehiculos</a>
+                        <li class="breadcrumb-item"><a href="index.html">Clientes</a>
                         </li>
                     </ol>
                 </div>
@@ -31,105 +31,62 @@
             <div class="col-lg-12 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('admin.crear-vehiculo') }}" method="post">
+                        <form action="{{route('admin.crear-cliente')}}" method="post">
                             @csrf
                             <div class="row">
                                 <div class="col-md-3 col-12">
                                     <div class="mb-1">
-                                        <label class="form-label" for="first-name-column">Unidades</label>
-                                        <input type="text" id="first-name-column" class="form-control" placeholder="INTER" name="unidad" required>
+                                        <label class="form-label" for="first-name-column">Nombre</label>
+                                        <input type="text" id="first-name-column" class="form-control"  name="nombre" required>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-12">
                                     <div class="mb-1">
-                                        <label class="form-label" for="last-name-column">Marca</label>
-                                        <input type="text" id="last-name-column" class="form-control" placeholder="INTERNACIONAL" name="marca" required>
+                                        <label class="form-label" for="last-name-column">Departamento</label>
+                                        <select  class="form-select info-ob" id="departamento" name="departamento"  @selected(old('departamento'))>
+
+                                        <option value="0">Seleccione un departamento</option>
+                                            @foreach ($departamentos as $departamento)
+                                            <option value="{{$departamento->id}}">{{$departamento->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-12">
                                     <div class="mb-1">
-                                        <label class="form-label" for="city-column">Placa</label>
-                                        <input type="text" id="city-column" class="form-control" placeholder="AKJ888" name="placa" required>
+                                        <label class="form-label" for="city-column">Provincia</label>
+                                        <select  class="form-select info-ob" data-type="select" data-msj="Seleccione una provincia" id="provincia" name="provincia"  @selected(old('provincia'))>
+                                            <option value="0">Seleccione una provincia</option>
+                                            {{-- <option value="Distrito 1">Distrito 1</option> --}}
+                                        </select>
+                                        @error('provincia')
+                                        <span class="badge badge-light-danger">{{$message}}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-12">
                                     <div class="mb-1">
-                                        <label class="form-label" for="country-floating">N° Tarjeta Circulacion</label>
-                                        <input type="text" id="country-floating" class="form-control" name="tar_circulacion"
-                                         placeholder="151729858" required>
+                                        <label class="form-label" for="country-floating">Distrito</label>
+                                        <select  class="form-select info-ob" data-type="select" data-msj="Seleccione un distrito" id="distrito" name="distrito" @selected(old('distrito'))>
+                                            <option value="0">Seleccione un distrito</option>
+                                            {{-- <option value="Distrito 1">Distrito 1</option>
+                                            <option value="Distrito 2">Distrito 2</option> --}}
+                                        </select>
+                                        @error('distrito')
+                                        <span class="badge badge-light-danger">{{$message}}</span>
+                                        @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-6 col-12">
                                     <div class="mb-1">
-                                        <label class="form-label" for="company-column">N° Certificado de  CITV</label>
-                                        <input type="text" id="company-column" class="form-control" name="n_certificado"
-                                         placeholder="C-2022-204-309-010614" required>
+                                        <label class="form-label" for="company-column">Direccion</label>
+                                        <input type="text" id="company-column" class="form-control" name="direccion"
+                                          required>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-12">
-                                    <div class="mb-1">
-                                        <label class="form-label" for="email-id-column">Fecha. Ven. CITV</label>
-                                        <input type="date" id="email-id-column" class="form-control" name="fecha_ven_citv" placeholder="Email" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-12">
-                                    <div class="mb-1">
-                                        <label class="form-label" for="company-column">Compañia SOAT</label>
-                                        <input type="text" id="company-column" class="form-control" name="soat"
-                                         placeholder="Mapfre Perú" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-12">
-                                    <div class="mb-1">
-                                        <label class="form-label" for="company-column">Fech. Venc. SOAT</label>
-                                        <input type="date" id="company-column" class="form-control" name="fecha_ven_soat"
-                                         placeholder="C-2022-204-309-010614" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-12">
-                                    <div class="mb-1">
-                                        <label class="form-label" for="company-column">Categoría</label>
-                                        <input type="text" id="company-column" class="form-control" name="categoria"
-                                         placeholder="A1" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-12">
-                                    <div class="mb-1">
-                                        <label class="form-label" for="company-column">Serie Chasis</label>
-                                        <input type="text" id="company-column" class="form-control" name="seria_chasis"
-                                         placeholder="3HAMMAAR4FL678363" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-12">
-                                    <div class="mb-1">
-                                        <label class="form-label" for="company-column">Año Fabricación</label>
-                                        <input type="number" id="company-column" class="form-control" name="anois_fab"
-                                         placeholder="2023" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-12">
-                                    <div class="mb-1">
-                                        <label class="form-label" for="company-column">N° Ejes</label>
-                                        <input type="number" id="company-column" class="form-control" name="n_ejes"
-                                         placeholder="3" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-12">
-                                    <div class="mb-1">
-                                        <label class="form-label" for="company-column">Carga Util</label>
-                                        <input type="number" id="company-column" class="form-control" name="carga_util"
-                                         placeholder="17500" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-12">
-                                    <div class="mb-1">
-                                        <label class="form-label" for="company-column">Peso Seco</label>
-                                        <input type="number" id="company-column" class="form-control" name="peso_seco"
-                                         placeholder="7500" required>
-                                    </div>
-                                </div>
+                                
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-danger me-1 waves-effect waves-float waves-light">Agregar</button>
+                                    <button type="submit" class="btn btn-success me-1 waves-effect waves-float waves-light">Agregar</button>
                                     {{-- <button type="reset" class="btn btn-outline-secondary waves-effect">Reset</button> --}}
                                 </div>
                             </div>
@@ -153,29 +110,27 @@
                     </p> --}}
                 </div>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="datatables-basic table">
                         <thead>
                             <tr>
                                 {{-- <th>ID</th> --}}
-                                <th>Unidades</th>
-                                <th>Marca</th>
-                                <th>Placa</th>
-                                <th>Fecha. Ven. CITV</th>
-                                <th>Fech. Venc. SOAT</th>
-                                <th>Categoría</th>
+                                <th>NOMBRES</th>
+                                <th>DEPARTAMENTO</th>
+                                <th>PROVINCIA</th>
+                                <th>DISTRITO</th>
+                                <th>DIRECCION</th>
                                 <th>Fecha Creación</th>
                                 <th>ACCIONES</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($vehiculos as $doc)
+                            @foreach ($clientes as $doc)
                             <tr> 
-                                <td>{{$doc->unidad}}</td>
-                                <td>{{$doc->marca}}</td>
-                                <td>{{$doc->placa}} </td>
-                                <td>{{$doc->fecha_ven_citv}}</td>
-                                <td>{{$doc->fecha_ven_soat}}</td>
-                                <td>{{$doc->categoria}}</td>
+                                <td>{{$doc->nombre}}</td>
+                                <td>{{$doc->departamento}}</td>
+                                <td>{{$doc->provincia}} </td>
+                                <td>{{$doc->distrito}}</td>
+                                <td>{{$doc->direccion}}</td>
                                 <td>{{$doc->created_at}}</td>
                                 <td><a href=""><i data-feather='eye'></i>Detalles</a>
                                     <a href=""><i data-feather='edit'></i>Editar</a></td>
@@ -245,6 +200,41 @@
 @endsection
 
 @section('js')
+
+
+<script>
+     $('#departamento').on('change', function(){
+                var id = $(this).val();
+                // alert(id);
+                    $.ajax({
+                    url:'{{ route('buscarprovincia') }}',
+                    type:'GET',
+                    data:{'id':id},
+                    dataType:'json',
+                    success:function (data) {
+                        // $('#product_list').html(data);
+                        $('#provincia').html(data.table_data);
+                        // alert(data.table_data);
+                    }
+                })
+            });
+
+            $('#provincia').on('change', function(){
+                var id = $(this).val();
+                // alert(id);
+                    $.ajax({
+                    url:'{{ route('buscardistrito') }}',
+                    type:'GET',
+                    data:{'id':id},
+                    dataType:'json',
+                    success:function (data) {
+                        // $('#product_list').html(data);
+                        $('#distrito').html(data.table_data);
+                        // alert(data.table_data);
+                    }
+                })
+            });
+</script>
   <script>
     var idioma=
 

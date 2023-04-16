@@ -41,87 +41,37 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>DESTINO ORIGEN</th>
-                                <th>HORA DE SALIDA</th>
-                                <th>HORA ORIGEN</th>
-                                <th>MATRICULA</th>
-                                <th>NOMBRE</th>
+                                {{-- <th>ID</th> --}}
+                                <th>CODIGO SOLICITUD</th>
+                                <th>FECHA SOLICITUD</th>
+                                <th>CLIENTE</th>
+                                <th>FECHA TRASLADO</th>
+                                <th>ORIGEN</th>
+                                <th>HORA</th>
+                                <th>CANTIDAD</th>
                                 <th>ESTADO</th>
                                 <th>ACCIONES</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($solicitudes as $doc)
                             <tr> 
-                                <td>UID0313194041</td>
-                                <td>HUARANGOS</td>
-                                <td>12:00 PM</td>
-                                <td>15:00 PM</td>
-                                <td>B6C754</td>
-                                <td>Juan Perez</td>
-                                <td><span class="badge bg-warning">Guardado</span></td>
+                                <td>{{$doc->codigo_solicitud}}</td>
+                                <td>{{$doc->fecha_solicitud}}</td>
+                                <td>{{$doc->cliente}}</td>
+                                <td>{{$doc->fecha_traslado}}</td>
+                                <td>{{$doc->origen}}</td>
+                                <td>{{$doc->hora}}</td>
+                                <td>{{$doc->cantidad}}</td>
+                                <td>
+                                    @if ($doc->estado==1)
+                                    <span class="badge bg-warning">Pendiente</span>
+                                    @else
+                                    <span class="badge bg-success">Entregada</span>
+                                    @endif</td>
                                 <td><i data-feather='edit'></i>Editar</td>
                             </tr>
-                            <tr> 
-                                <td>UID03131940321</td>
-                                <td>ESMERALDA CORP S.A.C.</td>
-                                <td>12:00 PM</td>
-                                <td>15:00 PM</td>
-                                <td>AKJ888</td>
-                                <td>Juan Perez</td>
-                                <td><span class="badge bg-success">Finalizado</span></td>
-                                <td><i data-feather='edit'></i>Editar</td>
-                            </tr>
-                            <tr> 
-                                <td>UID03333194041</td>
-                                <td>FRIGORIFICO LA COLONIAL S.A.C.</td>
-                                <td>12:00 PM</td>
-                                <td>15:00 PM</td>
-                                <td>BSO786</td>
-                                <td>Juan Perez</td>
-                                <td><span class="badge bg-success">Finalizado</span></td>
-                                <td><i data-feather='edit'></i>Editar</td>
-                            </tr>
-                            <tr> 
-                                <td>UID0313114041</td>
-                                <td>INVERSIONES PECUARIAS LURIN S A</td>
-                                <td>12:00 PM</td>
-                                <td>15:00 PM</td>
-                                <td>AKJ888</td>
-                                <td>Juan Perez</td>
-                                <td><span class="badge bg-success">Finalizado</span></td>
-                                <td><i data-feather='edit'></i>Editar</td>
-                            </tr>
-                            <tr> 
-                                <td>UID0313111041</td>
-                                <td>CAMAL CONCHUCOS S A</td>
-                                <td>12:00 PM</td>
-                                <td>15:00 PM</td>
-                                <td>AKJ888</td>
-                                <td>Juan Perez</td>
-                                <td><span class="badge bg-warning">Guardado</span></td>
-                                <td><i data-feather='edit'></i>Editar</td>
-                            </tr>
-                            <tr> 
-                                <td>UID0313166041</td>
-                                <td>FRIGORIFICO CAMAL SAN PEDRO S.A.C.</td>
-                                <td>12:00 PM</td>
-                                <td>15:00 PM</td>
-                                <td>AKJ888</td>
-                                <td>Juan Perez</td>
-                                <td><span class="badge bg-warning">Guardado</span></td>
-                                <td><i data-feather='edit'></i>Editar</td>
-                            </tr>
-                            <tr> 
-                                <td>UID0313194001</td>
-                                <td>ESMERALDA CORP S.A.C.</td>
-                                <td>12:00 PM</td>
-                                <td>15:00 PM</td>
-                                <td>AZQ855</td>
-                                <td>Juan Perez</td>
-                                <td><span class="badge bg-warning">Guardado</span></td>
-                                <td><i data-feather='edit'></i>Editar</td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

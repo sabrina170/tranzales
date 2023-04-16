@@ -86,19 +86,112 @@
                         </li>
                     </ul>
                 </li>
-                <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Apps &amp; Pages</span><i data-feather="more-horizontal"></i>
+                {{-- RECURSOS --}}
+                <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Modulos</span><i data-feather="more-horizontal"></i>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.index')}}"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Email">Solicitudes</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                    <i data-feather="home"></i>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">RECURSOS</span>
+                    <span class="badge badge-light-success rounded-pill ms-auto me-1">3</span></a>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.vehiculos')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">VEHICULOS</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="{{route('admin.usuarios')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">PERSONAL DE TRABAJO</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">PROVEEDORES</span></a>
+                        </li>
+                    </ul>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.operarios')}}"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Chat">Registros <br> Operarios</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                    <i data-feather="home"></i>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">CLIENTES</span>
+                    <span class="badge badge-light-success rounded-pill ms-auto me-1">4</span></a>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.clientes')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">CLIENTES</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">RUTAS</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">TARIFA DE LOS CLIENTES</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="{{route('admin.destinos')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">DESTINATARIOS ( CAMALES)</span></a>
+                        </li>
+                        
+                    </ul>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.vehiculos')}}"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Todo">Registros <br> Vehiculares</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                    <i data-feather="home"></i>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">OPERACIONES</span>
+                    <span class="badge badge-light-success rounded-pill ms-auto me-1">4</span></a>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.index')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">ORDEN DE SERVICIO</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">CAJA</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">RECARGA COMBUSTIBLE</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">KILOMETRAJE</span></a>
+                        </li>
+                    </ul>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.choferes')}}"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Todo">Gestión <br> de Guías</span></a>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                    <i data-feather="home"></i>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">REPORTE  OPERACIÓN</span>
+                    <span class="badge badge-light-success rounded-pill ms-auto me-1">2</span></a>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.index')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">ORDEN DE SERVICIO</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">GASTOS OPERATIVOS  ( CAJA) </span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                    <i data-feather="home"></i>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">REPORTES  GRÁFICOS</span>
+                    <span class="badge badge-light-success rounded-pill ms-auto me-1">2</span></a>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.index')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">
+                                GRÁFICA DE COSTOS DE COMBUSTIBLE</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">
+                                GRAFICA DE COSTOS PEAJE </span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">
+                                GRAFICA DE COSTOS BALANZA </span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">
+                                GRAFICO DE COSTO DE VIATICOS </span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">
+                                GRAFICO DE COSTO DE VIATICOS </span></a>
+                        </li>
+                    </ul>
+                </li>
+                
+                {{-- <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.choferes')}}"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Todo">Gestión <br> de Guías</span></a>
                     
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="app-todo.html">
-                    <i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Todo">Choferes <br> y Ayudantes</span></a>
+                </li> --}}
+                <li class=" nav-item"><a class="d-flex align-items-center"  href="{{route('admin.choferes')}}">
+                    <i data-feather="check-square"></i>
+                    <span class="menu-title text-truncate" data-i18n="Todo">Choferes <br> y Ayudantes</span>
+                </a>
                     
                 </li>
                 
