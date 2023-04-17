@@ -44,7 +44,10 @@ Route::view('/operarios', "admin.operarios")->name('admin.operarios');
 
 
 Route::get('/vehiculos', [AdminController::class, 'show_listado_vehiculos'])->name('admin.vehiculos');
+// Route::get('/vehiculo-id', "admin.edit-vehiculo")->name('admin.edit-vehiculo');
 Route::post('/crearVehiculo', [AdminController::class, 'create_crear_vehiculo'])->name('admin.crear-vehiculo');
+Route::get('IdEditVehiculo/{id}', [AdminController::class, 'edit_vehiculo'])->name('admin.edit-vehiculo');
+Route::put('/UpdateVehiculo/{vehiculo}', [AdminController::class, 'update_vehiculo'])->name('admin.update-vehiculo');
 
 Route::get('/destinos', [AdminController::class, 'show_listado_destinos'])->name('admin.destinos');
 Route::get('/clientes', [AdminController::class, 'show_listado_clientes'])->name('admin.clientes');

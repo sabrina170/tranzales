@@ -201,10 +201,11 @@
                                 <td>{{$doc->created_at}}</td>
                                 <td>
                                     <a type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#view{{$doc->id}}"><i data-feather='eye'></i>Detalles</a>
-                                    <a type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#edit{{$doc->id}}"><i data-feather='edit'></i>Editar</a>
+                                    <a type="button" class="btn btn-success btn-sm" href="{{route('admin.edit-vehiculo',$doc->id)}}"><i data-feather='edit'></i>Editar</a>
                                 </td>
                             </tr>
                             @include('admin.modals.modaldetvehi')
+                            @include('admin.modals.modaleditvehi')
                             @endforeach
                         </tbody>
                     </table>
@@ -219,77 +220,8 @@
 @endsection
 
 @section('js')
-  <script>
-    var idioma=
+ 
 
-{
-    "sProcessing":     "Procesando...",
-    "sLengthMenu":     "Mostrar _MENU_ registros",
-    "sZeroRecords":    "No se encontraron resultados",
-    "sEmptyTable":     "NingÃºn dato disponible en esta tabla",
-    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-    "sInfoPostFix":    "",
-    "sSearch":         "Buscar:",
-    "sUrl":            "",
-    "sInfoThousands":  ",",
-    "sLoadingRecords": "Cargando...",
-    "oPaginate": {
-        "sFirst":    "Primero",
-        "sLast":     "Ãšltimo",
-        "sNext":     "Siguiente",
-        "sPrevious": "Anterior"
-    },
-    "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-    },
-    "buttons": {
-        "copyTitle": 'Informacion copiada',
-        "copyKeys": 'Use your keyboard or menu to select the copy command',
-        "copySuccess": {
-            "_": '%d filas copiadas al portapapeles',
-            "1": '1 fila copiada al portapapeles'
-        },
-
-        "pageLength": {
-        "_": "Mostrar %d filas",
-        "-1": "Mostrar Todo"
-        }
-    }
-};
-
-$(document).ready( function () {
-   var table = $('#colegios').DataTable({
-    dom: 'Blfrtip',
-    // "dom": 'Br<"float-left"i><"float-right"f>t<"float-left"l><"float-right"p><"clearfix">',
-    // "lengthMenu": [[5,10,20, -1],[5,10,50,"Mostrar Todo"]],
-    // "dom": 'Bfrt<"col-md-6 inline"i> <"col-md-6 inline"p>',
-    language: idioma,
-    buttons: [
-        'excel'
-    ],
-    exportOptions: {
-        modifier: {
-          // DataTables core
-          order: 'index', // 'current', 'applied',
-          //'index', 'original'
-          page: 'all', // 'all', 'current'
-          search: 'none' // 'none', 'applied', 'removed'
-        },
-    
-            columns: [1, 2, 3, 4, 5, 6, 7,8,9]
-      
-      }
-   });
-
-} );
-
-
-          
-
-  </script>
 @endsection
 
 <!-- MENU -->

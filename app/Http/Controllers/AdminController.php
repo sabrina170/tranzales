@@ -90,6 +90,36 @@ class AdminController extends Controller
         $soli = Vehiculo::create($data);
         return redirect()->route('admin.vehiculos');
     }
+    public function edit_vehiculo(Vehiculo $vehiculo, $id)
+    {
+        // dd($id);
+        $vehiculo  = DB::table('vehiculos')->where('id', $id)->limit(1)->get();
+
+        // dd($vehiculo);
+        return view('admin.edit-vehiculo', compact('vehiculo'));
+    }
+
+
+    public function update_vehiculo(Request $request, Vehiculo $vehiculo)
+    {
+
+        $vehi = $request->all();
+        if ($image = $request->file('vehiculo_img')) {
+            $destinatarioPath = 'images-vehiculos/';
+            $firmaImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinatarioPath, $firmaImage);
+            $vehi['imagen'] = "$firmaImage";
+        } else {
+            unset($vehi['imagen']);
+        }
+
+        // dd($data);
+        $vehiculo->update($vehi);
+        $mensaje = "Actualizado exitosamente";
+        return redirect()->route('admin.edit-vehiculo', $vehiculo)->with('message' . 'mensfsafsasfasfaje');
+        // return back()->withInput();
+    }
+
     public function show_listado_destinos()
     {
         $solicitudes = DB::table('destinos')->get();
