@@ -60,6 +60,13 @@ class AdminController extends Controller
     public function create_crear_vehiculo(Request $request)
     {
 
+        if ($image = $request->file('vehiculo_img')) {
+            $destinatarioPath = 'images-vehiculos/';
+            $firmaImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinatarioPath, $firmaImage);
+            // $alu['image'] = "$profileImage";
+        }
+
         $data = [
             'unidad' => $request->get('unidad'),
             'marca' => $request->get('marca'),
@@ -75,7 +82,8 @@ class AdminController extends Controller
             'n_ejes' => $request->get('n_ejes'),
             'carga_util' => $request->get('carga_util'),
             'peso_seco' => $request->get('peso_seco'),
-            'estado' => 1
+            'estado' => 1,
+            'imagen' => $firmaImage
         ];
 
         // dd($data);

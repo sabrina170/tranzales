@@ -41,6 +41,8 @@ Route::view('/estadisticas', "admin.estadisticas")->name('admin.estadisticas');
 Route::view('/usuarios', "admin.usuarios")->name('admin.usuarios');
 // rutas operarios
 Route::view('/operarios', "admin.operarios")->name('admin.operarios');
+
+
 Route::get('/vehiculos', [AdminController::class, 'show_listado_vehiculos'])->name('admin.vehiculos');
 Route::post('/crearVehiculo', [AdminController::class, 'create_crear_vehiculo'])->name('admin.crear-vehiculo');
 

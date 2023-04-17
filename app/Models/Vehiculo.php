@@ -25,6 +25,7 @@ class Vehiculo extends Model
         'n_ejes',
         'carga_util',
         'peso_seco',
-        'estado'
+        'estado',
+        'imagen'
     ];
 }
