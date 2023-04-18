@@ -54,7 +54,7 @@ class AdminController extends Controller
     {
         $vehiculos = DB::table('vehiculos')->orderBy('id', 'desc')->get();
 
-        return view('admin.vehiculos', compact('vehiculos'));
+        return view('admin.vehiculos.index', compact('vehiculos'));
     }
 
     public function create_crear_vehiculo(Request $request)
@@ -88,7 +88,8 @@ class AdminController extends Controller
 
         // dd($data);
         $soli = Vehiculo::create($data);
-        return redirect()->route('admin.vehiculos');
+        $mensaje = "Vehiculo creado exitosamente";
+        return redirect()->route('admin.vehiculos.index')->with(['data' => $mensaje]);
     }
     public function edit_vehiculo(Vehiculo $vehiculo, $id)
     {
@@ -96,7 +97,7 @@ class AdminController extends Controller
         $vehiculo  = DB::table('vehiculos')->where('id', $id)->limit(1)->get();
 
         // dd($vehiculo);
-        return view('admin.edit-vehiculo', compact('vehiculo'));
+        return view('admin.vehiculos.edit-vehiculo', compact('vehiculo'));
     }
 
 
@@ -115,9 +116,19 @@ class AdminController extends Controller
 
         // dd($data);
         $vehiculo->update($vehi);
-        $mensaje = "Actualizado exitosamente";
-        return redirect()->route('admin.edit-vehiculo', $vehiculo)->with('message' . 'mensfsafsasfasfaje');
+        $mensaje = "Vehiculo actualizado exitosamente";
+        return redirect()->route('admin.vehiculos.edit-vehiculo', $vehiculo)->with(['data' => $mensaje]);
         // return back()->withInput();
+    }
+
+    public function delete_vehiculo(Vehiculo $id)
+    {
+        // dd($id);
+        $id->delete();
+        $vehiculos = DB::table('vehiculos')->orderBy('id', 'desc')->get();
+
+        return view('admin.vehiculos.index', compact('vehiculos'));
+        // dd($vehiculo);
     }
 
     public function show_listado_destinos()

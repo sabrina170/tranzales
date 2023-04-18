@@ -10,7 +10,7 @@
                 <h2 class="content-header-title float-start mb-0">Modulo</h2>
                 <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Vehiculos</a>
+                        <li class="breadcrumb-item"><a href="#">Vehiculos</a>
                         </li>
                     </ol>
                 </div>
@@ -41,7 +41,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <form action="{{ route('admin.crear-vehiculo') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('crear-vehiculo') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-4 col-12">
@@ -169,7 +169,7 @@
                     </p> --}}
                 </div>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="postulantes">
                         <thead>
                             <tr>
                                 {{-- <th>ID</th> --}}
@@ -200,12 +200,15 @@
                                 <td>{{$doc->categoria}}</td>
                                 <td>{{$doc->created_at}}</td>
                                 <td>
-                                    <a type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#view{{$doc->id}}"><i data-feather='eye'></i>Detalles</a>
-                                    <a type="button" class="btn btn-success btn-sm" href="{{route('admin.edit-vehiculo',$doc->id)}}"><i data-feather='edit'></i>Editar</a>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#view{{$doc->id}}"><i data-feather='eye'></i></a>
+                                    <a type="button" class="btn btn-dark btn-sm" href="{{route('admin.vehiculos.edit-vehiculo',$doc->id)}}"><i data-feather='edit'></i></a>
+                                    <a type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eli{{$doc->id}}"><i data-feather='trash-2'></i></a>
+                                    </div>
                                 </td>
                             </tr>
                             @include('admin.modals.modaldetvehi')
-                            @include('admin.modals.modaleditvehi')
+                            @include('admin.modals.modalelivehi')
                             @endforeach
                         </tbody>
                     </table>
@@ -220,8 +223,100 @@
 @endsection
 
 @section('js')
- 
+@if (session()->get('data'))
+<div class="alert alert-success">
+    <script>
+       var text = '{{session()->get('data')}}';
+        Swal.fire(
+        'Creado!',
+        text,
+        'success'
+        )
+    </script>
+</div>
+@endif
+<script>
+     var idioma=
+         {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "NingÃºn dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Ãšltimo",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            },
+            "buttons": {
+                "copyTitle": 'Informacion copiada',
+                "copyKeys": 'Use your keyboard or menu to select the copy command',
+                "copySuccess": {
+                    "_": '%d filas copiadas al portapapeles',
+                    "1": '1 fila copiada al portapapeles'
+                },
 
+                "pageLength": {
+                "_": "Mostrar %d filas",
+                "-1": "Mostrar Todo"
+                }
+            }
+            
+    $(document).ready( function () {
+    var table = $('#postulantes').DataTable({
+    dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+
+    // dom: 'Brfltip',
+    // "dom": 'Br<"float-left"i><"float-right"f>t<"float-left"l><"float-right"p><"clearfix">',
+    // "lengthMenu": [[5,10,20, -1],[5,10,50,"Mostrar Todo"]],
+    // "dom": 'Bfrt<"col-md-6 inline"i> <"col-md-6 inline"p>',
+    language: idioma,
+    buttons: [
+        // 'excel'
+            {
+              extend: 'excel',
+              text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
+              className: 'btn btn-sm btn-info round waves-effect',
+              exportOptions: { columns: [0,1,2,3, 4, 5, 6] }
+            },
+            {
+                extend: 'pdf',
+              text: feather.icons['clipboard'].toSvg({ class: 'font-small-4 me-50' }) + 'Pdf',
+              className: 'btn btn-sm btn-info round waves-effect',
+              exportOptions: { columns: [0,1,2,3, 4, 5, 6] }
+            },
+            {
+                extend: 'print',
+              text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
+              className: 'btn btn-sm btn-info round waves-effect',
+              exportOptions: { columns: [0,1,2,3, 4, 5, 6] }
+            },
+    ],
+    exportOptions: {
+        modifier: {
+          // DataTables core
+          order: 'index', // 'current', 'applied',
+          //'index', 'original'
+          page: 'all', // 'all', 'current'
+          search: 'none' // 'none', 'applied', 'removed'
+        },
+            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      }
+   });
+} );
+</script>
 @endsection
 
 <!-- MENU -->

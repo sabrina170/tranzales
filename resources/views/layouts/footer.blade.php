@@ -68,7 +68,9 @@
     <!-- BEGIN: Page Vendor JS-->
     <script src="{{asset('app-assets/vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>
     <!-- END: Page Vendor JS-->
-
+    {{-- alerts --}}
+    <script src="{{asset('app-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>    
+    <script src="{{asset('app-assets/vendors/js/extensions/polyfill.min.js')}}"></script>
 
     <!-- BEGIN: Page JS-->
     <script src="{{asset('app-assets/js/scripts/forms/form-repeater.js')}}"></script>

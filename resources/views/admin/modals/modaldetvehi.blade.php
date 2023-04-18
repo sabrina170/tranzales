@@ -7,12 +7,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.crear-vehiculo') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('crear-vehiculo') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6 col-12 text-center">
                             <div class="mb-1">
-                                <img src="{{asset('images-vehiculos/'.$doc->imagen)}}" alt="" class="img-fluid">
+                                <img src="{{asset('images-vehiculos/'.$doc->imagen)}}" alt=""
+                                 class="img-thumbnail" height="200" width="200">
                                 </div>
                                 <h4>{{$doc->marca}}</h4>
                                 <h6 class="text-muted">{{$doc->placa}}</h6>

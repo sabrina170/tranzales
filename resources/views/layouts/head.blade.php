@@ -94,7 +94,7 @@
                     <span class="menu-title text-truncate" data-i18n="Dashboards">RECURSOS</span>
                     <span class="badge badge-light-success rounded-pill ms-auto me-1">3</span></a>
                     <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="{{route('admin.vehiculos')}}">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.vehiculos.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">VEHICULOS</span></a>
                         </li>
                         <li><a class="d-flex align-items-center" href="{{route('admin.usuarios')}}">

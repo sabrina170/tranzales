@@ -3,12 +3,7 @@
 <!-- MENU -->
 @section('content')
 
-
-@if (session('message'))
-    <div class="alert alert-success">
-        {{ session('message') }}
-    </div>
-@endif
+                            
 <div class="content-header row">
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
@@ -16,7 +11,7 @@
                 <h2 class="content-header-title float-start mb-0">Modulo Editar</h2>
                 <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Vehiculos</a>
+                        <li class="breadcrumb-item"><a href="#">Vehiculos</a>
                         </li>
                     </ol>
                     
@@ -24,7 +19,7 @@
                 
             </div>
             
-            <a href="{{route('admin.vehiculos')}}"><span class="badge badge-light-danger">< Volver</span></a>
+            <a href="{{route('admin.vehiculos.index')}}"><span class="badge badge-light-danger">< Volver</span></a>
         </div>
     </div>
     {{-- <div class="content-header-left text-md-end col-md-3 col-12 d-md-block d-none">
@@ -40,7 +35,7 @@
 @foreach ($vehiculo as $doc)
 <div class="card">
 <div class="modal-body">
-    <form action="{{ route('admin.update-vehiculo',$doc->id) }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('update-vehiculo',$doc->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="row">
@@ -84,14 +79,14 @@
                     value="{{$doc->fecha_ven_citv}}" required>
                 </div>
             </div>
-            <div class="col-md-4 col-12">
+            <div class="col-md-3 col-12">
                 <div class="mb-1">
                     <label class="form-label" for="company-column">Compañia SOAT</label>
                     <input type="text" id="company-column" class="form-control" name="soat"
                     value="{{$doc->soat}}" required>
                 </div>
             </div>
-            <div class="col-md-4 col-12">
+            <div class="col-md-3 col-12">
                 <div class="mb-1">
                     <label class="form-label" for="company-column">Fech. Venc. SOAT</label>
                     <input type="date" id="company-column" class="form-control" name="fecha_ven_soat"
@@ -103,6 +98,21 @@
                     <label class="form-label" for="company-column">Categoría</label>
                     <input type="text" id="company-column" class="form-control" name="categoria"
                     value="{{$doc->categoria}}" required>
+                </div>
+            </div>
+            <div class="col-md-3 col-12">
+                <div class="mb-1">
+                    <label class="form-label" for="company-column">Estado</label>
+                    <select class="form-select" id="basicSelect" name="estado">
+                        @if ($doc->estado)
+                        <option value="1" selected>Activo</option>
+                        <option value="0" >Inactivo</option>
+                        @else
+                        <option value="1" >Activo</option>
+                        <option value="0" selected>Inactivo</option>
+                        @endif
+                    </select>
+                   
                 </div>
             </div>
             <div class="col-md-3 col-12">
@@ -156,8 +166,21 @@
 @endsection
 
 @section('js')
+@if (session()->get('data'))
+    <div class="alert alert-success">
+        <script>
+           var text = '{{session()->get('data')}}';
+            Swal.fire(
+            'Actualizado!',
+            text,
+            'success'
+            )
+        </script>
+    </div>
+@endif
+<script>
  
-<script>   
+
     function init() {
         var inputFile = document.getElementById('imagenSeleccionada');
         inputFile.addEventListener('change', mostrarImagen, false);

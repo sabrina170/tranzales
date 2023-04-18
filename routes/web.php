@@ -42,12 +42,15 @@ Route::view('/usuarios', "admin.usuarios")->name('admin.usuarios');
 // rutas operarios
 Route::view('/operarios', "admin.operarios")->name('admin.operarios');
 
+// ----------------------------VEHICULOS--------------------------------------------
+// PAG01
+Route::get('/vehiculos', [AdminController::class, 'show_listado_vehiculos'])->name('admin.vehiculos.index');
+Route::post('/crearVehiculo', [AdminController::class, 'create_crear_vehiculo'])->name('crear-vehiculo');
+// PAG02
+Route::get('IdEditVehiculo/{id}', [AdminController::class, 'edit_vehiculo'])->name('admin.vehiculos.edit-vehiculo');
+Route::put('/UpdateVehiculo/{vehiculo}', [AdminController::class, 'update_vehiculo'])->name('update-vehiculo');
+Route::delete('/DeleteVehiculo/{id}', [AdminController::class, 'delete_vehiculo'])->name('delete-vehiculo');
 
-Route::get('/vehiculos', [AdminController::class, 'show_listado_vehiculos'])->name('admin.vehiculos');
-// Route::get('/vehiculo-id', "admin.edit-vehiculo")->name('admin.edit-vehiculo');
-Route::post('/crearVehiculo', [AdminController::class, 'create_crear_vehiculo'])->name('admin.crear-vehiculo');
-Route::get('IdEditVehiculo/{id}', [AdminController::class, 'edit_vehiculo'])->name('admin.edit-vehiculo');
-Route::put('/UpdateVehiculo/{vehiculo}', [AdminController::class, 'update_vehiculo'])->name('admin.update-vehiculo');
 
 Route::get('/destinos', [AdminController::class, 'show_listado_destinos'])->name('admin.destinos');
 Route::get('/clientes', [AdminController::class, 'show_listado_clientes'])->name('admin.clientes');
