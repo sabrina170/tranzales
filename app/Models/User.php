@@ -24,12 +24,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'apellido_ma',
-        'apellido_pa',
+        're_password',
+        'estado',
         'tipo_dni',
         'dni',
-        'celular'
-
+        'apellido_ma',
+        'apellido_pa',
+        'celular',
+        'tipo'
     ];
 
     /**

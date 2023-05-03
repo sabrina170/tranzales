@@ -37,12 +37,17 @@ Route::post('crearSolicitud', [AdminController::class, 'create_crear_soli'])->na
 Route::view('/choferes', [AdminController::class, 'show_listado_choferes'])->name('admin.choferes');
 // rutas estadisticas
 Route::view('/estadisticas', "admin.estadisticas")->name('admin.estadisticas');
-// rutas usuarios
-Route::view('/usuarios', "admin.usuarios")->name('admin.usuarios');
+// ---------------------------TRABAJADORES(USURAIOS)--------------------------------------------------------------
+Route::get('/usuarios', [AdminController::class, 'show_listado_usuarios'])->name('admin.usuarios.index');
+Route::post('/crearusuario', [AdminController::class, 'crear_usuario'])->name('crear-usuario');
+// Pag02
+Route::get('IdEditUsuario/{id}', [AdminController::class, 'edit_usuario'])->name('admin.usuarios.edit-usuario');
+Route::put('/UpdateUsuario/{usuario}', [AdminController::class, 'update_usuario'])->name('update-usuario');
+Route::delete('/DeleteUsuario/{id}', [AdminController::class, 'delete_usuario'])->name('delete-usuario');
 // rutas operarios
 Route::view('/operarios', "admin.operarios")->name('admin.operarios');
 
-// ----------------------------VEHICULOS--------------------------------------------
+// ----------------------------VEHICULOS-------------------------------------------------------------------------
 // PAG01
 Route::get('/vehiculos', [AdminController::class, 'show_listado_vehiculos'])->name('admin.vehiculos.index');
 Route::post('/crearVehiculo', [AdminController::class, 'create_crear_vehiculo'])->name('crear-vehiculo');
@@ -51,9 +56,29 @@ Route::get('IdEditVehiculo/{id}', [AdminController::class, 'edit_vehiculo'])->na
 Route::put('/UpdateVehiculo/{vehiculo}', [AdminController::class, 'update_vehiculo'])->name('update-vehiculo');
 Route::delete('/DeleteVehiculo/{id}', [AdminController::class, 'delete_vehiculo'])->name('delete-vehiculo');
 
+// --------------------------CHOFERES----------------------------------------------------------------------------
+// PAG01
+Route::get('/choferes', [AdminController::class, 'show_listado_choferes'])->name('admin.choferes.index');
+Route::post('/crearChofer', [AdminController::class, 'crear_chofer'])->name('crear-chofer');
+// PAG02
+Route::get('IdEditchofer/{id}', [AdminController::class, 'edit_chofer'])->name('admin.choferes.edit-chofer');
+Route::put('/Updatechofer/{chofer}', [AdminController::class, 'update_chofer'])->name('update-chofer');
+Route::delete('/Deletechofer/{id}', [AdminController::class, 'delete_chofer'])->name('delete-chofer');
 
-Route::get('/destinos', [AdminController::class, 'show_listado_destinos'])->name('admin.destinos');
-Route::get('/clientes', [AdminController::class, 'show_listado_clientes'])->name('admin.clientes');
-Route::post('crearCliente', [AdminController::class, 'create_crear_cliente'])->name('admin.crear-cliente');
+// --------------------------------DESTINOS----------------------------------------------------------------------------
+Route::get('/destinos', [AdminController::class, 'show_listado_destinos'])->name('admin.destinos.index');
+Route::post('/crearDestino', [AdminController::class, 'crear_destino'])->name('creardestino');
+
+// ----------------------------------------CLIENTES----------------------------------------------------------------
+Route::get('/clientes', [AdminController::class, 'show_listado_clientes'])->name('admin.clientes.index');
+Route::post('/crearCliente', [AdminController::class, 'create_crear_cliente'])->name('crearcliente');
+
+// -----------------------------------------RUTAS-----------------------------------------------------------------
+Route::get('/rutas', [AdminController::class, 'show_listado_rutas'])->name('admin.rutas.index');
+Route::post('/crearRuta', [AdminController::class, 'crear_ruta'])->name('crear-ruta');
+Route::get('/BuscarOri', [AdminController::class, 'buscarorigen'])->name('buscarorigen');
+Route::get('/BuscarDes', [AdminController::class, 'buscardestino'])->name('buscardestino');
+
+// ----------------------------------------------------------------------------------------------------------------
 Route::get('/BuscarP', [AdminController::class, 'buscarprovincia'])->name('buscarprovincia');
 Route::get('/BuscarD', [AdminController::class, 'buscardistrito'])->name('buscardistrito');

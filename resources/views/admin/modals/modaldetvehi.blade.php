@@ -7,8 +7,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('crear-vehiculo') }}" method="post" enctype="multipart/form-data">
-                    @csrf
+            
                     <div class="row">
                         <div class="col-md-6 col-12 text-center">
                             <div class="mb-1">
@@ -76,7 +75,6 @@
                     </div>
                 
             </div>
-        </form>
       </div>
     </div>
 </div>

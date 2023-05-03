@@ -162,12 +162,7 @@
         <div class="col-12">
             <div class="card">
                 
-                <div class="card-body">
-                    {{-- <p class="card-text">
-                        Using the most basic table Leanne Grahamup, here’s how <code>.table</code>-based tables look in Bootstrap. You
-                        can use any example of below table for your table and it can be use with any type of bootstrap tables.
-                    </p> --}}
-                </div>
+               
                 <div class="table-responsive">
                     <table class="table" id="postulantes">
                         <thead>
@@ -177,7 +172,10 @@
                                 <th>Unidades</th>
                                 <th>Marca</th>
                                 <th>Placa</th>
+                                <th>N° Tarjeta Circulacion</th>
+                                <th>N° Certificado de CITV</th>
                                 <th>Fecha. Ven. CITV</th>
+                                <th>Compañia Soat</th>
                                 <th>Fech. Venc. SOAT</th>
                                 <th>Categoría</th>
                                 <th>Fecha Creación</th>
@@ -195,13 +193,17 @@
                                 <td>{{$doc->unidad}}</td>
                                 <td>{{$doc->marca}}</td>
                                 <td>{{$doc->placa}} </td>
+                                <td>{{$doc->tar_circulacion}} </td>
+                                <td>{{$doc->n_certificado}} </td>
                                 <td>{{$doc->fecha_ven_citv}}</td>
+                                <td>{{$doc->soat}}</td>
                                 <td>{{$doc->fecha_ven_soat}}</td>
                                 <td>{{$doc->categoria}}</td>
                                 <td>{{$doc->created_at}}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                    <a type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#view{{$doc->id}}"><i data-feather='eye'></i></a>
+                                    <a type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#view{{$doc->id}}">
+                                        <i data-feather='eye'></i></a>
                                     <a type="button" class="btn btn-dark btn-sm" href="{{route('admin.vehiculos.edit-vehiculo',$doc->id)}}"><i data-feather='edit'></i></a>
                                     <a type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eli{{$doc->id}}"><i data-feather='trash-2'></i></a>
                                     </div>
@@ -236,7 +238,7 @@
 </div>
 @endif
 <script>
-     var idioma=
+        var idioma=
          {
             "sProcessing":     "Procesando...",
             "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -273,35 +275,31 @@
                 "-1": "Mostrar Todo"
                 }
             }
-            
-    $(document).ready( function () {
-    var table = $('#postulantes').DataTable({
-    dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+};
+   $(document).ready(function () {
+    $('#postulantes').DataTable({
+        dom: '<"border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
 
-    // dom: 'Brfltip',
-    // "dom": 'Br<"float-left"i><"float-right"f>t<"float-left"l><"float-right"p><"clearfix">',
-    // "lengthMenu": [[5,10,20, -1],[5,10,50,"Mostrar Todo"]],
-    // "dom": 'Bfrt<"col-md-6 inline"i> <"col-md-6 inline"p>',
-    language: idioma,
-    buttons: [
+        language: idioma,
+        buttons: [
         // 'excel'
             {
               extend: 'excel',
               text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
               className: 'btn btn-sm btn-info round waves-effect',
-              exportOptions: { columns: [0,1,2,3, 4, 5, 6] }
+              exportOptions: { columns: [1,2,3, 4, 5, 6,7,8,9,10] }
             },
             {
                 extend: 'pdf',
               text: feather.icons['clipboard'].toSvg({ class: 'font-small-4 me-50' }) + 'Pdf',
               className: 'btn btn-sm btn-info round waves-effect',
-              exportOptions: { columns: [0,1,2,3, 4, 5, 6] }
+              exportOptions: { columns: [1,2,3, 4, 5, 6,7,8,9,10] }
             },
             {
                 extend: 'print',
               text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
               className: 'btn btn-sm btn-info round waves-effect',
-              exportOptions: { columns: [0,1,2,3, 4, 5, 6] }
+              exportOptions: { columns: [1,2,3, 4, 5, 6,7,8,9,10] }
             },
     ],
     exportOptions: {
@@ -312,10 +310,12 @@
           page: 'all', // 'all', 'current'
           search: 'none' // 'none', 'applied', 'removed'
         },
-            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10]
       }
-   });
-} );
+    });
+});
+
+   
 </script>
 @endsection
 

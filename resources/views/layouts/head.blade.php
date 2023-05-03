@@ -79,7 +79,7 @@
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="{{route('admin.estadisticas')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Analytics</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="{{route('admin.usuarios')}}">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.usuarios.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Usuarios</span></a>
                         </li>
                         {{-- <li><a class="d-flex align-items-center" href="dashboard-ecommerce.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="eCommerce">eCommerce</span></a> --}}
@@ -97,7 +97,10 @@
                         <li><a class="d-flex align-items-center" href="{{route('admin.vehiculos.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">VEHICULOS</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="{{route('admin.usuarios')}}">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.usuarios.index')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">USUARIOS</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="{{route('admin.choferes.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">PERSONAL DE TRABAJO</span></a>
                         </li>
                         <li><a class="d-flex align-items-center" href="">
@@ -110,16 +113,16 @@
                     <span class="menu-title text-truncate" data-i18n="Dashboards">CLIENTES</span>
                     <span class="badge badge-light-success rounded-pill ms-auto me-1">4</span></a>
                     <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="{{route('admin.clientes')}}">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.clientes.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">CLIENTES</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.rutas.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">RUTAS</span></a>
                         </li>
                         <li><a class="d-flex align-items-center" href="">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">TARIFA DE LOS CLIENTES</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="{{route('admin.destinos')}}">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.destinos.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">DESTINATARIOS ( CAMALES)</span></a>
                         </li>
                         
@@ -188,12 +191,7 @@
                 {{-- <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.choferes')}}"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Todo">Gestión <br> de Guías</span></a>
                     
                 </li> --}}
-                <li class=" nav-item"><a class="d-flex align-items-center"  href="{{route('admin.choferes')}}">
-                    <i data-feather="check-square"></i>
-                    <span class="menu-title text-truncate" data-i18n="Todo">Choferes <br> y Ayudantes</span>
-                </a>
-                    
-                </li>
+                
                 
                 
              

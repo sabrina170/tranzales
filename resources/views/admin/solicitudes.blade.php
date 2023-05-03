@@ -299,7 +299,7 @@
         });
       };
     }]);
-        </script>
+ </script>
   <script>
     var idioma=
 
