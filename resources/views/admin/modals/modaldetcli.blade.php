@@ -1,25 +1,31 @@
 <div class="modal fade" id="view{{$doc->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog lg" role="document">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Eliminar Vehiculo</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Detalle Cliente</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
             </button>
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="col-md-6 col-12">
+            <div class="col-md-4 col-12">
                 <div class="mb-1">
                     <label class="form-label" for="first-name-column">Nombre</label>
                     <input type="text" id="first-name-column" class="form-control"  name="nombre" value="{{$doc->nombre}}" disabled>
                 </div>
             </div>
-            <div class="col-md-6 col-12">
+            <div class="col-md-4 col-12">
                 <div class="mb-1">
                     <label class="form-label" for="first-name-column">Ruc</label>
                     <input type="number" id="ruc" class="form-control"  name="ruc" value="{{$doc->ruc}}" disabled>
                 </div>
             </div>
+            <div class="col-md-4 col-12">
+              <div class="mb-1">
+                  <label class="form-label" for="first-name-column">Referencia</label>
+                  <input type="text" id="ruc" class="form-control"  name="referencia" value="{{$doc->referencia}}" disabled>
+              </div>
+          </div>
             <div class="col-md-4 col-12">
                 <div class="mb-1">
                     <label class="form-label" for="last-name-column">Departamento</label>

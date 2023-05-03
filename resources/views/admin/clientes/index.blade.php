@@ -37,13 +37,19 @@
                         <form  action="{{route('crearcliente')}}" method="post">
                             @csrf
                             <div class="row">
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="mb-1">
                                         <label class="form-label" for="first-name-column">Nombre</label>
                                         <input type="text" id="first-name-column" class="form-control"  name="nombre" required>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-4 col-12">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="first-name-column">Referencia</label>
+                                        <input type="text" id="first-name-column" class="form-control"  name="referencia" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
                                     <div class="mb-1">
                                         <label class="form-label" for="first-name-column">Ruc</label>
                                         <input type="number" id="ruc" class="form-control"  name="ruc" required>
@@ -194,13 +200,14 @@
                         <thead>
                             <tr>
                                 {{-- <th>ID</th> --}}
-                                <th>NOMBRES</th>
+                                <th>GRANJA</th>
+                                <th>REFERENCIA</th>
                                 <th>DEPARTAMENTO</th>
                                 <th>PROVINCIA</th>
                                 <th>DISTRITO</th>
                                 <th>ESTADO</th>
                                 <th>TIPO SERVICIO</th>
-                                <th>DIRECCION</th>
+                                {{-- <th>DIRECCION</th> --}}
                                 <th>FECHA CREACIÓN</th>
                                 <th>ACCIONES</th>
                             </tr>
@@ -209,14 +216,17 @@
                             @foreach ($clientes as $doc)
                             <tr> 
                                 <td>{{$doc->nombre}}</td>
+                                <td>
+                                    <span class="badge badge-light-warning">{{$doc->referencia}}</span>
+                                </td>
                                 <td>{{$doc->nombre_dep}}</td>
                                 <td>{{$doc->nombre_prov}} </td>
                                 <td>{{$doc->nombre_dis}}</td>
                                 <td>
                                     @if ($doc->estado==1)
-                                    <span class="badge badge-light-success">Activo</span>
+                                    <span class="badge badge-glow bg-success">Activo</span>
                                     @else
-                                    <span class="badge badge-light-danger">Inactivo</span>
+                                    <span class="badge badge-glow bg-danger">Inactivo</span>
                                     @endif
                                 </td>
                                 <td>
@@ -231,7 +241,7 @@
                                     @endif
                                    
                                 </td>
-                                <td>{{$doc->direccion}}</td>
+                                {{-- <td>{{$doc->direccion}}</td> --}}
                                 <td>{{$doc->created_at}}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">

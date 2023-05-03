@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Chofere;
 use App\Models\Cliente;
+use App\Models\Destino;
 use App\Models\Ruta;
 use App\Models\Solicitude;
 use App\Models\User;
@@ -207,17 +208,61 @@ class AdminController extends Controller
     // ---------------------DESTINOS--------------------------------------------------
     public function show_listado_destinos()
     {
-        $destinos = DB::table('destinos')->get();
+        // $destinos = DB::table('destinos')->get();
         $clientes = DB::table('clientes')->get();
         $departamentos = DB::table('departamentos')->get();
+
+        $destinos = Destino::select(
+            "cliente",
+            "empresa",
+            "destinos.referencia",
+            "destinos.direccion as direccion_des",
+            "clientes.nombre as nombre_cli",
+            "clientes.referencia as re_cli",
+            "departamentos.name as nombre_dep",
+            "provincias.name as nombre_prov",
+            "distritos.name as nombre_dis",
+            "destinos.estado as estado_des",
+            "destinos.created_at",
+        )
+            ->join("departamentos", "departamentos.id", "=", "destinos.departamento")
+            ->join("provincias", "provincias.id", "=", "destinos.provincia")
+            ->join("distritos", "distritos.id", "=", "destinos.distrito")
+            ->join("clientes", "clientes.id", "=", "destinos.cliente")
+            ->orderBy('destinos.id', 'desc')
+            ->get();
+
         return view('admin.destinos.index', compact('destinos', 'clientes', 'departamentos'));
     }
+
+    public function crear_destino(Request $request)
+    {
+
+        $data = [
+            'cliente' => $request->get('cliente'),
+            'empresa' => $request->get('empresa'),
+            'referencia' => $request->get('referencia'),
+            'departamento' => $request->get('departamento'),
+            'provincia' => $request->get('provincia'),
+            'distrito' => $request->get('distrito'),
+            'direccion' => $request->get('direccion'),
+            'estado' => 1
+        ];
+
+        $soli = Destino::create($data);
+        return redirect()->route('admin.destinos.index');
+
+        // dd($request);
+        // return $nombre;
+    }
+
     //---------------- CLIENTES--------------------------------------
     public function show_listado_clientes()
     {
         // $clientes = DB::table('clientes')->orderBy('id', 'desc')->get();
         $clientes = Cliente::select(
             "nombre",
+            "referencia",
             "contactos",
             "ruc",
             "departamentos.name as nombre_dep",
@@ -264,6 +309,7 @@ class AdminController extends Controller
         $data = [
             'nombre' => $request->get('nombre'),
             'ruc' => $request->get('ruc'),
+            'referencia' => $request->get('referencia'),
             'departamento' => $request->get('departamento'),
             'provincia' => $request->get('provincia'),
             'distrito' => $request->get('distrito'),
@@ -295,15 +341,12 @@ class AdminController extends Controller
         $rutas = Ruta::select(
             "rutas.id",
             "clientes.nombre as nombre_cli",
-            "origenes.nombre as origen_cli",
-            "destinos.nombre as nombre_des",
-            "destinos.razon_social as razon_des",
+            "destinos.empresa as nombre_des",
             "distancia",
             "galones",
             "rutas.created_at",
         )
             ->join("clientes", "clientes.id", "=", "rutas.id_cliente")
-            ->join("origenes", "origenes.id", "=", "rutas.id_origen")
             ->join("destinos", "destinos.id", "=", "rutas.id_destino")
             ->orderBy('id', 'desc')
             ->get();
@@ -314,7 +357,6 @@ class AdminController extends Controller
     {
         $data = [
             'id_cliente' => $request->get('cliente'),
-            'id_origen' => $request->get('origen'),
             'id_destino' => $request->get('destino'),
             'distancia' => $request->get('distancia'),
             'galones' => $request->get('galones')
@@ -450,29 +492,7 @@ class AdminController extends Controller
     }
     // -------------------BUSCADORES DE RUTAS-----------------------------------------------------
 
-    public function buscarorigen(Request $request)
-    {
-        if ($request->ajax()) {
-            $output = '<option value="0">Seleccione un origen</option>';
-            $id = $request->get('id');
-            if ($id != '') {
-                $data = DB::table('origenes')
-                    ->where('id_cliente', $id)
-                    ->get();
-            }
-            $total_row = $data->count();
-            if ($total_row > 0) {
-                foreach ($data as $dt) {
-                    $output .= '<option value="' . $dt->id . '">' . $dt->nombre . '</option>';
-                }
-            }
-            $data = array(
-                'table_data'  => $output,
-                // 'total_data'  => $total_row
-            );
-            echo json_encode($data);
-        }
-    }
+
 
     public function buscardestino(Request $request)
     {
@@ -481,7 +501,7 @@ class AdminController extends Controller
             $id = $request->get('id');
             if ($id != '') {
                 $data = DB::table('destinos')
-                    ->where('id_origen', $id)
+                    ->where('cliente', $id)
                     ->get();
             }
 
@@ -489,7 +509,7 @@ class AdminController extends Controller
             $total_row = $data->count();
             if ($total_row > 0) {
                 foreach ($data as $dt) {
-                    $output .= '<option value="' . $dt->id . '">' . $dt->nombre . '</option>';
+                    $output .= '<option value="' . $dt->id . '">' . $dt->empresa . '</option>';
                 }
             }
             $data = array(

@@ -26,7 +26,7 @@
 </div>
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog" role="document">
               <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Agregar Ruta</h5>
@@ -37,37 +37,24 @@
                         <form action="{{route('crear-ruta')}}" method="post">
                             @csrf
                             <div class="row">
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-6 col-12">
                                     <div class="mb-1">
                                         <label class="form-label" for="last-name-column">CLIENTE</label>
                                         <select  class="form-select info-ob" id="cliente" name="cliente"  @selected(old('cliente'))>
 
                                         <option value="0">Seleccione un cliente</option>
                                             @foreach ($clientes as $cli)
-                                            <option value="{{$cli->id}}">{{$cli->nombre}}</option>
+                                            <option value="{{$cli->id}}">{{$cli->nombre}}- <strong>{{$cli->referencia}}</strong></option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="mb-1">
-                                        <label class="form-label" for="city-column">ORIGEN</label>
-                                        <select  class="form-select info-ob" data-type="select" data-msj="Seleccione una provincia"
-                                         id="origen" name="origen"  @selected(old('origen'))>
-                                            <option value="0">Seleccione una provincia</option>
-                                            {{-- <option value="Distrito 1">Distrito 1</option> --}}
-                                        </select>
-                                        @error('origen')
-                                        <span class="badge badge-light-danger">{{$message}}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-6 col-12">
                                     <div class="mb-1">
                                         <label class="form-label" for="country-floating">DESTINO</label>
                                         <select  class="form-select info-ob" data-type="select" data-msj="Seleccione un distrito" 
-                                        id="destino" name="destino" @selected(old('destino'))>
-                                            <option value="0">Seleccione un origen</option>
+                                        id="destino" name="destino" required>
+                                            {{-- <option value="0">Seleccione un origen</option> --}}
                                             {{-- <option value="Distrito 1">Distrito 1</option>
                                             <option value="Distrito 2">Distrito 2</option> --}}
                                         </select>
@@ -76,14 +63,14 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-6 col-12">
                                     <div class="mb-1">
                                         <label class="form-label" for="company-column">Distancia</label>
                                         <input type="number" id="company-column" class="form-control" name="distancia"
                                           required>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-6 col-12">
                                     <div class="mb-1">
                                         <label class="form-label" for="company-column">Galones</label>
                                         <input type="number" id="company-column" class="form-control" name="galones"
@@ -135,7 +122,7 @@
                             <tr> 
                                 <td>{{$doc->nombre_cli}} {{$doc->origen_cli}}</td>
                                 {{-- <td>{{$doc->id_origen}}</td> --}}
-                                <td> {{$doc->nombre_des}} - {{$doc->razon_des}}</td>
+                                <td> {{$doc->nombre_des}} </td>
                                 <td>{{$doc->distancia}} KM</td>
                                 <td>{{$doc->galones}}</td>
                                 <td>{{$doc->created_at}}</td>
@@ -208,22 +195,6 @@
                 var id = $(this).val();
                 // alert(id);
                     $.ajax({
-                    url:'{{ route('buscarorigen') }}',
-                    type:'GET',
-                    data:{'id':id},
-                    dataType:'json',
-                    success:function (data) {
-                        // $('#product_list').html(data);
-                        $('#origen').html(data.table_data);
-                        // alert(data.table_data);
-                    }
-                })
-            });
-
-            $('#origen').on('change', function(){
-                var id = $(this).val();
-                // alert(id);
-                    $.ajax({
                     url:'{{ route('buscardestino') }}',
                     type:'GET',
                     data:{'id':id},
@@ -235,6 +206,22 @@
                     }
                 })
             });
+
+            // $('#origen').on('change', function(){
+            //     var id = $(this).val();
+            //     // alert(id);
+            //         $.ajax({
+            //         url:'{{ route('buscardestino') }}',
+            //         type:'GET',
+            //         data:{'id':id},
+            //         dataType:'json',
+            //         success:function (data) {
+            //             // $('#product_list').html(data);
+            //             $('#destino').html(data.table_data);
+            //             // alert(data.table_data);
+            //         }
+            //     })
+            // });
 </script>
   <script>
     var idioma=
@@ -243,7 +230,7 @@
             "sProcessing":     "Procesando...",
             "sLengthMenu":     "Mostrar _MENU_ registros",
             "sZeroRecords":    "No se encontraron resultados",
-            "sEmptyTable":     "NingÃºn dato disponible en esta tabla",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",

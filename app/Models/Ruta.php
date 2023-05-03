@@ -10,7 +10,6 @@ class Ruta extends Model
     use HasFactory;
     protected $fillable = [
         'id_cliente',
-        'id_origen',
         'id_destino',
         'distancia',
         'galones'

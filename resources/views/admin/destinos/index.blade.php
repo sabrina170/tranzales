@@ -39,25 +39,35 @@
                             <div class="row">
                                 <div class="col-md-6 col-12">
                                     <div class="mb-1">
-                                        <label class="form-label" for="first-name-column">Cliente</label>
+                                        <label class="form-label" for="first-name-column">CLIENTE-REFERENCIA</label>
                                         <select  class="form-select" id="cliente" name="cliente">
-                                        <option value="0">Seleccione un cliente</option>
-                                        @foreach ($clientes as $cli)
-                                        <option value="{{$cli->id}}">{{$cli->nombre}}</option>
-                                        @endforeach
-                                    </select>
+                                            {{-- <option di>Seleccione un cliente</option> --}}
+                                            @foreach ($clientes as $cli)
+                                            <option value="{{$cli->id}}"><strong>{{$cli->nombre}}</strong>-{{$cli->referencia}}</option>
+                                            @endforeach
+                                        </select>
+                                        <p class="card-text font-small-3">Si no esta el cliente
+                                             crearlo aqui <a href="{{route('admin.clientes.index')}}"> Clientes</a> </p>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="mb-1">
-                                        <label class="form-label" for="first-name-column">Origen-Referencia</label>
-                                        <input type="number" class="form-control"  name="referencia" required>
+                                        <label class="form-label" for="company-column">Empresa</label>
+                                        <input type="text" id="company-column" class="form-control" name="empresa"
+                                          required>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="mb-1">
-                                        <label class="form-label" for="last-name-column"></label>
-                                        <select  class="form-select info-ob" id="departamento" name="departamento"  @selected(old('departamento'))>
+                                        <label class="form-label" for="company-column">Referencia</label>
+                                        <input type="text" id="company-column" class="form-control" name="referencia"
+                                          required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="last-name-column">Departamento</label>
+                                        <select  class="form-select info-ob" id="departamento" name="departamento" required>
 
                                         <option value="0">Seleccione un departamento</option>
                                             @foreach ($departamentos as $departamento)
@@ -69,8 +79,8 @@
                                 <div class="col-md-4 col-12">
                                     <div class="mb-1">
                                         <label class="form-label" for="city-column">Provincia</label>
-                                        <select  class="form-select info-ob" data-type="select" data-msj="Seleccione una provincia" id="provincia" name="provincia"  @selected(old('provincia'))>
-                                            <option value="0">Seleccione una provincia</option>
+                                        <select  class="form-select info-ob"  id="provincia" name="provincia" required>
+                                            {{-- <option value="0">Seleccione una provincia</option> --}}
                                             {{-- <option value="Distrito 1">Distrito 1</option> --}}
                                         </select>
                                         @error('provincia')
@@ -81,8 +91,8 @@
                                 <div class="col-md-4 col-12">
                                     <div class="mb-1">
                                         <label class="form-label" for="country-floating">Distrito</label>
-                                        <select  class="form-select info-ob" data-type="select" data-msj="Seleccione un distrito" id="distrito" name="distrito" @selected(old('distrito'))>
-                                            <option value="0">Seleccione un distrito</option>
+                                        <select  class="form-select info-ob" id="distrito" name="distrito" required>
+                                            {{-- <option value="0">Seleccione un distrito</option> --}}
                                             {{-- <option value="Distrito 1">Distrito 1</option>
                                             <option value="Distrito 2">Distrito 2</option> --}}
                                         </select>
@@ -98,13 +108,11 @@
                                           required>
                                     </div>
                                 </div>
-                                
-
                             </div>
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button id="add-receta" type="submit" class="btn btn-danger me-1 waves-effect waves-float waves-light">Agregar</button>
+                    <button  type="submit" class="btn btn-danger me-1 waves-effect waves-float waves-light">Agregar</button>
             
                     </div>
                     {{-- </form> --}}
@@ -130,12 +138,12 @@
                             <tr>
                                 {{-- <th>ID</th> --}}
                                 <th>NOMBRES</th>
+                                <th>REFERENCIA</th>
                                 <th>DEPARTAMENTO</th>
                                 <th>PROVINCIA</th>
                                 <th>DISTRITO</th>
-                                <th>ESTADO</th>
-                                <th>TIPO SERVICIO</th>
                                 <th>DIRECCION</th>
+                                <th>ESTADO</th>
                                 <th>FECHA CREACIÓN</th>
                                 <th>ACCIONES</th>
                             </tr>
@@ -143,30 +151,20 @@
                         <tbody>
                             @foreach ($destinos as $doc)
                             <tr> 
-                                <td>{{$doc->nombre}}</td>
+                                <td>{{$doc->nombre_cli}} - <strong>{{$doc->re_cli}}</strong></td>
+                                <td>{{$doc->referencia}}</td>
                                 <td>{{$doc->nombre_dep}}</td>
                                 <td>{{$doc->nombre_prov}} </td>
                                 <td>{{$doc->nombre_dis}}</td>
+                                <td>{{$doc->direccion_des}}</td>
                                 <td>
-                                    @if ($doc->estado==1)
+                                    @if ($doc->estado_des==1)
                                     <span class="badge badge-light-success">Activo</span>
                                     @else
                                     <span class="badge badge-light-danger">Inactivo</span>
                                     @endif
                                 </td>
-                                <td>
-                                    @if ($doc->tipo_servicio==1)
-                                        <strong>GORRINOS</strong>
-                                    @elseif($doc->tipo_servicio==2)
-                                    <strong>ALIMENTOS</strong>
-                                    @elseif($doc->tipo_servicio==3)
-                                    <strong>LECHONES</strong>
-                                    @else
-                                    <strong>-</strong>
-                                    @endif
-                                   
-                                </td>
-                                <td>{{$doc->direccion}}</td>
+                                
                                 <td>{{$doc->created_at}}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
