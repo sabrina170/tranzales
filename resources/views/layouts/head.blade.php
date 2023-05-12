@@ -119,7 +119,7 @@
                         <li><a class="d-flex align-items-center" href="{{route('admin.rutas.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">RUTAS</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.tarifas.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">TARIFA DE LOS CLIENTES</span></a>
                         </li>
                         <li><a class="d-flex align-items-center" href="{{route('admin.destinos.index')}}">
@@ -133,7 +133,7 @@
                     <span class="menu-title text-truncate" data-i18n="Dashboards">OPERACIONES</span>
                     <span class="badge badge-light-success rounded-pill ms-auto me-1">4</span></a>
                     <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="{{route('admin.index')}}">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.solicitudes.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">ORDEN DE SERVICIO</span></a>
                         </li>
                         <li><a class="d-flex align-items-center" href="">

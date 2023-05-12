@@ -28,10 +28,6 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 // Rutas del admin
 Route::get('/dashboard', [AdminController::class, 'listarsolicitudes'])->name('admin.index');
 
-// rutas solicitudes
-// Route::view('/nuevaSolicitud', "admin.solicitudes")->name('admin.solicitudes');
-Route::get('/nuevaSolicitud2', [AdminController::class, 'show_agregar_soli'])->name('admin.nueva-solicitud');
-Route::post('crearSolicitud', [AdminController::class, 'create_crear_soli'])->name('admin.crear-solicitud');
 
 // rutas choferes
 Route::view('/choferes', [AdminController::class, 'show_listado_choferes'])->name('admin.choferes');
@@ -68,6 +64,7 @@ Route::delete('/Deletechofer/{id}', [AdminController::class, 'delete_chofer'])->
 // --------------------------------DESTINOS----------------------------------------------------------------------------
 Route::get('/destinos', [AdminController::class, 'show_listado_destinos'])->name('admin.destinos.index');
 Route::post('/crearDestino', [AdminController::class, 'crear_destino'])->name('creardestino');
+Route::delete('/DeleteDes/{id}', [AdminController::class, 'delete_destino'])->name('delete-destino');
 
 // ----------------------------------------CLIENTES----------------------------------------------------------------
 Route::get('/clientes', [AdminController::class, 'show_listado_clientes'])->name('admin.clientes.index');
@@ -77,8 +74,24 @@ Route::post('/crearCliente', [AdminController::class, 'create_crear_cliente'])->
 Route::get('/rutas', [AdminController::class, 'show_listado_rutas'])->name('admin.rutas.index');
 Route::post('/crearRuta', [AdminController::class, 'crear_ruta'])->name('crear-ruta');
 Route::get('/BuscarOri', [AdminController::class, 'buscarorigen'])->name('buscarorigen');
-Route::get('/BuscarDes', [AdminController::class, 'buscardestino'])->name('buscardestino');
+
+Route::delete('/Deleteruta/{id}', [AdminController::class, 'delete_ruta'])->name('delete-ruta');
 
 // ----------------------------------------------------------------------------------------------------------------
 Route::get('/BuscarP', [AdminController::class, 'buscarprovincia'])->name('buscarprovincia');
 Route::get('/BuscarD', [AdminController::class, 'buscardistrito'])->name('buscardistrito');
+
+// ----------------------------------------TARIFAS----------------------------------------------------------------
+Route::get('/tarifas', [AdminController::class, 'show_listado_tarifas'])->name('admin.tarifas.index');
+Route::post('/crearTarifa', [AdminController::class, 'crear_tarifa'])->name('crear_tarifa');
+Route::get('/BuscarDes', [AdminController::class, 'buscardestino'])->name('buscardestino');
+Route::get('/BuscarDesMulti', [AdminController::class, 'buscardestino2'])->name('buscardestino2');
+Route::delete('/DeleteTarifa/{id}', [AdminController::class, 'delete_tarifa'])->name('delete-tarifa');
+
+// ---------------------------------------SOLICITUDES-------------------------------
+// rutas solicitudes
+// Route::view('/nuevaSolicitud', "admin.solicitudes")->name('admin.solicitudes');
+Route::get('/nuevaSolicitud', [AdminController::class, 'show_agregar_soli'])->name('admin.solicitudes.nueva-solicitud');
+Route::post('crearSolicitud', [AdminController::class, 'create_crear_soli'])->name('admin.crear-solicitud');
+Route::get('/solicitudes', [AdminController::class, 'listarsolicitudes'])->name('admin.solicitudes.index');
+Route::get('/BuscarDesSoli', [AdminController::class, 'buscardestino3'])->name('buscardestino3');

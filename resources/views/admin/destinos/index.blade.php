@@ -115,7 +115,7 @@
                     <button  type="submit" class="btn btn-danger me-1 waves-effect waves-float waves-light">Agregar</button>
             
                     </div>
-                    {{-- </form> --}}
+                    </form>
               </div>
             </div>
         </div>
@@ -124,27 +124,20 @@
          <!-- Basic Tables start -->
     <div class="row" id="basic-table">
         <div class="col-12">
-            <div class="card">
-                
-                <div class="card-body">
-                    {{-- <p class="card-text">
-                        Using the most basic table Leanne Grahamup, here’s how <code>.table</code>-based tables look in Bootstrap. You
-                        can use any example of below table for your table and it can be use with any type of bootstrap tables.
-                    </p> --}}
-                </div>
+            <div class="card p-1">
                 <div class="table-responsive">
-                    <table class="table" id="destinos">
+                    <table class="table table-sm" id="destinos">
                         <thead>
                             <tr>
                                 {{-- <th>ID</th> --}}
                                 <th>NOMBRES</th>
                                 <th>REFERENCIA</th>
-                                <th>DEPARTAMENTO</th>
-                                <th>PROVINCIA</th>
-                                <th>DISTRITO</th>
+                                <th>DEP.</th>
+                                <th>PROV.</th>
+                                <th>DIS.</th>
                                 <th>DIRECCION</th>
                                 <th>ESTADO</th>
-                                <th>FECHA CREACIÓN</th>
+                                <th>FECHA</th>
                                 <th>ACCIONES</th>
                             </tr>
                         </thead>
@@ -156,7 +149,7 @@
                                 <td>{{$doc->nombre_dep}}</td>
                                 <td>{{$doc->nombre_prov}} </td>
                                 <td>{{$doc->nombre_dis}}</td>
-                                <td>{{$doc->direccion_des}}</td>
+                                <td style="font-size: 11px">{{$doc->direccion_des}}</td>
                                 <td>
                                     @if ($doc->estado_des==1)
                                     <span class="badge badge-light-success">Activo</span>
@@ -168,13 +161,13 @@
                                 <td>{{$doc->created_at}}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#view{{$doc->id}}">
-                                            <i data-feather='eye'></i></a>
-                                        {{-- <a type="button" class="btn btn-dark btn-sm" href="{{route('admin.vehiculos.edit-vehiculo',$doc->id)}}"><i data-feather='edit'></i></a>
-                                        <a type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eli{{$doc->id}}"><i data-feather='trash-2'></i></a> --}}
+                                        {{-- <a type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#view{{$doc->id}}">
+                                            <i data-feather='eye'></i></a> --}}
+                                        {{-- <a type="button" class="btn btn-dark btn-sm" href="{{route('admin.vehiculos.edit-vehiculo',$doc->id)}}"><i data-feather='edit'></i></a> --}}
+                                        <a type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eli{{$doc->id}}"><i data-feather='trash-2'></i>X</a>
                                     </div>
                             </tr>
-                            {{-- @include('admin.modals.modaldetcli') --}}
+                            @include('admin.modals.modalelides')
                             @endforeach
                         </tbody>
                     </table>

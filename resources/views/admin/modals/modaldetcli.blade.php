@@ -54,6 +54,7 @@
                 <div class="mb-1">
                     <label class="form-label" for="company-column">Tipo de Servicio</label>
                     <br>
+                    {{-- {{$doc->tipo_servicio}} --}}
                     @if ($doc->tipo_servicio==1)
                     <strong>GORRINOS</strong>
                     @elseif($doc->tipo_servicio==2)

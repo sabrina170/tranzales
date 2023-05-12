@@ -187,16 +187,9 @@
          <!-- Basic Tables start -->
     <div class="row" id="basic-table">
         <div class="col-12">
-            <div class="card">
-                
-                <div class="card-body">
-                    {{-- <p class="card-text">
-                        Using the most basic table Leanne Grahamup, here’s how <code>.table</code>-based tables look in Bootstrap. You
-                        can use any example of below table for your table and it can be use with any type of bootstrap tables.
-                    </p> --}}
-                </div>
+            <div class="card p-1">
                 <div class="table-responsive">
-                    <table class="table" id="clientes">
+                    <table class="table table-sm" id="clientes">
                         <thead>
                             <tr>
                                 {{-- <th>ID</th> --}}
@@ -230,6 +223,7 @@
                                     @endif
                                 </td>
                                 <td>
+                                    {{-- {{$doc->tipo_servicio}} --}}
                                     @if ($doc->tipo_servicio==1)
                                         <strong>GORRINOS</strong>
                                     @elseif($doc->tipo_servicio==2)

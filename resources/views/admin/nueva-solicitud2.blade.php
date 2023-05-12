@@ -13,52 +13,41 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-xl-3 col-md-6 col-12">
+                                        <div class="col-md-4 col-12">
                                             <div class="mb-1">
                                                 <label class="form-label" for="basicInput">COD. SOLICITUD:</label>
                                                 <input type="text" class="form-control" id="codigo_solicitud" name="codigo_solicitud"
                                                  value="UID{{ date("mdHis");}}" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3 col-md-6 col-12">
+                                        <div class="col-md-4 col-12">
                                             <div class="mb-1">
                                                 <label class="form-label" for="helpInputTop">FECHA SOLITUD:</label>
                                                 <input type="date" class="form-control" name="fecha_solicitud" id="fecha_solicitud" required>
                                             </div>
                                         </div>
                                        
-                                        <div class="col-xl-3 col-md-6 col-12">
+                                        <div class="col-md-4 col-12">
                                             <div class="mb-1">
                                                 <label class="form-label" for="helperText">CLIENTE (GRANJA):</label>
-                                                <select class="select2 form-select" id="cliente" name="cliente">
+                                                <select class="select2 form-select" id="cliente">
                                                     {{-- @if (isset($clientes)) --}}
                                                         @foreach ($clientes as $doc)
-                                                        <option value="{{$doc->nombre}}-{{$doc->distrito}}-{{$doc->provincia}}-{{$doc->departamento}}"> {{$doc->nombre}}-{{$doc->distrito}}-{{$doc->provincia}}-{{$doc->departamento}}</option>
-                                                       
+                                                        <option value="{{$doc->id}}">{{$doc->nombre}}-{{$doc->referencia}}</option>
                                                         @endforeach
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3 col-md-6 col-12 mb-1 mb-md-0">
+                                        <div class="col-md-4 col-12">
                                             <label class="form-label" for="disabledInput">FECHA DE TRASLADO:</label>
                                             <input type="date" class="form-control" id="fecha_traslado" name="fecha_traslado" required>
                                         </div>
-                                        <div class="col-xl-4 col-md-6 col-12">
-                                            <div class="mb-1">
-                                                <label class="form-label" for="helperText">ORIGEN:</label>
-                                                <select class="select2 form-select" id="select2-basic2" name="origen">
-                                                    @foreach ($destinos as $doc)
-                                                    <option value="{{$doc->razon_social}}"> {{$doc->razon_social}}</option>
-                                                   
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-4 col-md-6 col-12 mb-1 mb-md-0">
+                                        
+                                        <div class="col-md-4 col-12">
                                             <label class="form-label" for="disabledInput">HORA EN GRANJA:</label>
                                             <input type="time" class="form-control" name="hora" id="hora" required>
                                         </div>
-                                        <div class="col-xl-4 col-md-6 col-12">
+                                        <div class="col-md-4 col-12">
                                             <div class="mb-1">
                                                 <label class="form-label" for="disabledInput">CANT. TOTAL</label>
                                                 <input type="number" class="form-control" name="cantidad" id="cantidad" value="0" readonly>
@@ -95,10 +84,10 @@
                                                             <td>
                                                                 <div class="row">
                                                                     <div class="col-md-12">
-                                                                        <select class="form-select" name="datos_destinos[]" ng-model="row.destinos" required>
-                                                                            @foreach ($destinos as $doc2)
-                                                                            <option value="{{$doc2->razon_social}}"> {{$doc2->razon_social}}</option>
-                                                                            @endforeach
+                                                                        <select class="form-select" name="datos_destinos[]" id="destino" ng-model="row.destinos" required>
+                                                                            {{-- @foreach ($destinos as $doc2)
+                                                                            <option value="{{$doc2->id}}"> {{$doc2->empresa}}</option>
+                                                                            @endforeach --}}
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -147,22 +136,23 @@
 
 <script>
 
-    $(document).ready(function() {
-    $('.js-example-basic-single').select2();
-});
+//     $(document).ready(function() {
+//     $('.js-example-basic-single').select2();
+// });
 //Función que realiza la suma
-function Suma() {
-    var sum = 0;
-$('.price2').each(function() {
-    sum += Number($(this).val());
-});
-console.log(sum);
-$('#cantidad').val(sum);
+    function Suma() {
+        var sum = 0;
+    $('.price2').each(function() {
+        sum += Number($(this).val());
+    });
+    console.log(sum);
+    $('#cantidad').val(sum);
 
-}
+    }
 </script>
 <script>
-
+            
+        
     var app = angular.module("NewRows",[]);
     app.controller("Table",['$scope',function($scope){
       //
@@ -217,5 +207,23 @@ $('#cantidad').val(sum);
         }
       });
   });
+        </script>
+        <script>
+            $('#cliente').on('change', function(){
+                var id = $(this).val();
+                alert(id);
+                console.log(id);
+                    // $.ajax({
+                    // url:'{{ route('buscardestino') }}',
+                    // type:'GET',
+                    // data:{'id':id},
+                    // dataType:'json',
+                    // success:function (data) {
+                    //     // $('#product_list').html(data);
+                    //     $('#destino').html(data.table_data);
+                    //     // alert(data.table_data);
+                    // }
+                // })
+            });
         </script>
     

@@ -7,6 +7,7 @@ use App\Models\Cliente;
 use App\Models\Destino;
 use App\Models\Ruta;
 use App\Models\Solicitude;
+use App\Models\Tarifa;
 use App\Models\User;
 use App\Models\Vehiculo;
 use GuzzleHttp\Client;
@@ -31,7 +32,7 @@ class AdminController extends Controller
         $clientes = DB::table('clientes')->get();
         $destinos = DB::table('destinos')->get();
 
-        return view('admin.nueva-solicitud', compact('clientes', 'destinos'));
+        return view('admin.solicitudes.nueva-solicitud', compact('clientes', 'destinos'));
     }
 
     public function create_crear_soli(Request $request)
@@ -213,6 +214,7 @@ class AdminController extends Controller
         $departamentos = DB::table('departamentos')->get();
 
         $destinos = Destino::select(
+            "destinos.id",
             "cliente",
             "empresa",
             "destinos.referencia",
@@ -255,12 +257,30 @@ class AdminController extends Controller
         // dd($request);
         // return $nombre;
     }
+    public function delete_destino(Destino $id)
+    {
+        // dd($id);
+        $id->delete();
+
+        return redirect()->route('admin.destinos.index');
+        // dd($vehiculo);
+    }
+
+    public function delete_ruta(Ruta $id)
+    {
+        // dd($id);
+        $id->delete();
+
+        return redirect()->route('admin.rutas.index');
+        // dd($vehiculo);
+    }
 
     //---------------- CLIENTES--------------------------------------
     public function show_listado_clientes()
     {
         // $clientes = DB::table('clientes')->orderBy('id', 'desc')->get();
         $clientes = Cliente::select(
+            "clientes.id",
             "nombre",
             "referencia",
             "contactos",
@@ -497,15 +517,13 @@ class AdminController extends Controller
     public function buscardestino(Request $request)
     {
         if ($request->ajax()) {
-            $output = '<option value="0">Seleccione un destino</option>';
+            $output = '<option value="">Seleccione un destino</option>';
             $id = $request->get('id');
             if ($id != '') {
                 $data = DB::table('destinos')
                     ->where('cliente', $id)
                     ->get();
             }
-
-            //dd($data);
             $total_row = $data->count();
             if ($total_row > 0) {
                 foreach ($data as $dt) {
@@ -518,5 +536,124 @@ class AdminController extends Controller
             );
             echo json_encode($data);
         }
+    }
+
+    public function buscardestino2(Request $request)
+    {
+        if ($request->ajax()) {
+            $output = '<option disabled="" value="">Seleccione un destino</option>';
+            $id = $request->get('id');
+            if ($id != '') {
+                $data = DB::table('destinos')
+                    ->where('cliente', $id)
+                    ->get();
+            }
+
+            //dd($data);
+            $total_row = $data->count();
+            if ($total_row > 0) {
+                foreach ($data as $dt) {
+                    $output .= '<option value="' . $dt->id . '" data-select2-id="' . $dt->id . '">' . $dt->referencia . '</option>';
+                }
+            } else {
+                $output = '<option disabled="" value="0">Ningún destino</option>';
+            }
+            $data = array(
+                'table_data'  => $output,
+                'total_row'  => $total_row
+            );
+            echo json_encode($data);
+        }
+    }
+    public function buscardestino3(Request $request)
+    {
+        $destinos = DB::table('destinos')->get();
+
+        // return view('admin.solicitudes.nueva-solicitud', compact('clientes'));
+
+        if ($request->ajax()) {
+            $output = '<option value="">Seleccione un destino</option>';
+            $id = $request->get('id');
+            if ($id != '') {
+                $data = DB::table('destinos')
+                    ->where('cliente', $id)
+                    ->get();
+            }
+            $total_row = $data->count();
+            if ($total_row > 0) {
+                foreach ($data as $dt) {
+                    $output .= '<option value="' . $dt->id . '">' . $dt->empresa . '</option>';
+                }
+            }
+            $data = array(
+                'table_data'  => $output,
+                // 'total_data'  => $total_row
+            );
+            echo json_encode($destinos);
+        }
+    }
+    // ---------------------TARIFAS-------------------------
+
+    public function show_listado_tarifas()
+    {
+
+        $clientes = DB::table('clientes')->orderBy('id', 'desc')->get();
+        $destinos = DB::table('destinos')->orderBy('id', 'desc')->get();
+
+        $tarifas = Tarifa::select(
+            "tarifas.id",
+            "clientes.nombre as nombre_cli",
+            "clientes.referencia as refe_cli",
+            "destinos",
+            "base",
+            "igv",
+            "total",
+            "tarifas.created_at",
+        )
+            ->join("clientes", "clientes.id", "=", "tarifas.id_cliente")
+            ->orderBy('id', 'desc')
+            ->get();
+
+
+        return view('admin.tarifas.index', compact('tarifas', 'clientes', 'destinos'));
+    }
+
+    public function crear_tarifa(Request $request)
+    {
+        // transformar array en json 
+        $datos_destinos = $request->get('datos_destinos');
+
+        $datos = array();
+        for ($i = 0; $i < count($datos_destinos); $i++) {
+            $datos[$i] = array(
+                'id' => $i,
+                'destino' => $datos_destinos[$i]
+            );
+        }
+
+        // echo var_dump($datos);
+
+        $data = [
+            'id_cliente' => $request->get('cliente'),
+            'destinos' => json_encode($datos, true),
+            'base' => $request->get('base'),
+            'igv' => $request->get('igv'),
+            'total' => $request->get('total')
+        ];
+
+        $soli = Tarifa::create($data);
+        return redirect()->route('admin.tarifas.index');
+
+        // dd($request);
+        // return $nombre;
+    }
+
+    public function delete_tarifa(Tarifa $id)
+    {
+        // dd($id);
+        $id->delete();
+
+        return redirect()->route('admin.tarifas.index');
+        // dd($vehiculo);
     }
 }
