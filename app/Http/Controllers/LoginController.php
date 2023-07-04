@@ -66,12 +66,15 @@ class LoginController extends Controller
             $id_user = Auth::user()->id;
 
             if (Auth::user()->hasRole('admin')) {
-                return redirect()->route('admin.index');
+                return redirect()->route('admin.solicitudes.index');
             } else if (Auth::user()->hasRole('operario')) {
-                return redirect()->route('admin.index');
+                return redirect()->route('admin.solicitudes.index');
             } else if (Auth::user()->hasRole('gerente')) {
-                return redirect()->route('admin.index');
+                return redirect()->route('admin.solicitudes.index');
+            } else {
+                return redirect()->route('admin.solicitudes.index');
             }
+
 
 
             // else if ($estado == 2) {

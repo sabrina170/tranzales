@@ -64,7 +64,7 @@
         <div class="navbar-header expanded">
             <ul class="nav navbar-nav flex-row">
                 <li class="nav-item me-auto">
-                    <a class="navbar-brand" href="{{route('admin.index')}}"><span class="brand-logo">
+                    <a class="navbar-brand" href="{{route('admin.solicitudes.index')}}"><span class="brand-logo">
                             
                         <h6 class="text-danger">Transporte 
                             <br> GONZALES</h6>
@@ -152,7 +152,7 @@
                     <span class="menu-title text-truncate" data-i18n="Dashboards">REPORTE  OPERACIÓN</span>
                     <span class="badge badge-light-success rounded-pill ms-auto me-1">2</span></a>
                     <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="{{route('admin.index')}}">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.solicitudes.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">ORDEN DE SERVICIO</span></a>
                         </li>
                         <li><a class="d-flex align-items-center" href="">
@@ -165,7 +165,7 @@
                     <span class="menu-title text-truncate" data-i18n="Dashboards">REPORTES  GRÁFICOS</span>
                     <span class="badge badge-light-success rounded-pill ms-auto me-1">2</span></a>
                     <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="{{route('admin.index')}}">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.solicitudes.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">
                                 GRÁFICA DE COSTOS DE COMBUSTIBLE</span></a>
                         </li>

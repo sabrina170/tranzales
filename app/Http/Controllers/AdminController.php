@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chofere;
 use App\Models\Cliente;
 use App\Models\Destino;
+use App\Models\planificacione;
 use App\Models\Ruta;
 use App\Models\Solicitude;
 use App\Models\Tarifa;
@@ -22,40 +23,102 @@ class AdminController extends Controller
     public function listarsolicitudes()
     {
         $solicitudes = DB::table('solicitudes')->orderBy('id', 'desc')->get();
+        $vehiculos = DB::table('vehiculos')->orderBy('id', 'desc')->get();
+        $choferes = DB::table('choferes')->orderBy('id', 'desc')->get();
 
-        return view('admin.index', compact('solicitudes'));
+        return view('admin.solicitudes.index', compact('solicitudes', 'vehiculos', 'choferes'));
     }
 
     public function show_agregar_soli()
     {
 
         $clientes = DB::table('clientes')->get();
-        $destinos = DB::table('destinos')->get();
+        // $destinos = DB::table('destinos')->get();
 
-        return view('admin.solicitudes.nueva-solicitud', compact('clientes', 'destinos'));
+        return view('admin.solicitudes.nueva-solicitud', compact('clientes'));
     }
 
     public function create_crear_soli(Request $request)
     {
+        // $datos_cantidad = $request->get('datos_cantidad1');
+        // for ($i = 0; $i < count($datos_cantidad); $i++) {
+        // }
 
+        $datos_estructura = array(
+            'cant1' => $request->get('datos_cantidad1'),
+            'cant2' => $request->get('datos_cantidad2'),
+            'cant3' => $request->get('datos_cantidad3'),
+            'cant4' => $request->get('datos_cantidad4'),
+            'sub' => $request->get('subtotal'),
+        );
         $data = [
             'codigo_solicitud' => $request->get('codigo_solicitud'),
             'fecha_solicitud' => $request->get('fecha_solicitud'),
-            'cliente' => $request->get('cliente'),
+            'cliente' => $request->get('idcliente'),
             'fecha_traslado' => $request->get('fecha_traslado'),
-            'origen' => $request->get('origen'),
+            // 'origen' => $request->get('origen'),
             'hora' => $request->get('hora'),
             'cantidad' => $request->get('cantidad'),
             'datos_destinos' => json_encode($request->get('datos_destinos')),
-
-            'datos_cantidad' => json_encode($request->get('datos_cantidad')),
+            'datos_cantidad' => json_encode($datos_estructura),
             'observaciones' => $request->get('observaciones'),
-            'estado' => 1
+            'estado' => 1,
+            'costo' => $request->get('costo-soli'),
+            'id_plani' => 0,
+            'id_cierre' => 0
         ];
 
         // dd($data);
         $soli = Solicitude::create($data);
-        return redirect()->route('admin.index');
+        return redirect()->route('admin.solicitudes.index');
+    }
+
+    public function BuscarCosto(Request $request)
+    {
+        $idcliente = $request->get('idcliente');
+        // echo $idcliente;
+        $datos_destinos = $request->get('costo_des');
+        $datos_tarifa  = DB::table('tarifas')->where('id_cliente', $idcliente)->get();
+
+        $filas  = mysqli_num_rows($datos_tarifa);
+        if ($filas == 0) {
+            $mensaje = 1;
+        } else {
+            foreach ($datos_tarifa as $tar) {
+
+                $arr1 = array(json_decode($tar->destinos));
+                $arr2 = array($datos_destinos);
+
+                // Sort the array elements
+                sort($arr1);
+                sort($arr2);
+
+                // Check for equality
+                if ($arr1 == $arr2) {
+                    echo $tar->total;
+                } else {
+                    $mensaje = 1;
+                }
+            }
+        }
+        echo  $mensaje;
+
+
+
+
+
+
+
+
+
+
+        // for ($i = 0; $i < count($datos_destinos); $i++) {
+        //     echo $datos_destinos[$i];
+        // $datos[$i] = array(
+        //     'id' => $i,
+        //     'destino' => $datos_destinos[$i]
+        // );
+        // }
     }
     // ----------------------Vehiculos------------------------------
     public function show_listado_vehiculos()
@@ -567,7 +630,7 @@ class AdminController extends Controller
     }
     public function buscardestino3(Request $request)
     {
-        $destinos = DB::table('destinos')->get();
+        $destinos = DB::table('destinos')->where('cliente', $request->id)->get();
 
         // return view('admin.solicitudes.nueva-solicitud', compact('clientes'));
 
@@ -591,6 +654,16 @@ class AdminController extends Controller
             );
             echo json_encode($destinos);
         }
+    }
+
+    public function buscarclientexdestino(Request $request)
+    {
+        $clientes = DB::table('clientes')->get();
+        $destinos = DB::table('destinos')->where('cliente', $request->cliente)->get();
+        $id_cli = $request->cliente;
+        // return view('admin.solicitudes.nueva-solicitud', compact('clientes'));
+        return view('admin.solicitudes.nueva-solicitud', compact('clientes', 'destinos', 'id_cli'));
+        // dd($destinos);
     }
     // ---------------------TARIFAS-------------------------
 
@@ -623,19 +696,19 @@ class AdminController extends Controller
         // transformar array en json 
         $datos_destinos = $request->get('datos_destinos');
 
-        $datos = array();
-        for ($i = 0; $i < count($datos_destinos); $i++) {
-            $datos[$i] = array(
-                'id' => $i,
-                'destino' => $datos_destinos[$i]
-            );
-        }
+        // $datos = array();
+        // for ($i = 0; $i < count($datos_destinos); $i++) {
+        //     $datos[$i] = array(
+        //         'id' => $i,
+        //         'destino' => $datos_destinos[$i]
+        //     );
+        // }
 
-        // echo var_dump($datos);
+        // echo var_dump($datos_destinos);
 
         $data = [
             'id_cliente' => $request->get('cliente'),
-            'destinos' => json_encode($datos, true),
+            'destinos' => json_encode($datos_destinos, true),
             'base' => $request->get('base'),
             'igv' => $request->get('igv'),
             'total' => $request->get('total')
@@ -655,5 +728,62 @@ class AdminController extends Controller
 
         return redirect()->route('admin.tarifas.index');
         // dd($vehiculo);
+    }
+
+    public function buscarunidad(Request $request)
+    {
+        if ($request->ajax()) {
+            $id = $request->get('id');
+            if ($id != '') {
+                $data = DB::table('vehiculos')
+                    ->where('id', $id)
+                    ->get();
+            }
+            $total_row = $data->count();
+            if ($total_row > 0) {
+                foreach ($data as $dt) {
+                    $output = $dt->marca . ' - ' . $dt->placa;
+                }
+            }
+            echo json_encode($output);
+        }
+    }
+
+    public function buscarchofer(Request $request)
+    {
+        if ($request->ajax()) {
+            $id = $request->get('id');
+            if ($id != '') {
+                $data = DB::table('choferes')
+                    ->where('id', $id)
+                    ->get();
+            }
+            $total_row = $data->count();
+            if ($total_row > 0) {
+                foreach ($data as $dt) {
+                    $output = $dt->nombres_cho . ' ' . $dt->apellidos_cho;
+                }
+            }
+            echo json_encode($output);
+        }
+    }
+
+    public function crear_plani(Request $request)
+    {
+        $id_soli = $request->get('id_soli');
+
+        $data = [
+            'id_unidad' => $request->get('unidad'),
+            'id_chofer'  => $request->get('chofer'),
+            'choferes'  => $request->get('ayudantes'),
+            'id_soli' => $id_soli,
+            'observaciones' => $request->get('observaciones')
+        ];
+        // dd($data);
+        $soli = planificacione::create($data);
+        $mensaje = "Usuario creado exitosamente";
+
+
+        return redirect()->route('admin.index')->with(['data' => $mensaje]);
     }
 }

@@ -3,6 +3,7 @@
 <!-- MENU -->
 @section('content')
 
+
 <div class="content-header row">
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
@@ -18,8 +19,25 @@
         </div>
     </div>
 {{-- crea soli --}}
-        <div class="card">
-                <form  action="{{route('crearcliente')}}" method="post">
+<form action="{{route('buscarclientexdestino')}}" method="get">
+    @csrf
+  Buscar sus Destino por Cliente - Origen
+  <div class="row">
+    <div class="col-md-4 col-12">
+        <select  class="form-select info-ob" id="cliente" name="cliente"  @selected(old('cliente'))>
+            <option value="0">Seleccione un cliente</option>
+                @foreach ($clientes as $cli)
+
+                <option value="{{$cli->id}}">{{$cli->nombre}}- <strong>{{$cli->referencia}}</strong></option>
+                @endforeach
+        </select>
+    </div>
+    <div class="col-md-4 col-12">
+        <input type="submit" name="search" id="search" value="Buscar" class="btn btn-primary">
+    </div>
+    </form>
+        <div class="card mt-2">
+                <form  action="{{route('admin.crear-solicitud')}}" method="post">
                     @csrf
                 <div class="card-body">
                         <div class="row">
@@ -33,12 +51,18 @@
                             <div class="col-md-4 col-12">
                                 <div class="mb-1">
                                     <label class="form-label" for="helpInputTop">FECHA SOLITUD:</label>
-                                    <input type="date" class="form-control" name="fecha_solicitud" id="fecha_solicitud" required>
+                                    <input type="date" class="form-control" name="fecha_solicitud" id="fecha_solicitud" >
                                 </div>
                             </div>
-                            <div class="col-md-4 col-12">
+                            @if (isset($id_cli))
+                            <input type="hidden" id="idcliente" name="idcliente" value="{{$id_cli}}">
+
+                            @else
+                                
+                            @endif
+                            {{-- <div class="col-md-4 col-12">
                                 <div class="mb-1">
-                                    <label class="form-label" for="last-name-column">Departamento</label>
+                                    <label class="form-label" for="last-name-column">Cliente - ORIGEN</label>
                                     <select  class="form-select info-ob" id="cliente" name="cliente"  @selected(old('cliente'))>
 
                                         <option value="0">Seleccione un cliente</option>
@@ -47,15 +71,16 @@
                                             @endforeach
                                         </select>
                                 </div>
-                            </div>
+                            </div> --}}
+                            
                             <div class="col-md-3 col-12">
                                 <label class="form-label" for="disabledInput">FECHA DE TRASLADO:</label>
-                                <input type="date" class="form-control" id="fecha_traslado" name="fecha_traslado" required>
+                                <input type="date" class="form-control" id="fecha_traslado" name="fecha_traslado">
                             </div>
                             
                             <div class="col-md-3 col-12">
                                 <label class="form-label" for="disabledInput">HORA EN GRANJA:</label>
-                                <input type="time" class="form-control" name="hora" id="hora" required>
+                                <input type="time" class="form-control" name="hora" id="hora">
                             </div>
                             <div class="col-md-3 col-12">
                                 <div class="mb-1">
@@ -63,74 +88,88 @@
                                     <input type="number" class="form-control" name="cantidad" id="cantidad" value="0" readonly>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-12">
+                            {{-- <div class="col-md-3 col-12">
                                 <div class="mb-1">
                                     <label class="form-label" for="disabledInput">Precio TOTAL</label>
                                     <input type="number" class="form-control" name="precio_total" id="precio_total" value="0" readonly>
                                 </div>
-                            </div>
+
+                            </div> --}}
                             <div class="col-md-12 col-12">
                                 <div class="mb-1">
-                                    <label class="form-label" for="company-column">Contactos</label>
+                                    
                                     {{-- inicio table --}}
                                     <div ng-app="NewRows">
                                         <div ng-controller="Table">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered">
-                                                <thead>
+                                                <table id="ejemplosuma" class="table table-bordered">
+                                                <thead class="text-center">
                                                     <tr>
                                                     <th></th>
-                                                    <th>Datos Origen</th>
+                                                    <th> Destinos</th>
                                                     <th></th>
-                                                    <th scope="3">Cantidad</th>
+                                                    <th>Cantidades</th>
                                                     <th></th>
                                                     <th></th>
+                                                    <th>Subtotal</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr class="trat" ng-repeat="row in rows">
                                                         <td align="center"><input type="checkbox" ng-model="row.delete"></td>
-                                                        <td>
+                                                        <td style="width: 20%">
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    <select  name="destino" class="form-select info-ob" data-type="select" data-msj="Seleccione un distrito" 
-                                                                    required>
+                                                                    <select id="datos_destinos" name="datos_destinos[]"
+                                                                     class="destinos_ar form-select info-ob"
+                                                                     data-type="select"
+                                                                     >
+                                                                  
+                                                                    @if (isset($destinos))
                                                                     @foreach ($destinos as $des)
                                                                     <option value="{{$des->id}}">{{$des->referencia}}</strong></option>
                                                                     @endforeach
+                                                                    @else
+                                                                        <option value="">Selecciona</option>
+                                                                    @endif
                                                                        </select> 
                                                                 </div>
-
-                                                                <?php
-                                                                    $datos = "<script>datos</script>";
-                                                                    echo $datos;
-                                                                    ?>
-                                                            </div>
-                                                        </td>
-                                                       
-                                                        <td>
-                                                            <div class="col-md-12">
-                                                                <input class="price2 form-control" type="number" ng-model="row.cantidad1" 
-                                                                name="datos_cantidad1[]"  onKeyUp="Suma()" placeholder="20" value="0" required>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="col-md-12">
-                                                                <input class="price2 form-control" type="number" ng-model="row.cantidad2" 
-                                                                name="datos_cantidad2[]"  onKeyUp="Suma()" placeholder="20" value="0" required>
+                                                                <input class="price2 cantidad1 form-control" type="number"
+                                                                 ng-model="row.cantidad1" id="cantidad1"
+                                                                name="datos_cantidad1[]" oninput="multiplicar(event)"
+                                                                 onKeyUp="Suma()" placeholder="20" value="0">
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="col-md-12">
-                                                                <input class="price2 form-control" type="number" ng-model="row.cantidad3" 
-                                                                name="datos_cantidad3[]"  onKeyUp="Suma()" placeholder="20" value="0" required>
+                                                                <input class="price2 cantidad2 form-control" type="number" ng-model="row.cantidad2" 
+                                                                name="datos_cantidad2[]" oninput="multiplicar(event)" 
+                                                                 onKeyUp="Suma()" placeholder="20" value="0">
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="col-md-12">
-                                                                <input class="price2 form-control" type="number" ng-model="row.cantidad4" 
-                                                                name="datos_cantidad4[]"  onKeyUp="Suma()" placeholder="20" value="0" required>
+                                                                <input class="price2 cantidad3 form-control" type="number" ng-model="row.cantidad3" 
+                                                                name="datos_cantidad3[]" oninput="multiplicar(event)" 
+                                                                onKeyUp="Suma()" placeholder="20" value="0">
                                                             </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-md-12">
+                                                                <input class="price2 cantidad4 form-control" type="number" ng-model="row.cantidad4" 
+                                                                name="datos_cantidad4[]" oninput="multiplicar(event)"
+                                                                 onKeyUp="Suma()" placeholder="20" value="0" >
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-md-12">
+                                                                <input class="subtotal form-control" 
+                                                                 type="number" name="subtotal[]" value="0"
+                                                                readonly> </div>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -144,13 +183,51 @@
                                     {{-- fin de tabla --}}
                                 </div>
                             </div>
-
+                    <div class="col-md-6 col-4">
+                        <div class="mb-1">
+                            <label class="form-label" for="exampleFormControlTextarea1">Observaciones</label>
+                            <textarea class="form-control" name="observaciones" rows="3" placeholder="Observaciones"></textarea>
+                        </div>
+                    </div>
                         </div>
                 </div>
-                <div class="card-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button id="add-receta" type="submit" class="btn btn-danger me-1 waves-effect waves-float waves-light">Agregar</button>
+                <!-- medium modal -->
+   
+                <div class="modal fade" id="smallModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle"  aria-modal="true" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Fin de Solicitud</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row text-center">
+                                    <label class="form-label" for="basicInput">Costo de esta Solicitud</label>
+                                            <div id="texto" class="text-danger" style="display:none;"></div>
+                                    <div class="col-xl-4 col-md-6 col-12">
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-12">
+                                        <div class="mb-1">
+                                            
+                                            <input type="number" name="costo-soli" class="form-control"
+                                             id="costo-soli" placeholder="165.00" readonly>
+                                            {{-- <input type="number" name="id-cliente" class="form-control" id="id-cliente"> --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-success">Agregar</button>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- medium modal -->
                 
+                <div class="card-footer">
+                        <button id="smallButton" class="btn btn-danger me-1 waves-effect waves-float waves-light">Validar</button>
                 </div>
                 </form>
         
@@ -161,12 +238,167 @@
 @section('js')
 
 <script>
+
+   
+ // display a modal (small modal)
+//  $(document).on('click', '#smallButton', function(event) {
+        $('#smallButton').on('click', function(e){
+                
+                if ($("#datos_destinos option:selected").val() == "") {
+                    Swal.fire({ icon: 'error', title: 'Selecciona un Cliente para seleccionar los destinos',})
+                return false; 
+                } else if ($("#fecha_solicitud").val() == "") {
+                    Swal.fire({ icon: 'error', title: 'Poner una Fecha de Solicitud',})
+                return false;
+                }else  if ($("#fecha_traslado").val() == "") {
+                    Swal.fire({ icon: 'error', title: 'Poner una Fecha de Traslado',})
+                return false; 
+                } else  if ($("#hora").val() == "") {
+                    Swal.fire({ icon: 'error', title: 'Poner una Hora',})
+                return false; 
+                }else  if ($("#cantidad1").val() == "") {
+                    Swal.fire({ icon: 'error', title: 'Ingresa una cantidad',})
+                return false; 
+                }
+            else{
+
+            e.preventDefault();
+            let href = $(this).attr('data-attr');
+            var idcliente =  $("#idcliente").val();
+            var lista = new Array();
+            $('.destinos_ar').each(function() {
+            var valor_input = $(this).val();
+                    lista.push(valor_input);
+            });
+
+        
+            $.ajax({
+                // url: href,
+                url:'{{ route('BuscarCosto') }}',
+                    type:'GET',
+                    data:{
+                        'idcliente':idcliente,
+                        'costo_des':lista
+                    },
+                    dataType:'json',
+                beforeSend: function() {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function(data) {
+                    $('#smallModal').modal("show");
+                    if (data==1) {
+                        // $('#texto').style.display = '';
+                        $('#texto').css({ 'display': ''});
+                        $('#texto').html("Estos destinos no tienen un costo definido, porfavor agregarlo");
+                        // $('#costo-soli').val(data);
+                        $('#costo-soli').removeAttr("readonly");
+                        $('#costo-soli').val(0);
+                    }else{
+                        $('#costo-soli').val(data);
+                        $('#texto').css({ 'display': 'none'});
+                        $('#costo-soli').attr("readonly","readonly");
+                    }
+                    console.log(data);
+                    return false;
+                },
+                
+                timeout: 9000
+            })
+        } 
+        });
+
+        $('#smallButton2').on('click', function(e){
+           
+            // var codigo_solicitud =  $("#codigo_solicitud").val();
+            // var fecha_solicitud =  $("#fecha_solicitud").val();
+            // var idcliente =  $("#idcliente").val();
+            // var fecha_traslado =  $("#fecha_traslado").val();
+            // var hora =  $("#hora").val();
+            // var cantidad =  $("#cantidad").val();
+            // var observaciones =  $("#observaciones").val();
+            // console.log(codigo_solicitud);
+
+            var Tratamiento = {};
+            $('.trat').each(function() {
+
+                let tratamiento_temporal = {};
+
+                let id_destino = $(this).find('.destinos_ar option:selected').val();
+                let cantidad1 = $(this).find('.cantidad1').val();
+                let cantidad2 = $(this).find('.cantidad2').val();
+                let cantidad3 = $(this).find('.cantidad3').val();
+                let cantidad4 = $(this).find('.cantidad4').val();
+                let subtotal = $(this).find('.subtotal').val();
+
+
+                tratamiento_temporal["id"] = id_destino;
+                tratamiento_temporal["cant1"] = cantidad1;
+                tratamiento_temporal["cant2"] = cantidad2;
+                tratamiento_temporal["cant3"] = cantidad3;
+                tratamiento_temporal["cant4"] = cantidad4;
+                tratamiento_temporal["subtotal"] = subtotal;
+
+                Tratamiento[id_destino] = tratamiento_temporal;
+                });
+
+                var tratamiento_final = JSON.stringify(Tratamiento);
+
+            console.log(tratamiento_final);
+
+            // mandar
+            // $.ajax({
+            //     // url: href,
+            //     url:'{{ route('admin.crear-solicitud') }}',
+            //         type:'POST',
+            //         data:{
+            //             'codigo_solicitud':codigo_solicitud,
+            //             'fecha_solicitud':fecha_solicitud,
+            //             'idcliente':idcliente,
+            //             'fecha_traslado':fecha_traslado,
+            //             'hora':hora,
+            //             'cantidad':cantidad,
+            //             'observaciones':observaciones,
+            //             'datos_destinos':tratamiento_final
+            //         },
+            //         dataType:'json',
+            //     beforeSend: function() {
+            //         $('#loader').show();
+            //     },
+            //     // return the result
+            //     success: function(data) {
+            //         if (data==1) {
+            //         }else{
+                        
+            //         }
+            //         console.log(data);
+            //         return false;
+            //     },
+            //     timeout: 9000
+            // })
+        });
+
+    function multiplicar(e) {
+        // Obtener LI padre desde el evento
+        var li = $(e.target).closest('tr');
+        // Obtener texto de precio, separando por 'Precio:'
+         cant1 = Number($(li).find('[name^="datos_cantidad1"]').val());
+         cant2 = Number($(li).find('[name^="datos_cantidad2"]').val());
+         cant3 = Number($(li).find('[name^="datos_cantidad3"]').val());
+         cant4 = Number($(li).find('[name^="datos_cantidad4"]').val());
+
+        // // Multiplicar y asignar
+         suma = cant1 + cant2 + cant3 + cant4;
+        $(li).find('[name^="subtotal"]').val(suma);
+        
+    }
+    
      function Suma() {
         var sum = 0;
     $('.price2').each(function() {
         sum += Number($(this).val());
     });
-    console.log(sum);
+    // console.log(sum);
     $('#cantidad').val(sum);
 
     }
@@ -178,8 +410,11 @@
       $scope.rows = [
          {
          delete:false,
-         names:'',
-         last_names:''
+         cantidad1:'0',
+         cantidad2:'0',
+         cantidad3:'0',
+         cantidad4:'0',
+         subtotal:'0'
          }
        ];
       /**
@@ -188,8 +423,11 @@
       $scope.AddRow = function(){
         $scope.rows.push({
           delete:false,
-          names:'',
-          last_names:''
+          cantidad1:'0',
+         cantidad2:'0',
+         cantidad3:'0',
+         cantidad4:'0',
+         subtotal:'0'
         })
       };
       /**
@@ -213,24 +451,9 @@
     }]);
 </script>
 <script>
-           $('#cliente').on('change', function(){
-                var id = $(this).val();
-                // alert(id);
-                    $.ajax({
-                    url:'{{ route('buscardestino3') }}',
-                    type:'GET',
-                    data:{'id':id},
-                    dataType:'json',
-                    success:function (data) {
-                        // $('#product_list').html(data);
-                        // console.log(data);
-                        var datos = data;
-                        // $('#destino').html(data.table_data);
-                        // alert(data.table_data);
-                    }
-                })
-            });
+          
 </script>
+
   <script>
     var idioma=
 

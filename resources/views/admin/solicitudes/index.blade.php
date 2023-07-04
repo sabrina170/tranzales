@@ -19,12 +19,15 @@
             </div>
         </div>
     </div>
+    {{-- --}}
     <div class="content-header-left text-md-end col-md-3 col-12 d-md-block d-none">
         <div class="mb-1 breadcrumb-left">
             <a href="{{route('admin.solicitudes.nueva-solicitud')}}" type="button" class="btn btn-danger waves-effect waves-float waves-light">Agregar +</a>
         </div>
     </div>
 </div>
+
+
 <div class="content-body">
     <!-- Basic Tables start -->
     <div class="row" id="basic-table">
@@ -38,7 +41,7 @@
                     </p> --}}
                 </div>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-sm">
                         <thead>
                             <tr>
                                 {{-- <th>ID</th> --}}
@@ -46,11 +49,13 @@
                                 <th>FECHA SOLICITUD</th>
                                 <th>CLIENTE</th>
                                 <th>FECHA TRASLADO</th>
-                                <th>ORIGEN</th>
                                 <th>HORA</th>
                                 <th>CANTIDAD</th>
+                                <th>COSTO</th>
                                 <th>ESTADO</th>
-                                <th>ACCIONES</th>
+                                <th>UNIDAD/CHOFER <br>/AYUDANTE</th>
+                                <th>Indidencia finales</th>
+                                {{-- <th>ACCIONES</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -60,17 +65,36 @@
                                 <td>{{$doc->fecha_solicitud}}</td>
                                 <td>{{$doc->cliente}}</td>
                                 <td>{{$doc->fecha_traslado}}</td>
-                                <td>{{$doc->origen}}</td>
+                                {{-- <td>{{$doc->origen}}</td> --}}
                                 <td>{{$doc->hora}}</td>
                                 <td>{{$doc->cantidad}}</td>
+                                <td>{{$doc->costo}}</td>
                                 <td>
                                     @if ($doc->estado==1)
                                     <span class="badge bg-warning">Pendiente</span>
                                     @else
                                     <span class="badge bg-success">Entregada</span>
                                     @endif</td>
-                                <td><i data-feather='edit'></i>Editar</td>
+                                    <td><button type="button" class="btn btn-outline-primary waves-effect"
+                                         data-bs-toggle="modal" data-bs-target="#crearmodal{{$doc->id}}">
+                                        Asignar
+                                    </button></td>
+                                    <td>
+                                        @if ($doc->estado==2) 
+                                        <button type="button" class="btn btn-outline-primary waves-effect"
+                                         data-bs-toggle="modal" data-bs-target="#exampleModalScrollable">
+                                            Asignar
+                                        </button>
+                                        @else
+                                        <button type="button" class="btn btn-outline-primary waves-effect" 
+                                        data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" disabled>
+                                            Asignar
+                                        </button>
+                                        @endif
+                                    </td>
+                                {{-- <td><i data-feather='edit'></i>Editar</td> --}}
                             </tr>
+                            @include('admin.modals.CrearPlani')
                             @endforeach
                         </tbody>
                     </table>
@@ -86,6 +110,7 @@
 @endsection
 
 @section('js')
+
   <script>
     var idioma=
 
@@ -153,6 +178,43 @@ $(document).ready( function () {
 
 } );
 
+$('#unidad').on('change', function(){
+       
+       var id = $(this).val();
+       // alert(id);
+       // alert(id);
+           $.ajax({
+           url:'{{ route('buscarunidad') }}',
+           type:'GET',
+           data:{'id':id},
+           dataType:'json',
+           success:function (data) {
+               console.log(data);
+               // $('#product_list').html(data);
+               $('#datos_unidad').val(data);
+               // alert(data.table_data);
+           }
+       })
+   });
+
+   $('#chofer').on('change', function(){
+
+var id = $(this).val();
+// alert(id);
+// alert(id);
+  $.ajax({
+  url:'{{ route('buscarchofer') }}',
+  type:'GET',
+  data:{'id':id},
+  dataType:'json',
+  success:function (data) {
+      console.log(data);
+      // $('#product_list').html(data);
+      $('#datos_chofer').val(data);
+      // alert(data.table_data);
+  }
+})
+});
 </script>
 @endsection
 

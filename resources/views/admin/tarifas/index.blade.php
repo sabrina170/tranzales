@@ -17,6 +17,7 @@
             </div>
         </div>
     </div>
+    
     <div class="content-header-left text-md-end col-md-3 col-12 d-md-block d-none">
         <div class="mb-1 breadcrumb-left">
             <a href="" type="button" class="dt-button add-new btn btn-danger"
@@ -118,7 +119,7 @@
                                     <div class="row">
                                         @foreach (json_decode($doc->destinos) as $item)
                                         @foreach ($destinos as $des)
-                                            @if ($des->id==$item->destino)
+                                            @if ($des->id==$item)
                                             <div class="col-3">
                                                 <span class="badge badge-light-primary">{{$des->referencia}}</span>
                                                 </div> 

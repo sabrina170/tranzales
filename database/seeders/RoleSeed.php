@@ -23,6 +23,6 @@ class RoleSeed extends Seeder
 
         //estudiante, admin son vistas
         // Permission::create(['name' => 'solicitud.index'])->assignRole($operario);
-        Permission::create(['name' => 'admin.index'])->assignRole($admin, $gerente, $operario);
+        Permission::create(['name' => 'admin.solicitudes.index'])->assignRole($admin, $gerente, $operario);
     }
 }

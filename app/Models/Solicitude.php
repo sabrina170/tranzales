@@ -21,6 +21,9 @@ class Solicitude extends Model
         'datos_destinos',
         'datos_cantidad',
         'observaciones',
-        'estado'
+        'estado',
+        'costo',
+        'id_plani',
+        'id_cierre'
     ];
 }
