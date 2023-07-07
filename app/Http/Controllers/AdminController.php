@@ -43,6 +43,12 @@ class AdminController extends Controller
         // $datos_cantidad = $request->get('datos_cantidad1');
         // for ($i = 0; $i < count($datos_cantidad); $i++) {
         // }
+        $obs = $request->get('observaciones');
+        if (empty($obs)) {
+            $observaciones = "";
+        } else {
+            $observaciones = $request->get('observaciones');
+        }
 
         $datos_estructura = array(
             'cant1' => $request->get('datos_cantidad1'),
@@ -61,7 +67,7 @@ class AdminController extends Controller
             'cantidad' => $request->get('cantidad'),
             'datos_destinos' => json_encode($request->get('datos_destinos')),
             'datos_cantidad' => json_encode($datos_estructura),
-            'observaciones' => $request->get('observaciones'),
+            'observaciones' =>  $observaciones,
             'estado' => 1,
             'costo' => $request->get('costo-soli'),
             'id_plani' => 0,
@@ -79,8 +85,8 @@ class AdminController extends Controller
         // echo $idcliente;
         $datos_destinos = $request->get('costo_des');
         $datos_tarifa  = DB::table('tarifas')->where('id_cliente', $idcliente)->get();
+        $filas =  $datos_tarifa->count();
 
-        $filas  = mysqli_num_rows($datos_tarifa);
         if ($filas == 0) {
             $mensaje = 1;
         } else {
@@ -95,30 +101,13 @@ class AdminController extends Controller
 
                 // Check for equality
                 if ($arr1 == $arr2) {
-                    echo $tar->total;
+                    $mensaje = $tar->total;
                 } else {
                     $mensaje = 1;
                 }
             }
         }
         echo  $mensaje;
-
-
-
-
-
-
-
-
-
-
-        // for ($i = 0; $i < count($datos_destinos); $i++) {
-        //     echo $datos_destinos[$i];
-        // $datos[$i] = array(
-        //     'id' => $i,
-        //     'destino' => $datos_destinos[$i]
-        // );
-        // }
     }
     // ----------------------Vehiculos------------------------------
     public function show_listado_vehiculos()

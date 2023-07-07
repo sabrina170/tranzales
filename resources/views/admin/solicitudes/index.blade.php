@@ -82,7 +82,7 @@
                                     <td>
                                         @if ($doc->estado==2) 
                                         <button type="button" class="btn btn-outline-primary waves-effect"
-                                         data-bs-toggle="modal" data-bs-target="#exampleModalScrollable">
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal">
                                             Asignar
                                         </button>
                                         @else

@@ -1,65 +1,66 @@
-<div class="modal fade" id="crearmodal{{$doc->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg">
-        <div class="modal-content">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Tarifa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
             </div>
-            @if ($doc->estado==2)
-                
-            @else
-            {{-- <form action="{{ route('crear-plani') }}" method="post" enctype="multipart/form-data">
-                @csrf --}}
             <div class="modal-body">
+                <form  action="{{route('crear_tarifa')}}" method="post">
+                    @csrf
                     <div class="row">
-                        <!-- Basic -->
-                        <div class="col-md-6 mb-1">
-                            <label class="form-label" for="select2-basic">Unidad</label>
-                            <select class="form-select" id="unidad" name="unidad">
-                                @foreach ($vehiculos as $doc)
-                                <option value="{{$doc->id}}"> {{$doc->unidad}}</option>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-1">
+                                <label class="form-label" for="first-name-column">Cliente - Referencia</label>
+                                <select class="form-select" name="cliente" id="cliente" required>
+                                    <option value="">Selecciona un cliente</option>
+                                    @foreach ($choferes as $doc)
+                                    <option value="{{$doc->id}}"> {{$doc->id}} - {{$doc->id}}</option>
+                                    @endforeach
+                                </select>
+
                                
-                                @endforeach   
-                             </select>   
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-1">
-                            <label class="form-label" for="basicInput">Datos de la unidad</label>
-                            <input type="text" class="form-control" id="datos_unidad"  readonly>
+                        <div class="col-md-6 col-12">
+                                <div class=" mb-1" data-select2-id="133">
+                                    <label class="form-label" for="select2-limited"> Destinos (Seleccione 1 o más destinos)</label>
+                                    <div class="position-relative" data-select2-id="132">
+                                        <select class="select2 form-select select2-hidden-accessible" 
+                                        id="select2-multiple" multiple="" 
+                                        data-select2-id="select2-multiple" tabindex="-1"
+                                        aria-hidden="true" name="datos_destinos[]" required>
+                                        </select>
+                                    </div>
+                                </div>
                         </div>
-                        {{-- datos chofer --}}
-                        <div class="col-md-6 mb-1">
-                            <label class="form-label" for="select2-basic">Chofer</label>
-                            <select class="select2 form-select" id="chofer" name="chofer">
-                                @foreach ($choferes as $doc)
-                                <option value="{{$doc->id}}"> {{$doc->dni_cho}}</option>
-                               
-                                @endforeach   
-                            </select>   
+                        <div class="col-md-4 col-12">
+                            <div class="mb-1">
+                                <label class="form-label" for="first-name-column">Base</label>
+                                <input type="text"  class="form-control cant decimales" onKeyUp="Suma()" name="base" required>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-1">
-                            <label class="form-label" for="basicInput">Nombres y Apellido</label>
-                            <input type="text" class="form-control" id="datos_chofer" readonly>
+                        <div class="col-md-4 col-12">
+                            <div class="mb-1">
+                                <label class="form-label" for="first-name-column">IGV</label>
+                                <input type="text"  class="form-control cant decimales" onKeyUp="Suma()" name="igv" required>
+                            </div>
                         </div>
-                        {{-- ayudantes --}}
-                        <div class="col-md-6 mb-1">
-                            <label class="form-label" for="select2-basic">Ayudantes</label>
-                            <select class="select2 form-select" id="select2-multiple" multiple name="ayudantes[]">
-                          
-                                @foreach ($choferes as $doc)
-                                <option value="{{$doc->id}}"> {{$doc->nombres_cho}}- {{$doc->dni_cho}}</option>
-                               
-                                @endforeach   
-                            </select>
+                        <div class="col-md-4 col-12">
+                                <div class="mb-1">
+                                    <label class="form-label" for="first-name-column">Total</label>
+                                    <input type="number" id="total" class="form-control"  name="total" readonly>
+                                </div>
                         </div>
                     </div>
             </div>
-
             <div class="modal-footer">
-                <button type="submit" type="Guardar" class="btn btn-primary waves-effect waves-float waves-light">Guardar</button>
-                {{-- <button type="button" class="btn btn-primary waves-effect waves-float waves-light">Finalizar</button> --}}
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button id="add-receta" type="submit" class="btn btn-danger me-1 waves-effect waves-float waves-light">Agregar</button>
+    
             </div>
-            @endif
-            
-        </div>
+            </form>
+      </div>
     </div>
 </div>

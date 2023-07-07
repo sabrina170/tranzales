@@ -11,13 +11,19 @@
                 <h2 class="content-header-title float-start mb-0">Modulo</h2>
                 <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Clientes</a>
+                        <li class="breadcrumb-item"><a href="index.html">Solicitud</a>
                         </li>
                     </ol>
                 </div>
             </div>
+           
+            {{-- <button class="btn btn-primary">Volver</button> --}}
         </div>
+        <a href="{{route('admin.solicitudes.index')}}" type="button" class="btn btn-icon btn-outline-primary waves-effect mt-2">
+            <i data-feather='arrow-left'></i>Volver
+        </a>
     </div>
+    
 {{-- crea soli --}}
 <form action="{{route('buscarclientexdestino')}}" method="get">
     @csrf
@@ -25,11 +31,18 @@
   <div class="row">
     <div class="col-md-4 col-12">
         <select  class="form-select info-ob" id="cliente" name="cliente"  @selected(old('cliente'))>
-            <option value="0">Seleccione un cliente</option>
+            
+                @if (isset($id_cli))
                 @foreach ($clientes as $cli)
-
-                <option value="{{$cli->id}}">{{$cli->nombre}}- <strong>{{$cli->referencia}}</strong></option>
+                <option value="{{$cli->id}}" @if( $cli->id == $id_cli ) selected @endif>{{$cli->nombre}}- <strong>{{$cli->referencia}}</strong></option>
                 @endforeach
+                @else
+                <option value="0">Seleccione un cliente</option>
+                @foreach ($clientes as $cli)
+                <option value="{{$cli->id}}" >{{$cli->nombre}}- <strong>{{$cli->referencia}}</strong></option>
+                @endforeach  
+                @endif
+                
         </select>
     </div>
     <div class="col-md-4 col-12">
@@ -41,14 +54,14 @@
                     @csrf
                 <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4 col-12">
+                            <div class="col-md-2 col-12">
                                 <div class="mb-1">
                                     <label class="form-label" for="first-name-column">Nombre</label>
                                     <input type="text" class="form-control" id="codigo_solicitud" name="codigo_solicitud"
                                     value="UID{{ date("mdHis");}}" readonly>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-12">
+                            <div class="col-md-3 col-12">
                                 <div class="mb-1">
                                     <label class="form-label" for="helpInputTop">FECHA SOLITUD:</label>
                                     <input type="date" class="form-control" name="fecha_solicitud" id="fecha_solicitud" >
@@ -78,11 +91,11 @@
                                 <input type="date" class="form-control" id="fecha_traslado" name="fecha_traslado">
                             </div>
                             
-                            <div class="col-md-3 col-12">
+                            <div class="col-md-2 col-12">
                                 <label class="form-label" for="disabledInput">HORA EN GRANJA:</label>
                                 <input type="time" class="form-control" name="hora" id="hora">
                             </div>
-                            <div class="col-md-3 col-12">
+                            <div class="col-md-2 col-12">
                                 <div class="mb-1">
                                     <label class="form-label" for="disabledInput">CANT. TOTAL</label>
                                     <input type="number" class="form-control" name="cantidad" id="cantidad" value="0" readonly>
@@ -186,7 +199,8 @@
                     <div class="col-md-6 col-4">
                         <div class="mb-1">
                             <label class="form-label" for="exampleFormControlTextarea1">Observaciones</label>
-                            <textarea class="form-control" name="observaciones" rows="3" placeholder="Observaciones"></textarea>
+                            <textarea class="form-control" name="observaciones" rows="3" value=""
+                             placeholder="Observaciones"></textarea>
                         </div>
                     </div>
                         </div>
@@ -427,7 +441,7 @@
          cantidad2:'0',
          cantidad3:'0',
          cantidad4:'0',
-         subtotal:'0'
+         subtotal:0
         })
       };
       /**

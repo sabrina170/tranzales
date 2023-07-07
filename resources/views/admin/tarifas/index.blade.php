@@ -55,8 +55,10 @@
                                         <div class=" mb-1" data-select2-id="133">
                                             <label class="form-label" for="select2-limited"> Destinos (Seleccione 1 o más destinos)</label>
                                             <div class="position-relative" data-select2-id="132">
-                                                <select class="select2 form-select select2-hidden-accessible" id="select2-multiple" multiple="" 
-                                                data-select2-id="select2-multiple" tabindex="-1" aria-hidden="true" name="datos_destinos[]" required>
+                                                <select class="select2 form-select select2-hidden-accessible" 
+                                                id="select2-multiple" multiple="" 
+                                                data-select2-id="select2-multiple" tabindex="-1"
+                                                aria-hidden="true" name="datos_destinos[]" required>
                                                 </select>
                                             </div>
                                         </div>
