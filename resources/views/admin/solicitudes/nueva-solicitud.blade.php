@@ -54,17 +54,12 @@
                     @csrf
                 <div class="card-body">
                         <div class="row">
-                            <div class="col-md-2 col-12">
-                                <div class="mb-1">
-                                    <label class="form-label" for="first-name-column">Nombre</label>
-                                    <input type="text" class="form-control" id="codigo_solicitud" name="codigo_solicitud"
+                          <input type="hidden" class="form-control" id="codigo_solicitud" name="codigo_solicitud"
                                     value="UID{{ date("mdHis");}}" readonly>
-                                </div>
-                            </div>
                             <div class="col-md-3 col-12">
                                 <div class="mb-1">
                                     <label class="form-label" for="helpInputTop">FECHA SOLITUD:</label>
-                                    <input type="date" class="form-control" name="fecha_solicitud" id="fecha_solicitud" >
+                                    <input type="date" value="{{ date("Y-m-d");}}" class="form-control" name="fecha_solicitud" id="fecha_solicitud" @selected(old('fecha_solicitud'))>
                                 </div>
                             </div>
                             @if (isset($id_cli))
@@ -196,13 +191,30 @@
                                     {{-- fin de tabla --}}
                                 </div>
                             </div>
-                    <div class="col-md-6 col-4">
-                        <div class="mb-1">
-                            <label class="form-label" for="exampleFormControlTextarea1">Observaciones</label>
-                            <textarea class="form-control" name="observaciones" rows="3" value=""
-                             placeholder="Observaciones"></textarea>
-                        </div>
-                    </div>
+                            <div class="col-md-3 col-4">
+                                <div class="mb-1">
+                                    <label class="form-label" for="exampleFormControlTextarea1">Lavado</label>
+                                    {{-- <input type="text" class="form-control" name="lavado" id="lavado"> --}}
+                                    <select class="form-select" name="lavado" id="lavado" required>
+                                        <option value="" selected>Selecione un lavado</option>
+                                        <option value="Lurin" >Lurin</option>
+                                        <option value="Ventanilla" >Ventanilla</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-4">
+                                <div class="mb-1">
+                                    <label class="form-label" for="exampleFormControlTextarea1">N° Comprobante</label>
+                                    <input type="text" class="form-control" value="" name="comprobante" id="comprobante" >
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-4">
+                                <div class="mb-1">
+                                    <label class="form-label" for="exampleFormControlTextarea1">Observaciones</label>
+                                    <textarea class="form-control" name="observaciones" rows="3" value=""
+                                    placeholder="Observaciones"></textarea>
+                                </div>
+                            </div>
                         </div>
                 </div>
                 <!-- medium modal -->
@@ -272,6 +284,9 @@
                 return false; 
                 }else  if ($("#cantidad1").val() == "") {
                     Swal.fire({ icon: 'error', title: 'Ingresa una cantidad',})
+                return false; 
+                }else  if ($("#lavado").val() == "") {
+                    Swal.fire({ icon: 'error', title: 'Poner un lavado',})
                 return false; 
                 }
             else{

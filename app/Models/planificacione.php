@@ -14,6 +14,7 @@ class planificacione extends Model
         'id_chofer',
         'choferes',
         'observaciones',
-        'id_soli',
+        'tipo_des'
+
     ];
 }

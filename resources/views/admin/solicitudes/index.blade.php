@@ -32,69 +32,131 @@
     <!-- Basic Tables start -->
     <div class="row" id="basic-table">
         <div class="col-12">
-            <div class="card">
-             
-                <div class="card-body">
-                    {{-- <p class="card-text">
-                        Using the most basic table Leanne Grahamup, here’s how <code>.table</code>-based tables look in Bootstrap. You
-                        can use any example of below table for your table and it can be use with any type of bootstrap tables.
-                    </p> --}}
-                </div>
+            <div class="card p-1">
                 <div class="table-responsive">
-                    <table class="table table-sm">
-                        <thead>
+                    <table class="table table-bordered table-sm" id="solicitudes">
+                        <thead class="text-center">
                             <tr>
                                 {{-- <th>ID</th> --}}
                                 <th>CODIGO SOLICITUD</th>
                                 <th>FECHA SOLICITUD</th>
                                 <th>CLIENTE</th>
+                                <th>ORIGEN</th>
                                 <th>FECHA TRASLADO</th>
                                 <th>HORA</th>
-                                <th>CANTIDAD</th>
-                                <th>COSTO</th>
+                                <th>CANT.</th>
+                                <th>COSTO FLETE</th>
                                 <th>ESTADO</th>
-                                <th>UNIDAD/CHOFER <br>/AYUDANTE</th>
-                                <th>Indidencia finales</th>
+                                <th>PLANIFICACIÓN <br>(Unidad-Chofer) </th>
+                                <th>PLANIFICACIÓN <br>(Ayudante)</th>
+                                <th>LAVADO</th>
+                                <th>N° COMP.</th>
+                                <th>CIERRE</th>
                                 {{-- <th>ACCIONES</th> --}}
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($solicitudes as $doc)
                             <tr> 
-                                <td>{{$doc->codigo_solicitud}}</td>
-                                <td>{{$doc->fecha_solicitud}}</td>
-                                <td>{{$doc->cliente}}</td>
+                                <td>{{$doc->codigo}}</td>
+                                <td>{{$doc->fecha}}</td>
+                                <td>{{$doc->nombre_cli}}</td>
+                                <td>{{$doc->referencia_cli}}</td>
                                 <td>{{$doc->fecha_traslado}}</td>
                                 {{-- <td>{{$doc->origen}}</td> --}}
-                                <td>{{$doc->hora}}</td>
+                                <td class="table-secondary"> <strong>{{$doc->hora}}</strong></td>
                                 <td>{{$doc->cantidad}}</td>
                                 <td>{{$doc->costo}}</td>
                                 <td>
                                     @if ($doc->estado==1)
-                                    <span class="badge bg-warning">Pendiente</span>
-                                    @else
+                                    <span class="badge bg-info">Creado</span>
+                                    @elseif ($doc->estado==3)
+                                    <span class="badge bg-warning">En proceso</span>
+                                    @elseif ($doc->estado==5)
                                     <span class="badge bg-success">Entregada</span>
-                                    @endif</td>
-                                    <td><button type="button" class="btn btn-outline-primary waves-effect"
-                                         data-bs-toggle="modal" data-bs-target="#crearmodal{{$doc->id}}">
-                                        Asignar
-                                    </button></td>
-                                    <td>
-                                        @if ($doc->estado==2) 
-                                        <button type="button" class="btn btn-outline-primary waves-effect"
-                                        data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    @else 
+                                    <span class="badge bg-danger">Pendiente Asig.</span>
+                                    @endif
+                                </td>
+                                <td>
+                                       
+                                        @if ($doc->estado==3) 
+                                        @foreach ($planificaciones as $pla)
+                                        @if ($pla->id ==$doc->id_plani)
+                                                @foreach ($vehiculos as $uni)
+                                                    @if ($uni->id==$pla->id_unidad)
+                                                    <strong> {{$uni->unidad}}</strong>
+                                                    @else
+                                                    @endif
+                                                @endforeach
+                                            -
+                                                @foreach ($choferes as $ch)
+                                                @if ($ch->id==$pla->id_chofer)
+                                               {{$ch->nombres_cho}} {{$ch->apellidos_cho}}
+                                                @else
+                                                @endif
+                                            @endforeach
+                                            
+                                            <a type="button" class="btn btn-icon btn-icon rounded-circle
+                                            btn-success waves-effect waves-float waves-light"
+                                             href="{{route('enviar_info_conductor',$doc->id)}}">
+                                            <i data-feather='phone'></i> </a>
+                                            
+                                        @else
+                                        @endif
+                                        @endforeach
+                                       
+                                        @elseif ($doc->estado==2) 
+                                        <button type="button" class="btn btn-secondary waves-effect"
+                                        data-bs-toggle="modal" data-bs-target="#editmodal{{$doc->id}}">
+                                       Asignación...
+                                        </button>
+                                        @else
+                                        <button type="button" class="btn btn-secondary waves-effect"
+                                        data-bs-toggle="modal" data-bs-target="#crearmodal{{$doc->id}}">
+                                       Asignar
+                                        </button>
+                                        @endif
+                                
+                                </td>
+                                <td>
+                                    @if ($doc->estado==3) 
+                                        @foreach ($planificaciones as $pla)
+                                            @if ($pla->id ==$doc->id_plani)
+                                                        @foreach ($ayudantes as $ayu)
+                                                            @if ($ayu->id==$pla->choferes)
+                                                            {{$ayu->nombres_cho}} {{$ayu->apellidos_cho}}
+                                                            @else
+                                                            @endif
+                                                        @endforeach
+                                                   - <strong>{{$pla->tipo_des}}</strong>
+                                             
+                                            @else
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </td>
+                                <td>{{$doc->lavado}}</td>
+                                <td>{{$doc->comprobante}}</td>
+                                <td>
+                                        @if ($doc->estado==3) 
+                                        <button type="button" class="btn btn-secondary waves-effect"
+                                        data-bs-toggle="modal" data-bs-target="#crearcierre{{$doc->id}}">
                                             Asignar
                                         </button>
                                         @else
-                                        <button type="button" class="btn btn-outline-primary waves-effect" 
-                                        data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" disabled>
+                                        <button type="button" class="btn btn-outline-secondary waves-effect" 
+                                        data-bs-toggle="modal" data-bs-target="#crearcierre{{$doc->id}}" disabled>
                                             Asignar
                                         </button>
                                         @endif
-                                    </td>
+                                </td>
                                 {{-- <td><i data-feather='edit'></i>Editar</td> --}}
                             </tr>
                             @include('admin.modals.CrearPlani')
+                            @include('admin.modals.EditPlani')
+                            @include('admin.modals.CrearCierre')
+                           
                             @endforeach
                         </tbody>
                     </table>
@@ -103,15 +165,39 @@
         </div>
     </div>
     <!-- Basic Tables end -->
-
-   
-
+    
 </div>
 @endsection
 
 @section('js')
-
+@if (session()->get('data'))
+<div class="alert alert-success">
+    <script>
+       var text = '{{session()->get('data')}}';
+       Swal.fire(
+        'Ok!',
+        text,
+        'success'
+        )       
+    </script>
+</div>
+@endif
   <script>
+
+$( function() {
+    $("#ayudantes").change( function() {
+        if ($(this).val() !== "") {
+            $("#carga").prop("disabled", false);
+            $("#descarga").prop("disabled", false);
+            $("#descarga2").prop("disabled", false);
+        } else {
+            $("#carga").prop("disabled", true);
+            $("#descarga").prop("disabled", true);
+            $("#descarga2").prop("disabled", true);
+        }
+    });
+});
+
     var idioma=
 
 {
@@ -178,6 +264,12 @@ $(document).ready( function () {
 
 } );
 
+//Convierte el div a imagen y la descarga
+document.querySelector('button').addEventListener('click', function() {
+  
+});
+
+
 $('#unidad').on('change', function(){
        
        var id = $(this).val();
@@ -215,6 +307,81 @@ var id = $(this).val();
   }
 })
 });
+
+
+var idioma=
+
+        {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "NingÃºn dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Ãšltimo",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            },
+            "buttons": {
+                "copyTitle": 'Informacion copiada',
+                "copyKeys": 'Use your keyboard or menu to select the copy command',
+                "copySuccess": {
+                    "_": '%d filas copiadas al portapapeles',
+                    "1": '1 fila copiada al portapapeles'
+                },
+
+                "pageLength": {
+                "_": "Mostrar %d filas",
+                "-1": "Mostrar Todo"
+                }
+            }
+        };
+
+        $(document).ready( function () {
+        var table = $('#solicitudes').DataTable({
+                    dom: '<"border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                    language: idioma,
+                    buttons: [
+                    // 'excel'
+                        {
+                        extend: 'excel',
+                        text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
+                        className: 'btn btn-sm btn-info round waves-effect',
+                        exportOptions: { columns: [1,2,3, 4, 5, 6,7,8,9,10,11,12,13] }
+                        },
+                        {
+                            extend: 'print',
+                        text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
+                        className: 'btn btn-sm btn-info round waves-effect',
+                        exportOptions: { columns: [1,2,3, 4, 5, 6,7,8,9,10,11,12,13] }
+                        },
+                    ],
+                    "order": [[ 4, 'asc' ], [ 5, 'asc' ]],
+                    exportOptions: {
+                    modifier: {
+                    // DataTables core
+                    // 'current', 'applied',
+                    //'index', 'original'
+                    page: 'all', // 'all', 'current'
+                    search: 'none' // 'none', 'applied', 'removed'
+                    },
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13]
+                    }
+        });
+
+        } );
 </script>
 @endsection
 

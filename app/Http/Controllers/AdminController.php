@@ -24,9 +24,40 @@ class AdminController extends Controller
     {
         $solicitudes = DB::table('solicitudes')->orderBy('id', 'desc')->get();
         $vehiculos = DB::table('vehiculos')->orderBy('id', 'desc')->get();
-        $choferes = DB::table('choferes')->orderBy('id', 'desc')->get();
+        $choferes = DB::table('choferes')->where('tipo_cho', 1)->orderBy('id', 'desc')->get();
+        $ayudantes = DB::table('choferes')->orderBy('id', 'desc')->get();
+        $planificaciones = DB::table('planificaciones')->orderBy('id', 'desc')->get();
+        $destinos = DB::table('destinos')->orderBy('id', 'desc')->get();
 
-        return view('admin.solicitudes.index', compact('solicitudes', 'vehiculos', 'choferes'));
+        $solicitudes = Solicitude::select(
+            "solicitudes.id as id",
+            "solicitudes.codigo_solicitud as codigo",
+            "solicitudes.fecha_solicitud as fecha",
+            "solicitudes.hora as hora",
+            "solicitudes.cantidad as cantidad",
+            "solicitudes.fecha_traslado as fecha_traslado",
+            "solicitudes.costo as costo",
+            "solicitudes.estado as estado",
+            "solicitudes.id_plani as id_plani",
+            "solicitudes.lavado as lavado",
+            "solicitudes.comprobante as comprobante",
+            "clientes.nombre as nombre_cli",
+            "clientes.referencia as referencia_cli",
+            "solicitudes.created_at",
+            "datos_destinos"
+        )
+            ->join("clientes", "clientes.id", "=", "solicitudes.cliente")
+            ->orderBy('solicitudes.costo', 'desc')
+            ->get();
+
+        return view('admin.solicitudes.index', compact(
+            'solicitudes',
+            'vehiculos',
+            'choferes',
+            'planificaciones',
+            'ayudantes',
+            'destinos'
+        ));
     }
 
     public function show_agregar_soli()
@@ -48,6 +79,12 @@ class AdminController extends Controller
             $observaciones = "";
         } else {
             $observaciones = $request->get('observaciones');
+        }
+        $n_com = $request->get('comprobante');
+        if (empty($obs)) {
+            $n_com = "";
+        } else {
+            $n_com = $request->get('comprobante');
         }
 
         $datos_estructura = array(
@@ -71,7 +108,9 @@ class AdminController extends Controller
             'estado' => 1,
             'costo' => $request->get('costo-soli'),
             'id_plani' => 0,
-            'id_cierre' => 0
+            'id_cierre' => 0,
+            'lavado' => $request->get('lavado'),
+            'comprobante' => $n_com
         ];
 
         // dd($data);
@@ -759,20 +798,157 @@ class AdminController extends Controller
 
     public function crear_plani(Request $request)
     {
+
+        if ($request->get('observaciones') == null) {
+            $observaciones = "";
+        } else {
+            $observaciones = $request->get('observaciones');
+        }
+        $accion = $request->get('accion');
+        if ($accion == 'guardar') {
+            $id_soli = $request->get('id_soli');
+            $datos_ayudantes = $request->get('ayudantes');
+            $data = [
+                'id_unidad' => $request->get('unidad'),
+                'id_chofer'  => $request->get('chofer'),
+                'choferes'  => $datos_ayudantes,
+                'observaciones' => $observaciones,
+                'tipo_des' => $request->get('tipo_des')
+
+            ];
+            // dd($data);
+            $soli = planificacione::create($data);
+            $id_plani = $soli->id;
+            DB::table('solicitudes')->where('id', $id_soli)->limit(1)->update([
+                'id_plani' => $id_plani,
+                'estado' => '2'
+            ]);
+            $mensaje = "Guardado exitosamente la asignación";
+        } elseif ($accion == 'finalizar') {
+            $id_soli = $request->get('id_soli');
+            $datos_ayudantes = $request->get('ayudantes');
+            $data = [
+                'id_unidad' => $request->get('unidad'),
+                'id_chofer'  => $request->get('chofer'),
+                'choferes'  => $datos_ayudantes,
+                'observaciones' => $observaciones,
+                'tipo_des' => $request->get('tipo_des')
+            ];
+            // dd($data);
+            $soli = planificacione::create($data);
+            $id_plani = $soli->id;
+            DB::table('solicitudes')->where('id', $id_soli)->limit(1)->update([
+                'id_plani' => $id_plani,
+                'estado' => '3'
+            ]);
+            $mensaje = "Asignación Finalizada";
+        } elseif ($accion == 'actualizar') {
+            $id_plani = $request->get('id_plani');
+            $datos_ayudantes = $request->get('ayudantes');
+            $choferes = $datos_ayudantes;
+            $id_unidad = $request->get('unidad');
+            $id_chofer = $request->get('chofer');
+            $obser = $observaciones;
+            $tipo_des =  $request->get('tipo_des');
+            DB::table('planificaciones')->where('id', $id_plani)->limit(1)->update([
+                'id_unidad' => $id_unidad,
+                'id_chofer'  => $id_chofer,
+                'choferes'  => $choferes,
+                'observaciones' => $obser,
+                'tipo_des' => $tipo_des
+            ]);
+            $mensaje = "Asignación actualizada";
+        } else if ($accion == 'finalizar2') {
+            $id_soli = $request->get('id_soli');
+            $id_plani = $request->get('id_plani');
+            $datos_ayudantes = $request->get('ayudantes');
+            $choferes = $datos_ayudantes;
+            $id_unidad = $request->get('unidad');
+            $id_chofer = $request->get('chofer');
+            $obser = $observaciones;
+            $tipo_des =  $request->get('tipo_des');
+            DB::table('planificaciones')->where('id', $id_plani)->limit(1)->update([
+                'id_unidad' => $id_unidad,
+                'id_chofer'  => $id_chofer,
+                'choferes'  => $choferes,
+                'observaciones' => $obser,
+                'tipo_des' => $tipo_des
+
+            ]);
+            DB::table('solicitudes')->where('id', $id_soli)->limit(1)->update([
+                'estado' => '3'
+            ]);
+            $mensaje = "Asignación Finalizada";
+        }
+
+
+
+        return redirect()->route('admin.solicitudes.index')->with(['data' => $mensaje]);
+    }
+
+    public function enviar_info_conductor(Solicitude $solicitudes, $id)
+    {
+        // dd($id);
+
+        $solicitudes = DB::table('solicitudes')->orderBy('id', 'desc')->get();
+        $vehiculos = DB::table('vehiculos')->orderBy('id', 'desc')->get();
+        $choferes = DB::table('choferes')->where('tipo_cho', 1)->orderBy('id', 'desc')->get();
+        $ayudantes = DB::table('choferes')->orderBy('id', 'desc')->get();
+        $planificaciones = DB::table('planificaciones')->orderBy('id', 'desc')->get();
+        $destinos = DB::table('destinos')->orderBy('id', 'desc')->get();
+
+        $solicitudes = Solicitude::select(
+            "solicitudes.id as id",
+            "solicitudes.codigo_solicitud as codigo",
+            "solicitudes.fecha_solicitud as fecha",
+            "solicitudes.hora as hora",
+            "solicitudes.cantidad as cantidad",
+            "solicitudes.fecha_traslado as fecha_traslado",
+            "solicitudes.costo as costo",
+            "solicitudes.estado as estado",
+            "solicitudes.id_plani as id_plani",
+            "solicitudes.lavado as lavado",
+            "solicitudes.comprobante as comprobante",
+            "clientes.nombre as nombre_cli",
+            "clientes.referencia as referencia_cli",
+            "solicitudes.created_at",
+            "datos_destinos",
+            "datos_cantidad"
+        )
+            ->join("clientes", "clientes.id", "=", "solicitudes.cliente")
+            ->where('solicitudes.id', $id)->limit(1)
+            ->get();
+
+        return view('admin.solicitudes.enviar', compact(
+            'solicitudes',
+            'vehiculos',
+            'choferes',
+            'planificaciones',
+            'ayudantes',
+            'destinos'
+        ));
+        // dd($vehiculo);
+    }
+
+    public function crear_cierre(Request $request)
+    {
         $id_soli = $request->get('id_soli');
+        $solicitudes = DB::table('solicitudes')->where('id', $id_soli)->orderBy('id', 'desc')->get();
+        foreach ($solicitudes as $col) {
+            $datos_destinos = $col->datos_destinos;
+        }
+        $datos_destinos2 = json_decode($datos_destinos, true);
 
-        $data = [
-            'id_unidad' => $request->get('unidad'),
-            'id_chofer'  => $request->get('chofer'),
-            'choferes'  => $request->get('ayudantes'),
-            'id_soli' => $id_soli,
-            'observaciones' => $request->get('observaciones')
-        ];
-        // dd($data);
-        $soli = planificacione::create($data);
-        $mensaje = "Usuario creado exitosamente";
+        foreach ($datos_destinos2 as $key) {
+            // echo $key;
+            if ($image = $request->file('guia' . $key)) {
+                $destinatarioPath = 'pdfs-guias/';
+                $firmaImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+                $image->move($destinatarioPath, $firmaImage);
+                // $alu['image'] = "$profileImage";
+            }
+        }
 
-
-        return redirect()->route('admin.index')->with(['data' => $mensaje]);
+        // return redirect()->route('admin.solicitudes.index');
     }
 }

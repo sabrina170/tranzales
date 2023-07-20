@@ -91,9 +91,9 @@
     <script src="{{asset('app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js')}}"></script>
     
     <script src="{{asset('app-assets/js/scripts/tables/table-datatables-basic.js')}}"></script>
-   
+    <script src="{{asset('app-assets/js/scripts/forms/form-validation.js')}}"></script>
 
-    {{-- Fin de datatable --}}
+   
 
       @yield('js')
 </body>

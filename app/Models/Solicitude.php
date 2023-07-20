@@ -24,6 +24,8 @@ class Solicitude extends Model
         'estado',
         'costo',
         'id_plani',
-        'id_cierre'
+        'id_cierre',
+        'lavado',
+        'comprobante'
     ];
 }

@@ -102,3 +102,5 @@ Route::get('/BuscarCostoDes', [AdminController::class, 'BuscarCosto'])->name('Bu
 Route::get('/BuscarUni', [AdminController::class, 'buscarunidad'])->name('buscarunidad');
 Route::get('/BuscarCho', [AdminController::class, 'buscarchofer'])->name('buscarchofer');
 Route::post('/crearPlani', [AdminController::class, 'crear_plani'])->name('crear-plani');
+Route::get('IdEnviar/{id}', [AdminController::class, 'enviar_info_conductor'])->name('enviar_info_conductor');
+Route::post('/crearCierre', [AdminController::class, 'crear_cierre'])->name('crear-cierre');

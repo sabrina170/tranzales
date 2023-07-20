@@ -145,7 +145,8 @@
                                         {{-- <a type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#view{{$doc->id}}">
                                             <i data-feather='eye'></i></a> --}}
                                         {{-- <a type="button" class="btn btn-dark btn-sm" href="{{route('admin.vehiculos.edit-vehiculo',$doc->id)}}"><i data-feather='edit'></i></a> --}}
-                                        <a type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eli{{$doc->id}}">X</a>
+                                        <a type="button" class="btn btn-danger btn-sm"
+                                         data-bs-toggle="modal" data-bs-target="#eli{{$doc->id}}">X</a>
                                     </div>
                             </tr>
                             @include('admin.modals.modalelitari')
