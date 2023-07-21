@@ -72,15 +72,15 @@
                                     <span class="badge bg-info">Creado</span>
                                     @elseif ($doc->estado==3)
                                     <span class="badge bg-warning">En proceso</span>
-                                    @elseif ($doc->estado==5)
-                                    <span class="badge bg-success">Entregada</span>
+                                    @elseif ($doc->estado==4)
+                                    <span class="badge bg-success">Entregado</span>
                                     @else 
                                     <span class="badge bg-danger">Pendiente Asig.</span>
                                     @endif
                                 </td>
                                 <td>
                                        
-                                        @if ($doc->estado==3) 
+                                        @if ($doc->estado==3 || $doc->estado==4) 
                                         @foreach ($planificaciones as $pla)
                                         @if ($pla->id ==$doc->id_plani)
                                                 @foreach ($vehiculos as $uni)
@@ -120,7 +120,7 @@
                                 
                                 </td>
                                 <td>
-                                    @if ($doc->estado==3) 
+                                    @if ($doc->estado==3 || $doc->estado==4) 
                                         @foreach ($planificaciones as $pla)
                                             @if ($pla->id ==$doc->id_plani)
                                                         @foreach ($ayudantes as $ayu)
@@ -144,6 +144,11 @@
                                         data-bs-toggle="modal" data-bs-target="#crearcierre{{$doc->id}}">
                                             Asignar
                                         </button>
+                                        @elseif ($doc->estado==4) 
+                                        <button type="button" class="btn btn-danger waves-effect"
+                                        data-bs-toggle="modal" data-bs-target="#detcierre{{$doc->id}}">
+                                        <i data-feather='download-cloud'></i> Pdfs
+                                        </button>
                                         @else
                                         <button type="button" class="btn btn-outline-secondary waves-effect" 
                                         data-bs-toggle="modal" data-bs-target="#crearcierre{{$doc->id}}" disabled>
@@ -156,6 +161,7 @@
                             @include('admin.modals.CrearPlani')
                             @include('admin.modals.EditPlani')
                             @include('admin.modals.CrearCierre')
+                            @include('admin.modals.DetCierre')
                            
                             @endforeach
                         </tbody>
@@ -359,13 +365,13 @@ var idioma=
                         extend: 'excel',
                         text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
                         className: 'btn btn-sm btn-info round waves-effect',
-                        exportOptions: { columns: [1,2,3, 4, 5, 6,7,8,9,10,11,12,13] }
+                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12,13] }
                         },
                         {
                             extend: 'print',
                         text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
                         className: 'btn btn-sm btn-info round waves-effect',
-                        exportOptions: { columns: [1,2,3, 4, 5, 6,7,8,9,10,11,12,13] }
+                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12,13] }
                         },
                     ],
                     "order": [[ 4, 'asc' ], [ 5, 'asc' ]],
@@ -377,7 +383,7 @@ var idioma=
                     page: 'all', // 'all', 'current'
                     search: 'none' // 'none', 'applied', 'removed'
                     },
-                        columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13]
+                        columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13]
                     }
         });
 

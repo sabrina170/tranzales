@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chofere;
+use App\Models\Cierre;
 use App\Models\Cliente;
 use App\Models\Destino;
 use App\Models\planificacione;
@@ -26,6 +27,7 @@ class AdminController extends Controller
         $vehiculos = DB::table('vehiculos')->orderBy('id', 'desc')->get();
         $choferes = DB::table('choferes')->where('tipo_cho', 1)->orderBy('id', 'desc')->get();
         $ayudantes = DB::table('choferes')->orderBy('id', 'desc')->get();
+        $cierres = DB::table('cierres')->orderBy('id', 'desc')->get();
         $planificaciones = DB::table('planificaciones')->orderBy('id', 'desc')->get();
         $destinos = DB::table('destinos')->orderBy('id', 'desc')->get();
 
@@ -39,6 +41,7 @@ class AdminController extends Controller
             "solicitudes.costo as costo",
             "solicitudes.estado as estado",
             "solicitudes.id_plani as id_plani",
+            "solicitudes.id_cierre as id_cierre",
             "solicitudes.lavado as lavado",
             "solicitudes.comprobante as comprobante",
             "clientes.nombre as nombre_cli",
@@ -56,7 +59,8 @@ class AdminController extends Controller
             'choferes',
             'planificaciones',
             'ayudantes',
-            'destinos'
+            'destinos',
+            'cierres'
         ));
     }
 
@@ -933,12 +937,20 @@ class AdminController extends Controller
     public function crear_cierre(Request $request)
     {
         $id_soli = $request->get('id_soli');
+
+        if ($request->get('indicaciones') == null) {
+            $indicaciones = "";
+        } else {
+            $indicaciones = $request->get('indicaciones');
+        }
+
         $solicitudes = DB::table('solicitudes')->where('id', $id_soli)->orderBy('id', 'desc')->get();
         foreach ($solicitudes as $col) {
             $datos_destinos = $col->datos_destinos;
         }
         $datos_destinos2 = json_decode($datos_destinos, true);
 
+        // $arrr = [];
         foreach ($datos_destinos2 as $key) {
             // echo $key;
             if ($image = $request->file('guia' . $key)) {
@@ -946,9 +958,24 @@ class AdminController extends Controller
                 $firmaImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
                 $image->move($destinatarioPath, $firmaImage);
                 // $alu['image'] = "$profileImage";
+                $arr[] = $firmaImage;
             }
         }
 
-        // return redirect()->route('admin.solicitudes.index');
+        $data = [
+            'datos_guias' => json_encode($arr, true),
+            'indicaciones'  => $indicaciones
+        ];
+        // dd($data);
+        $cier = Cierre::create($data);
+        $id_cierre = $cier->id;
+
+        DB::table('solicitudes')->where('id', $id_soli)->limit(1)->update([
+            'id_cierre' => $id_cierre,
+            'estado' => '4'
+        ]);
+        $mensaje = "Asignación Finalizada";
+        // echo var_dump($arr);
+        return redirect()->route('admin.solicitudes.index')->with(['data' => $mensaje]);
     }
 }
