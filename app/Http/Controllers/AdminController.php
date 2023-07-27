@@ -79,16 +79,13 @@ class AdminController extends Controller
         // for ($i = 0; $i < count($datos_cantidad); $i++) {
         // }
         $obs = $request->get('observaciones');
-        if (empty($obs)) {
+        $n_com = $request->get('comprobante');
+        if (empty($obs) || empty($n_com)) {
             $observaciones = "";
+            $comprobante = "";
         } else {
             $observaciones = $request->get('observaciones');
-        }
-        $n_com = $request->get('comprobante');
-        if (empty($obs)) {
-            $n_com = "";
-        } else {
-            $n_com = $request->get('comprobante');
+            $comprobante = $request->get('comprobante');
         }
 
         $datos_estructura = array(
@@ -114,7 +111,7 @@ class AdminController extends Controller
             'id_plani' => 0,
             'id_cierre' => 0,
             'lavado' => $request->get('lavado'),
-            'comprobante' => $n_com
+            'comprobante' => $comprobante
         ];
 
         // dd($data);
@@ -381,8 +378,11 @@ class AdminController extends Controller
             "contactos",
             "ruc",
             "departamentos.name as nombre_dep",
+            "departamentos.id as id_dep",
             "provincias.name as nombre_prov",
+            "provincias.id as id_prov",
             "distritos.name as nombre_dis",
+            "distritos.id as id_dis",
             "direccion",
             "estado",
             "tipo_servicio",
@@ -440,6 +440,79 @@ class AdminController extends Controller
         // dd($request);
         // return $nombre;
     }
+    public function delete_cliente(Request $request)
+    {
+        // dd($id);
+        $id = $request->get('id');
+        DB::table('clientes')->where('id', $id)->limit(1)->update([
+            'estado' => '0'
+        ]);
+        $mensaje = "Cliente Desactivado";
+        return redirect()->route('admin.clientes.index')->with(['data' => $mensaje]);
+        // dd($vehiculo);
+    }
+
+    public function edit_cliente(Cliente $cliente, $id)
+    {
+        // dd($id);
+        $cliente  = DB::table('clientes')->where('id', $id)->limit(1)->get();
+        $departamentos = DB::table('departamentos')->get();
+        $provincias = DB::table('provincias')->get();
+        $distritos = DB::table('distritos')->get();
+        // dd($vehiculo);
+        return view('admin.clientes.edit', compact('cliente', 'departamentos', 'provincias', 'distritos'));
+    }
+    public function update_cliente(Request $request)
+    {
+        // transformar array en json 
+        $datos_contacto = $request->get('datos_contacto');
+        $datos_telefono = $request->get('datos_telefono');
+        $datos_cargo = $request->get('datos_cargo');
+        $datos_correo = $request->get('datos_correo');
+        $id = $request->get('id');
+
+
+        $datos = array();
+        for ($i = 0; $i < count($datos_contacto); $i++) {
+            $datos[$i] = array(
+                'id' => $i,
+                'contacto' => $datos_contacto[$i],
+                'telefono' => $datos_telefono[$i],
+                'cargo' => $datos_cargo[$i],
+                'correo' => $datos_correo[$i]
+            );
+        }
+
+        // $cli = $request->all();
+        // $cli['contactos'] = json_encode($datos, true);
+        // $clien->update($cli);
+
+        DB::table('clientes')->where('id', $id)->limit(1)->update([
+            'nombre' => $request->get('nombre'),
+            'ruc' => $request->get('ruc'),
+            'referencia' => $request->get('referencia'),
+            'departamento' => $request->get('departamento'),
+            'provincia' => $request->get('provincia'),
+            'distrito' => $request->get('distrito'),
+            'direccion' => $request->get('direccion'),
+            'estado' => $request->get('estado'),
+            'contactos' => json_encode($datos, true),
+            'tipo_servicio' => $request->get('tipo_servicio')
+        ]);
+
+        $mensaje = "Cliente actualizado exitosamente";
+
+        $cliente  = DB::table('clientes')->where('id', $id)->limit(1)->get();
+        $departamentos = DB::table('departamentos')->get();
+        $provincias = DB::table('provincias')->get();
+        $distritos = DB::table('distritos')->get();
+        // dd($vehiculo);
+        return redirect()->route('edit-cliente', $id)->with([
+            'data' => $mensaje, 'cliente' => $cliente,
+            'departamentos' => $departamentos, 'provincias' => $provincias, 'distritos' => $distritos
+        ]);
+    }
+
     // ------------------RUTAS--------------------------------------------
     public function show_listado_rutas()
     {
@@ -960,10 +1033,13 @@ class AdminController extends Controller
                 // $alu['image'] = "$profileImage";
                 $arr[] = $firmaImage;
             }
+
+            $n_gruias[] = $request->get('n_guias' . $key);
         }
 
         $data = [
             'datos_guias' => json_encode($arr, true),
+            'n_guias' => json_encode($n_gruias, true),
             'indicaciones'  => $indicaciones
         ];
         // dd($data);

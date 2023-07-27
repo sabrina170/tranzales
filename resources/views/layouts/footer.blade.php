@@ -21,6 +21,9 @@
 <script src="{{asset('app-assets/js/core/app-menu.js')}}"></script>
 <script src="{{asset('app-assets/js/core/app.js')}}"></script>
 <!-- END: Theme JS-->
+<!-- BEGIN: Page JS-->
+<script src="{{asset('app-assets/js/scripts/cards/card-advance.js')}}"></script>
+<!-- END: Page JS-->
 
 <!-- BEGIN: Page JS-->
 <script src="{{asset('app-assets/js/scripts/forms/form-select2.js')}}"></script>

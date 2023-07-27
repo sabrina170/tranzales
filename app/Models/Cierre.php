@@ -10,6 +10,7 @@ class Cierre extends Model
     use HasFactory;
     protected $fillable = [
         'datos_guias',
+        'n_guias',
         'indicaciones'
     ];
 }
