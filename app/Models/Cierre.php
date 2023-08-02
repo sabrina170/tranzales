@@ -11,6 +11,8 @@ class Cierre extends Model
     protected $fillable = [
         'datos_guias',
         'n_guias',
+        'datos_remision',
+        'n_remision',
         'indicaciones'
     ];
 }

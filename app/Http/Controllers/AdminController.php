@@ -40,6 +40,7 @@ class AdminController extends Controller
             "solicitudes.fecha_traslado as fecha_traslado",
             "solicitudes.costo as costo",
             "solicitudes.estado as estado",
+            "solicitudes.datos_destinos as destinos",
             "solicitudes.id_plani as id_plani",
             "solicitudes.id_cierre as id_cierre",
             "solicitudes.lavado as lavado",
@@ -102,6 +103,7 @@ class AdminController extends Controller
             'fecha_traslado' => $request->get('fecha_traslado'),
             // 'origen' => $request->get('origen'),
             'hora' => $request->get('hora'),
+            'hora_cochera' => $request->get('hora_cochera'),
             'cantidad' => $request->get('cantidad'),
             'datos_destinos' => json_encode($request->get('datos_destinos')),
             'datos_cantidad' => json_encode($datos_estructura),
@@ -116,7 +118,8 @@ class AdminController extends Controller
 
         // dd($data);
         $soli = Solicitude::create($data);
-        return redirect()->route('admin.solicitudes.index');
+        $mensaje = "Solicitud Creada";
+        return redirect()->route('admin.solicitudes.index')->with(['data' => $mensaje]);
     }
 
     public function BuscarCosto(Request $request)
@@ -124,30 +127,50 @@ class AdminController extends Controller
         $idcliente = $request->get('idcliente');
         // echo $idcliente;
         $datos_destinos = $request->get('costo_des');
+        $cont_lista = $request->get('cont_lista');
         $datos_tarifa  = DB::table('tarifas')->where('id_cliente', $idcliente)->get();
         $filas =  $datos_tarifa->count();
 
+
+        // $arrr2 = array($datos_destinos);
+        // echo  $cont_lista;
+        // $arrr1 = count($datos_tarifa);
+        // $arrr2 = $arr2->count();
+
         if ($filas == 0) {
-            $mensaje = 1;
+            echo  $mensaje = 1;
         } else {
+
             foreach ($datos_tarifa as $tar) {
+
 
                 $arr1 = array(json_decode($tar->destinos));
                 $arr2 = array($datos_destinos);
+                // echo  $tar->cont_destinos;
+                // validar si tiene solo 1 valor
+                if ($tar->cont_destinos == $cont_lista) {
+                    // 1 = 1
+                    sort($arr1);
+                    sort($arr2);
 
-                // Sort the array elements
-                sort($arr1);
-                sort($arr2);
-
-                // Check for equality
-                if ($arr1 == $arr2) {
-                    $mensaje = $tar->total;
+                    if ($arr1 == $arr2) {
+                        $mensaje = $tar->total;
+                    } else {
+                        // $mensaje = 1;
+                    }
+                    // echo 55;
+                    // $mensaje = $tar->total;
                 } else {
-                    $mensaje = 1;
+                    // $mensaje = 1;
+                    // echo $mensaje = $tar->cont_destinos;
                 }
             }
+            if (isset($mensaje)) {
+                echo $mensaje;
+            } else {
+                echo 1;
+            }
         }
-        echo  $mensaje;
     }
     // ----------------------Vehiculos------------------------------
     public function show_listado_vehiculos()
@@ -811,9 +834,11 @@ class AdminController extends Controller
 
         // echo var_dump($datos_destinos);
 
+        $destinos = json_encode($datos_destinos, true);
         $data = [
             'id_cliente' => $request->get('cliente'),
-            'destinos' => json_encode($datos_destinos, true),
+            'destinos' => $destinos,
+            'cont_destinos' => count($datos_destinos),
             'base' => $request->get('base'),
             'igv' => $request->get('igv'),
             'total' => $request->get('total')
@@ -1034,12 +1059,23 @@ class AdminController extends Controller
                 $arr[] = $firmaImage;
             }
 
+            if ($image2 = $request->file('remision' . $key)) {
+                $destinatarioPath2 = 'pdfs-remision/';
+                $firmaImage2 = date('YmdHis') . "." . $image2->getClientOriginalExtension();
+                $image2->move($destinatarioPath2, $firmaImage2);
+                // $alu['image'] = "$profileImage";
+                $arr2[] = $firmaImage2;
+            }
+
             $n_gruias[] = $request->get('n_guias' . $key);
+            $n_remision[] = $request->get('n_remision' . $key);
         }
 
         $data = [
             'datos_guias' => json_encode($arr, true),
             'n_guias' => json_encode($n_gruias, true),
+            'datos_remision' => json_encode($arr2, true),
+            'n_remision' => json_encode($n_remision, true),
             'indicaciones'  => $indicaciones
         ];
         // dd($data);

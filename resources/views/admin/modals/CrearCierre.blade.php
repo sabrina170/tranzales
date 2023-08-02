@@ -40,7 +40,25 @@
                                                 <label class="form-label" for="first-name-column">
                                                     Guia Transporte</label>
                                                 <input type="file" id="first-name-column"
-                                                class="form-control" name="guia{{$des->id}}" required>
+                                                class="form-control" name="guia{{$des->id}}" accept=".pdf" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-12">
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label" for="first-name-column">
+                                                   N° Guia Emisión</label>
+                                                <input type="text" id="first-name-column"
+                                                class="form-control" name="n_remision{{$des->id}}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label" for="first-name-column">
+                                                    Guia Emisión</label>
+                                                <input type="file" id="first-name-column"
+                                                class="form-control" name="remision{{$des->id}}" accept=".pdf" required>
                                             </div>
                                         </div>
                                     @else

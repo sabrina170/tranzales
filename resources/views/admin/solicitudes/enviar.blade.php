@@ -150,7 +150,7 @@
                                     <div class="col-md-5">
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-sm"
-                                            style="color: black; font-size: 16px">
+                                            style="color: black; font-size: 19px">
                                                 <tbody>
                                                 @foreach ($planificaciones as $pla)
                                                      @if ($pla->id ==$doc->id_plani)
@@ -209,14 +209,6 @@
                                                                     <strong>{{$ch->brevete_cho}}</strong> 
                                                                 </td>
                                                             </tr>
-                                                            <tr>
-                                                                <td class="table-light">
-                                                                    <strong>FECHA VEN BREVETE</strong>
-                                                                </td>
-                                                                <td>
-                                                                    <strong>{{$ch->fecha_ven_cho}}</strong> 
-                                                                </td>
-                                                            </tr>
                                                             @else
                                                             @endif
                                                         @endforeach
@@ -235,10 +227,10 @@
                                                         @endforeach
                                                         <tr>
                                                             <td class="table-light">
-                                                                <strong>TIPO</strong>
+                                                                <strong class="text-danger">Indicaciones Especiales</strong>
                                                             </td>
                                                             <td>
-                                                                <strong> {{$pla->tipo_des}}</strong> 
+                                                                <strong> {{$pla->observaciones}}</strong> 
                                                             </td>
                                                         </tr>
                                                     @else

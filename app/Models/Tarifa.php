@@ -14,6 +14,7 @@ class Tarifa extends Model
         // Datos Info Personal
         'id_cliente',
         'destinos',
+        'cont_destinos',
         'base',
         'igv',
         'total'

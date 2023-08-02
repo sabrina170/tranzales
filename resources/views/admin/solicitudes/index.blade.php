@@ -42,6 +42,7 @@
                                 <th>FECHA SOLICITUD</th>
                                 <th>CLIENTE</th>
                                 <th>ORIGEN</th>
+                                <th>DESTINOS</th>
                                 <th>FECHA TRASLADO</th>
                                 <th>HORA</th>
                                 <th>CANT.</th>
@@ -57,11 +58,22 @@
                         </thead>
                         <tbody>
                             @foreach ($solicitudes as $doc)
+                            
                             <tr> 
                                 <td>{{$doc->codigo}}</td>
                                 <td>{{$doc->fecha}}</td>
                                 <td>{{$doc->nombre_cli}}</td>
                                 <td>{{$doc->referencia_cli}}</td>
+                                <td> 
+                                    @foreach (json_decode($doc->destinos) as $item)
+                                    @foreach ($destinos as $des)
+                                        @if ($des->id==$item)
+                                            <span class="badge badge-light-primary">{{$des->referencia}}</span>
+                                        @else
+                                        @endif
+                                    @endforeach
+                                    @endforeach
+                                </td>
                                 <td>{{$doc->fecha_traslado}}</td>
                                 {{-- <td>{{$doc->origen}}</td> --}}
                                 <td class="table-secondary"> <strong>{{$doc->hora}}</strong></td>
@@ -85,11 +97,11 @@
                                         @if ($pla->id ==$doc->id_plani)
                                                 @foreach ($vehiculos as $uni)
                                                     @if ($uni->id==$pla->id_unidad)
-                                                    <strong> {{$uni->unidad}}</strong>
+                                                     
+                                                    {{$uni->unidad}}
                                                     @else
                                                     @endif
                                                 @endforeach
-                                            -
                                                 @foreach ($choferes as $ch)
                                                 @if ($ch->id==$pla->id_chofer)
                                                {{$ch->nombres_cho}} {{$ch->apellidos_cho}}
@@ -384,8 +396,9 @@ var idioma=
                     search: 'none' // 'none', 'applied', 'removed'
                     },
                         columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13]
+                        
                     }
-        });
+                })
 
         } );
 </script>

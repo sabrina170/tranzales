@@ -17,51 +17,75 @@
                             <div class="card card-apply-job">
                                 <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="design-planning-wrapper mb-2 py-75">
-                                                    @foreach ($datos_destinos as $item)
-                                                        @foreach ($destinos as $des)
-                                                            @if ($des->id==$item)
-                                                            <div class="apply-job-package bg-light-primary rounded">
-                                                                <div>
-                                                                    <h6 class="d-inline me-25">Destino</h6>
-                                                                </div>
-                                                                <span class="btn btn-primary waves-effect btn-sm">{{$des->referencia}}</span>
-                                                            </div>
-                                                            @else
-                                                            @endif
-                                                        @endforeach
-                                                    @endforeach
-                                                </div>
-                                            </div>
+                                            @foreach ($datos_destinos as $item)
+                                           
+                                    @endforeach
                                              
                                                 @foreach ($cierres as $item)
                                                 {{-- @foreach ($item->datos_guias as $des) --}}
                                                     @if ($doc->id_cierre==$item->id)
-                                                    <div class="col-md-8">
+                                                    <div class="row">
+                                                    
                                                         @php
                                                         $datos_guias = json_decode($item->datos_guias, true); 
                                                         $datos_n_guias = json_decode($item->n_guias, true); 
-                                                        @endphp
 
-                                                        <div class="design-planning-wrapper mb-2 py-75">
+                                                        $datos_remision = json_decode($item->datos_remision, true); 
+                                                        $datos_n_remision = json_decode($item->n_remision, true);
+                                                        @endphp
+                                                   
                                                             @for ($i = 0; $i < $cont; $i++)
-                                                            <div class="apply-job-package bg-light-primary rounded">
-                                                                <h6 class="d-inline me-25">N° {{$datos_n_guias[$i]}}</h6>
-                                                                
-                                                            <a class="btn btn-outline-primary waves-effect btn-sm" 
-                                                            href="{{asset('pdfs-guias/'.$datos_guias[$i])}}" 
-                                                            download="{{$datos_guias[$i]}}"> 
-                                                            <i data-feather='download'></i>
-                                                            <span>  {{$datos_guias[$i]}}</span> </a> 
-                                                            </div>
+                                                                <div class="col-md-3">
+                                                                    <h6 class="d-inline me-25">Destino</h6>
+                                                                    <div class="design-planning-wrapper mb-2 py-75">
+                                                                        <div class="apply-job-package bg-light-primary rounded">
+                                                                            
+                                                                              
+                                                                            <span class="btn btn-primary waves-effect btn-sm">
+                                                                                @foreach ($destinos as $des)
+                                                                                @if ($des->id==$datos_destinos[$i])
+                                                                            {{$des->referencia}}
+                                                                                
+                                                                            @else
+                                                                            @endif
+                                                                        @endforeach
+                                                                            </span>
+                                                                        </div>    
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <div class="design-planning-wrapper mb-2 py-75">
+                                                                        <div class="apply-job-package bg-light-primary rounded">
+                                                                            <h6 class="d-inline me-25"><strong>Guia de Transporte</strong> </h6>
+                                                                            
+                                                                            <h6 class="d-inline me-25">N° {{$datos_n_guias[$i]}}</h6>
+                                                                            
+                                                                            <a class="btn btn-outline-primary waves-effect btn-sm" 
+                                                                            href="{{asset('pdfs-guias/'.$datos_guias[$i])}}" 
+                                                                            download="{{$datos_guias[$i]}}"> 
+                                                                            <i data-feather='download'></i>
+                                                                            <span>  {{$datos_guias[$i]}}</span> </a> 
+                                                                        </div>
+                                                                        <div class="apply-job-package bg-light-primary rounded">
+                                                                            <h6 class="d-inline me-25"><strong>Guia de Remison</strong> </h6>
+                                                                            
+                                                                            <h6 class="d-inline me-25">N° {{$datos_n_remision[$i]}}</h6>
+                                                                            
+                                                                            <a class="btn btn-outline-primary waves-effect btn-sm" 
+                                                                            href="{{asset('pdfs-guias/'.$datos_remision[$i])}}" 
+                                                                            download="{{$datos_remision[$i]}}"> 
+                                                                            <i data-feather='download'></i>
+                                                                            <span>  {{$datos_remision[$i]}}</span> </a> 
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             @endfor
-                                                        </div>
-                                                    </div>
+                                                        
                                                     <div class="col-md-12">
                                                         <h4> Indicaciones Especiales: </h4>
                                                       {{$item->indicaciones}}
                                                     </div>
+                                        </div>
                                                     @else
                                                     @endif  
                                                 @endforeach  

@@ -117,15 +117,16 @@
                         <li><a class="d-flex align-items-center" href="{{route('admin.clientes.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">CLIENTES</span></a>
                         </li>
+                        <li><a class="d-flex align-items-center" href="{{route('admin.destinos.index')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">DESTINATARIOS ( CAMALES)</span></a>
+                        </li>
                         <li><a class="d-flex align-items-center" href="{{route('admin.rutas.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">RUTAS</span></a>
                         </li>
                         <li><a class="d-flex align-items-center" href="{{route('admin.tarifas.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">TARIFA DE LOS CLIENTES</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="{{route('admin.destinos.index')}}">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">DESTINATARIOS ( CAMALES)</span></a>
-                        </li>
+                        
                         
                     </ul>
                 </li>

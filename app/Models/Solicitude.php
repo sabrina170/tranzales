@@ -17,6 +17,7 @@ class Solicitude extends Model
         'fecha_traslado',
         'origen',
         'hora',
+        'hora_cochera',
         'cantidad',
         'datos_destinos',
         'datos_cantidad',
