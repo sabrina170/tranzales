@@ -38,13 +38,14 @@
                         <thead class="text-center">
                             <tr>
                                 {{-- <th>ID</th> --}}
-                                <th>CODIGO SOLICITUD</th>
-                                <th>FECHA SOLICITUD</th>
-                                <th>CLIENTE</th>
-                                <th>ORIGEN</th>
+                                {{-- <th>ID</th> --}}
                                 <th>FECHA TRASLADO</th>
+                                <th>CLIENTE</th>
                                 <th>HORA</th>
                                 <th>CANT.</th>
+                                <th>ORIGEN</th>
+                                {{-- <th>FECHA TRASLADO</th> --}}
+                                
                                 <th>COSTO FLETE</th>
                                 <th>ESTADO</th>
                                 <th>PLANIFICACIÓN <br>(Unidad-Chofer) </th>
@@ -56,16 +57,24 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                            $i = 0;
+                            @endphp
                             @foreach ($solicitudes as $doc)
                             <tr> 
-                                <td>{{$doc->codigo}}</td>
-                                <td>{{$doc->fecha}}</td>
+                                @php
+                                $ii = $i++;
+                                $fecha= $doc->fecha_traslado;
+                                $date = new DateTime($fecha);
+                                @endphp
+                                {{-- <td>{{$ii}}</td> --}}
+                                <td> <strong>{{$date->format('d-m-Y')}}</strong></td>
                                 <td>{{$doc->nombre_cli}}</td>
-                                <td>{{$doc->referencia_cli}}</td>
-                                <td>{{$doc->fecha_traslado}}</td>
-                                {{-- <td>{{$doc->origen}}</td> --}}
                                 <td class="table-secondary"> <strong>{{$doc->hora}}</strong></td>
                                 <td>{{$doc->cantidad}}</td>
+                                <td>{{$doc->referencia_cli}}</td>
+                                {{-- <td>{{$doc->fecha_traslado}}</td> --}}
+                                {{-- <td>{{$doc->origen}}</td> --}}
                                 <td>{{$doc->costo}}</td>
                                 <td>
                                     @if ($doc->estado==1)
@@ -365,16 +374,16 @@ var idioma=
                         extend: 'excel',
                         text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
                         className: 'btn btn-sm btn-info round waves-effect',
-                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12,13] }
+                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12] }
                         },
                         {
                             extend: 'print',
                         text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
                         className: 'btn btn-sm btn-info round waves-effect',
-                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12,13] }
+                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12] }
                         },
                     ],
-                    "order": [[ 4, 'asc' ], [ 5, 'asc' ]],
+                    "order": [[ 0, 'desc' ], [ 4, 'asc' ]],
                     exportOptions: {
                     modifier: {
                     // DataTables core
@@ -383,7 +392,7 @@ var idioma=
                     page: 'all', // 'all', 'current'
                     search: 'none' // 'none', 'applied', 'removed'
                     },
-                        columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13]
+                        columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12]
                     }
         });
 
