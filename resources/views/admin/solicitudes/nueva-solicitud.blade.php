@@ -56,7 +56,7 @@
                         <div class="row">
                           <input type="hidden" class="form-control" id="codigo_solicitud" name="codigo_solicitud"
                                     value="UID{{ date("mdHis");}}" readonly>
-                            <div class="col-md-3 col-12">
+                            <div class="col-md-2 col-12">
                                 <div class="mb-1">
                                     <label class="form-label" for="helpInputTop">FECHA SOLITUD:</label>
                                     <input type="date" value="{{ date("Y-m-d");}}" class="form-control" name="fecha_solicitud" id="fecha_solicitud" @selected(old('fecha_solicitud'))>
@@ -89,6 +89,10 @@
                             <div class="col-md-2 col-12">
                                 <label class="form-label" for="disabledInput">HORA EN GRANJA:</label>
                                 <input type="time" class="form-control" name="hora" id="hora">
+                            </div>
+                            <div class="col-md-2 col-12">
+                                <label class="form-label" for="disabledInput">HORA EN COCHERA:</label>
+                                <input type="time" class="form-control" name="hora_cochera" id="hora_cochera">
                             </div>
                             <div class="col-md-2 col-12">
                                 <div class="mb-1">
@@ -149,28 +153,28 @@
                                                                 <input class="price2 cantidad1 form-control" type="number"
                                                                  ng-model="row.cantidad1" id="cantidad1"
                                                                 name="datos_cantidad1[]" oninput="multiplicar(event)"
-                                                                 onKeyUp="Suma()" placeholder="20" value="0">
+                                                                 onKeyUp="Suma()" value="0">
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="col-md-12">
                                                                 <input class="price2 cantidad2 form-control" type="number" ng-model="row.cantidad2" 
                                                                 name="datos_cantidad2[]" oninput="multiplicar(event)" 
-                                                                 onKeyUp="Suma()" placeholder="20" value="0">
+                                                                 onKeyUp="Suma()" value="0">
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="col-md-12">
                                                                 <input class="price2 cantidad3 form-control" type="number" ng-model="row.cantidad3" 
                                                                 name="datos_cantidad3[]" oninput="multiplicar(event)" 
-                                                                onKeyUp="Suma()" placeholder="20" value="0">
+                                                                onKeyUp="Suma()" value="0">
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="col-md-12">
                                                                 <input class="price2 cantidad4 form-control" type="number" ng-model="row.cantidad4" 
                                                                 name="datos_cantidad4[]" oninput="multiplicar(event)"
-                                                                 onKeyUp="Suma()" placeholder="20" value="0" >
+                                                                 onKeyUp="Suma()" value="0" >
                                                             </div>
                                                         </td>
                                                         <td>
@@ -282,6 +286,9 @@
                 } else  if ($("#hora").val() == "") {
                     Swal.fire({ icon: 'error', title: 'Poner una Hora',})
                 return false; 
+                }else  if ($("#hora_cochera").val() == "") {
+                    Swal.fire({ icon: 'error', title: 'Poner una Hora en cochera',})
+                return false; 
                 }else  if ($("#cantidad1").val() == "") {
                     Swal.fire({ icon: 'error', title: 'Ingresa una cantidad',})
                 return false; 
@@ -299,6 +306,7 @@
             var valor_input = $(this).val();
                     lista.push(valor_input);
             });
+            var cont_lista =lista.length;
 
         
             $.ajax({
@@ -307,7 +315,8 @@
                     type:'GET',
                     data:{
                         'idcliente':idcliente,
-                        'costo_des':lista
+                        'costo_des':lista,
+                        'cont_lista':cont_lista
                     },
                     dataType:'json',
                 beforeSend: function() {
@@ -328,6 +337,7 @@
                         $('#texto').css({ 'display': 'none'});
                         $('#costo-soli').attr("readonly","readonly");
                     }
+                    
                     console.log(data);
                     return false;
                 },

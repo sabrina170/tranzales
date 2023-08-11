@@ -1,5 +1,5 @@
 <div class="modal fade" id="crearcierre{{$doc->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalScrollableTitle">Cierre</h5>
@@ -17,7 +17,7 @@
                             @foreach ($datos_destinos as $item)
                                 @foreach ($destinos as $des)
                                     @if ($des->id==$item)
-                                        <div class="col-md-4 col-12">
+                                        <div class="col-md-2 col-12">
                                             <div class="mb-1">
                                                 <label class="form-label" for="first-name-column">
                                                     Destino</label>
@@ -26,12 +26,39 @@
                                                     </span>
                                             </div>
                                         </div>
-                                        <div class="col-md-8 col-12">
+                                        <br>
+                                        <div class="col-md-4 col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label" for="first-name-column">
+                                                   N° Guia Transporte</label>
+                                                <input type="text" id="first-name-column"
+                                                class="form-control" name="n_guias{{$des->id}}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
                                             <div class="mb-1">
                                                 <label class="form-label" for="first-name-column">
                                                     Guia Transporte</label>
                                                 <input type="file" id="first-name-column"
-                                                class="form-control" name="guia{{$des->id}}" required>
+                                                class="form-control" name="guia{{$des->id}}" accept=".pdf" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-12">
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label" for="first-name-column">
+                                                   N° Guia Emisión</label>
+                                                <input type="text" id="first-name-column"
+                                                class="form-control" name="n_remision{{$des->id}}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label" for="first-name-column">
+                                                    Guia Emisión</label>
+                                                <input type="file" id="first-name-column"
+                                                class="form-control" name="remision{{$des->id}}" accept=".pdf" required>
                                             </div>
                                         </div>
                                     @else
@@ -39,7 +66,7 @@
                                 @endforeach
                             @endforeach
                             
-                                <div class="col-md-12 mb-1">
+                                <div class="col-md-6 mb-1">
                                     <div class="mb-1">
                                         <label class="d-block form-label"
                                         for="validationBioBootstrap">Indicaciones Especiales</label>

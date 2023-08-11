@@ -114,60 +114,60 @@
                                     <div class="mb-1">
                                         <label class="form-label" for="company-column">Contactos</label>
                                         {{-- inicio table --}}
-                        <div ng-app="NewRows">
-                            <div ng-controller="Table">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                      <thead>
-                                        <tr>
-                                          <th></th>
-                                          <th>Contacto</th>
-                                          <th>Telefono</th>
-                                          <th>Cargo</th>
-                                          <th>Correo</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr class="trat" ng-repeat="row in rows">
-                                            <td align="center"><input type="checkbox" ng-model="row.delete"></td>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <input type="text" id="company-column" class="datos_contacto form-control" name="datos_contacto[]" required>
+                                            <div ng-app="NewRows">
+                                                <div ng-controller="Table">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                            <th></th>
+                                                            <th>Contacto</th>
+                                                            <th>Telefono</th>
+                                                            <th>Cargo</th>
+                                                            <th>Correo</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="trat" ng-repeat="row in rows">
+                                                                <td align="center"><input type="checkbox" ng-model="row.delete"></td>
+                                                                <td>
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <input type="text" id="company-column" class="datos_contacto form-control" name="datos_contacto[]" required>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <input type="number" id="company-column" class="datos_telefono form-control" name="datos_telefono[]" required>
+                                                                        </div>
+                                                                </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <input type="text" id="company-column" class="datos_cargo form-control" name="datos_cargo[]" required>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <input type="text" id="company-column" class="datos_correo form-control" name="datos_correo[]" required>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        </table>
+                                                        
+                                                        <button type="button" class="btn btn-success mt-12" ng-click="AddRow()">Agregar</button>
+                                                        <button type="button" class="btn btn-danger mt-12" ng-click="RemoveRow()" ng-class="">Eliminar Filas</button>
                                                     </div>
                                                 </div>
-                                            </td>
-                                            <td>
-                                            <div class="row">
-                                                    <div class="col-md-12">
-                                                        <input type="number" id="company-column" class="datos_telefono form-control" name="datos_telefono[]" required>
-                                                    </div>
                                             </div>
-                                            </td>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <input type="text" id="company-column" class="datos_cargo form-control" name="datos_cargo[]" required>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <input type="text" id="company-column" class="datos_correo form-control" name="datos_correo[]" required>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                    
-                                    <button type="button" class="btn btn-success mt-12" ng-click="AddRow()">Agregar</button>
-                                    <button type="button" class="btn btn-danger mt-12" ng-click="RemoveRow()" ng-class="">Eliminar Filas</button>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- fin de tabla --}}
+                                        {{-- fin de tabla --}}
                                     </div>
                                 </div>
 
@@ -178,7 +178,7 @@
                     <button id="add-receta" type="submit" class="btn btn-danger me-1 waves-effect waves-float waves-light">Agregar</button>
             
                     </div>
-                    {{-- </form> --}}
+                    </form>
               </div>
             </div>
         </div>
@@ -241,11 +241,15 @@
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <a type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#view{{$doc->id}}">
                                             <i data-feather='eye'></i></a>
-                                        {{-- <a type="button" class="btn btn-dark btn-sm" href="{{route('admin.vehiculos.edit-vehiculo',$doc->id)}}"><i data-feather='edit'></i></a>
-                                        <a type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eli{{$doc->id}}"><i data-feather='trash-2'></i></a> --}}
+                                            
+                                        <a type="button" class="btn btn-dark btn-sm" href="{{ route('edit-cliente',$doc->id) }}"><i data-feather='edit'></i></a>
+                                        <a type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eli{{$doc->id}}"><i data-feather='trash-2'></i></a> 
                                     </div>
                             </tr>
                             @include('admin.modals.modaldetcli')
+                            @include('admin.modals.modalelicli')
+                            {{-- @include('admin.modals.modaledicli') --}}
+
                             @endforeach
                         </tbody>
                     </table>
@@ -259,7 +263,18 @@
 @endsection
 
 @section('js')
-
+@if (session()->get('data'))
+<div class="alert alert-success">
+    <script>
+       var text = '{{session()->get('data')}}';
+       Swal.fire(
+        'Ok!',
+        text,
+        'success'
+        )       
+    </script>
+</div>
+@endif
 <script>
      var app = angular.module("NewRows",[]);
     app.controller("Table",['$scope',function($scope){
@@ -318,6 +333,8 @@
                 })
             });
 
+           
+
             $('#provincia').on('change', function(){
                 var id = $(this).val();
                 // alert(id);
@@ -333,6 +350,8 @@
                     }
                 })
             });
+
+            
 </script>
   <script>
     var idioma=

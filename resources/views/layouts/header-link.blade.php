@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/vendors.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/forms/select/select2.min.css')}}">
     <!-- END: Vendor CSS-->
-    <link rel="stylesheet" href="{{asset('app-assets/vendor/libs/animate-css/animate.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('app-assets/vendor/libs/animate-css/animate.css')}}"> --}}
     <!-- BEGIN: Theme CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/bootstrap.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/bootstrap-extended.css')}}">

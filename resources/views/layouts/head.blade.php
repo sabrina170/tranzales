@@ -15,13 +15,15 @@
             <ul class="nav navbar-nav align-items-center ms-auto">
                 
                 <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">{{Auth::user()->name}}</span>
-                       @if (Auth::user()->hasRole('admin'))
+                    <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">{{Auth::user()->email}}</span>
+                       @if (Auth::user()->tipo==1)
                        <span class="user-status">Administrador</span>
-                       @elseif (Auth::user()->hasRole('operario'))
+                       @elseif (Auth::user()->tipo==2)
                        <span class="user-status">Operario</span>
-                       @elseif (Auth::user()->hasRole('gerente'))
-                       <span class="user-status">Gerente</span>
+                       @elseif (Auth::user()->tipo==3)
+                       <span class="user-status">Gestión</span>
+                       @elseif (Auth::user()->tipo==4)
+                       <span class="user-status">Contabilidad</span>
                        @endif
                     </div>
                         {{-- <span class="avatar">
@@ -29,17 +31,21 @@
                             src="{{asset('app-assets/images/portrait/small/avatar-s-11.jpg')}}" 
                             alt="avatar" height="40" width="40"><span class="avatar-status-online"></span>
                         </span> --}}
-                        @if (Auth::user()->hasRole('admin'))
+                        @if (Auth::user()->tipo==1)
                         <div class="avatar bg-light-success avatar-lg">
                             <span class="avatar-content">AD</span>
                         </div>
-                        @elseif (Auth::user()->hasRole('operario'))
+                        @elseif (Auth::user()->tipo==2)
                         <div class="avatar bg-light-warning avatar-lg">
                             <span class="avatar-content">OP</span>
                         </div>
-                        @elseif (Auth::user()->hasRole('gerente'))
+                        @elseif (Auth::user()->tipo==3)
                         <div class="avatar bg-light-info avatar-lg">
-                            <span class="avatar-content">GR</span>
+                            <span class="avatar-content">GS</span>
+                        </div>
+                        @elseif (Auth::user()->tipo==4)
+                        <div class="avatar bg-light-primary avatar-lg">
+                            <span class="avatar-content">CT</span>
                         </div>
                         @endif
                        
@@ -76,6 +82,8 @@
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+                
+                @if (Auth::user()->tipo==1)
                 <li class=" nav-item"><a class="d-flex align-items-center" href="index.html"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Estadisticas</span><span class="badge badge-light-warning rounded-pill ms-auto me-1">2</span></a>
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="{{route('admin.estadisticas')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Analytics</span></a>
@@ -87,10 +95,11 @@
                         </li>
                     </ul>
                 </li>
+                
                 {{-- RECURSOS --}}
                 <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Modulos</span><i data-feather="more-horizontal"></i>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                <li class=" nav-item">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">RECURSOS</span>
                     <span class="badge badge-light-success rounded-pill ms-auto me-1">3</span></a>
@@ -104,18 +113,17 @@
                         <li><a class="d-flex align-items-center" href="{{route('admin.choferes.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">PERSONAL DE TRABAJO</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">PROVEEDORES</span></a>
-                        </li>
                     </ul>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                <li class=" nav-item">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">CLIENTES</span>
-                    <span class="badge badge-light-success rounded-pill ms-auto me-1">4</span></a>
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="{{route('admin.clientes.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">CLIENTES</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="{{route('admin.destinos.index')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">DESTINATARIOS ( CAMALES)</span></a>
                         </li>
                         <li><a class="d-flex align-items-center" href="{{route('admin.rutas.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">RUTAS</span></a>
@@ -123,21 +131,18 @@
                         <li><a class="d-flex align-items-center" href="{{route('admin.tarifas.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">TARIFA DE LOS CLIENTES</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="{{route('admin.destinos.index')}}">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">DESTINATARIOS ( CAMALES)</span></a>
-                        </li>
+                        
                         
                     </ul>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                <li class=" nav-item">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">OPERACIONES</span>
-                    <span class="badge badge-light-success rounded-pill ms-auto me-1">4</span></a>
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="{{route('admin.solicitudes.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">ORDEN DE SERVICIO</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="">
+                        {{-- <li><a class="d-flex align-items-center" href="">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">CAJA</span></a>
                         </li>
                         <li><a class="d-flex align-items-center" href="">
@@ -145,10 +150,32 @@
                         </li>
                         <li><a class="d-flex align-items-center" href="">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">KILOMETRAJE</span></a>
-                        </li>
+                        </li> --}}
                     </ul>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                </li>  
+                @else
+                <li class=" nav-item">
+                    <i data-feather="home"></i>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">OPERACIONES</span>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.solicitudes.index')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">ORDEN DE SERVICIO</span></a>
+                        </li>
+                        {{-- <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">CAJA</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">RECARGA COMBUSTIBLE</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">KILOMETRAJE</span></a>
+                        </li> --}}
+                    </ul>
+                </li>   
+                @endif
+
+
+                {{-- <li class=" nav-item"><a class="d-flex align-items-center" href="#">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">REPORTE  OPERACIÓN</span>
                     <span class="badge badge-light-success rounded-pill ms-auto me-1">2</span></a>
@@ -187,15 +214,8 @@
                                 GRAFICO DE COSTO DE VIATICOS </span></a>
                         </li>
                     </ul>
-                </li>
-                
-                {{-- <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('admin.choferes')}}"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Todo">Gestión <br> de Guías</span></a>
-                    
                 </li> --}}
                 
-                
-                
-             
             </ul>
         </div>
     </div>

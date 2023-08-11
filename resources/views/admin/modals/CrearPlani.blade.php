@@ -77,7 +77,7 @@
                         <div class="col-md-12 mb-1">
                             <div class="mb-1">
                                 <label class="d-block form-label"
-                                 for="validationBioBootstrap">Observaciones</label>
+                                 for="validationBioBootstrap">Indicaciones Especiales</label>
                                 <textarea class="form-control" id="observaciones"
                                  name="observaciones" rows="3"></textarea>
                             </div>

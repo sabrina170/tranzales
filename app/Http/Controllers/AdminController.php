@@ -36,14 +36,17 @@ class AdminController extends Controller
             "solicitudes.codigo_solicitud as codigo",
             "solicitudes.fecha_solicitud as fecha",
             "solicitudes.hora as hora",
+            "solicitudes.hora_cochera as hora_cochera",
             "solicitudes.cantidad as cantidad",
             "solicitudes.fecha_traslado as fecha_traslado",
             "solicitudes.costo as costo",
             "solicitudes.estado as estado",
+            "solicitudes.datos_destinos as destinos",
             "solicitudes.id_plani as id_plani",
             "solicitudes.id_cierre as id_cierre",
             "solicitudes.lavado as lavado",
             "solicitudes.comprobante as comprobante",
+            "solicitudes.datos_cantidad as datos_cantidad",
             "clientes.nombre as nombre_cli",
             "clientes.referencia as referencia_cli",
             "solicitudes.created_at",
@@ -79,16 +82,13 @@ class AdminController extends Controller
         // for ($i = 0; $i < count($datos_cantidad); $i++) {
         // }
         $obs = $request->get('observaciones');
-        if (empty($obs)) {
+        $n_com = $request->get('comprobante');
+        if (empty($obs) || empty($n_com)) {
             $observaciones = "";
+            $comprobante = "";
         } else {
             $observaciones = $request->get('observaciones');
-        }
-        $n_com = $request->get('comprobante');
-        if (empty($obs)) {
-            $n_com = "";
-        } else {
-            $n_com = $request->get('comprobante');
+            $comprobante = $request->get('comprobante');
         }
 
         $datos_estructura = array(
@@ -105,6 +105,7 @@ class AdminController extends Controller
             'fecha_traslado' => $request->get('fecha_traslado'),
             // 'origen' => $request->get('origen'),
             'hora' => $request->get('hora'),
+            'hora_cochera' => $request->get('hora_cochera'),
             'cantidad' => $request->get('cantidad'),
             'datos_destinos' => json_encode($request->get('datos_destinos')),
             'datos_cantidad' => json_encode($datos_estructura),
@@ -114,12 +115,13 @@ class AdminController extends Controller
             'id_plani' => 0,
             'id_cierre' => 0,
             'lavado' => $request->get('lavado'),
-            'comprobante' => $n_com
+            'comprobante' => $comprobante
         ];
 
         // dd($data);
         $soli = Solicitude::create($data);
-        return redirect()->route('admin.solicitudes.index');
+        $mensaje = "Solicitud Creada";
+        return redirect()->route('admin.solicitudes.index')->with(['data' => $mensaje]);
     }
 
     public function BuscarCosto(Request $request)
@@ -127,30 +129,50 @@ class AdminController extends Controller
         $idcliente = $request->get('idcliente');
         // echo $idcliente;
         $datos_destinos = $request->get('costo_des');
+        $cont_lista = $request->get('cont_lista');
         $datos_tarifa  = DB::table('tarifas')->where('id_cliente', $idcliente)->get();
         $filas =  $datos_tarifa->count();
 
+
+        // $arrr2 = array($datos_destinos);
+        // echo  $cont_lista;
+        // $arrr1 = count($datos_tarifa);
+        // $arrr2 = $arr2->count();
+
         if ($filas == 0) {
-            $mensaje = 1;
+            echo  $mensaje = 1;
         } else {
+
             foreach ($datos_tarifa as $tar) {
+
 
                 $arr1 = array(json_decode($tar->destinos));
                 $arr2 = array($datos_destinos);
+                // echo  $tar->cont_destinos;
+                // validar si tiene solo 1 valor
+                if ($tar->cont_destinos == $cont_lista) {
+                    // 1 = 1
+                    sort($arr1);
+                    sort($arr2);
 
-                // Sort the array elements
-                sort($arr1);
-                sort($arr2);
-
-                // Check for equality
-                if ($arr1 == $arr2) {
-                    $mensaje = $tar->total;
+                    if ($arr1 == $arr2) {
+                        $mensaje = $tar->total;
+                    } else {
+                        // $mensaje = 1;
+                    }
+                    // echo 55;
+                    // $mensaje = $tar->total;
                 } else {
-                    $mensaje = 1;
+                    // $mensaje = 1;
+                    // echo $mensaje = $tar->cont_destinos;
                 }
             }
+            if (isset($mensaje)) {
+                echo $mensaje;
+            } else {
+                echo 1;
+            }
         }
-        echo  $mensaje;
     }
     // ----------------------Vehiculos------------------------------
     public function show_listado_vehiculos()
@@ -381,8 +403,11 @@ class AdminController extends Controller
             "contactos",
             "ruc",
             "departamentos.name as nombre_dep",
+            "departamentos.id as id_dep",
             "provincias.name as nombre_prov",
+            "provincias.id as id_prov",
             "distritos.name as nombre_dis",
+            "distritos.id as id_dis",
             "direccion",
             "estado",
             "tipo_servicio",
@@ -440,6 +465,79 @@ class AdminController extends Controller
         // dd($request);
         // return $nombre;
     }
+    public function delete_cliente(Request $request)
+    {
+        // dd($id);
+        $id = $request->get('id');
+        DB::table('clientes')->where('id', $id)->limit(1)->update([
+            'estado' => '0'
+        ]);
+        $mensaje = "Cliente Desactivado";
+        return redirect()->route('admin.clientes.index')->with(['data' => $mensaje]);
+        // dd($vehiculo);
+    }
+
+    public function edit_cliente(Cliente $cliente, $id)
+    {
+        // dd($id);
+        $cliente  = DB::table('clientes')->where('id', $id)->limit(1)->get();
+        $departamentos = DB::table('departamentos')->get();
+        $provincias = DB::table('provincias')->get();
+        $distritos = DB::table('distritos')->get();
+        // dd($vehiculo);
+        return view('admin.clientes.edit', compact('cliente', 'departamentos', 'provincias', 'distritos'));
+    }
+    public function update_cliente(Request $request)
+    {
+        // transformar array en json 
+        $datos_contacto = $request->get('datos_contacto');
+        $datos_telefono = $request->get('datos_telefono');
+        $datos_cargo = $request->get('datos_cargo');
+        $datos_correo = $request->get('datos_correo');
+        $id = $request->get('id');
+
+
+        $datos = array();
+        for ($i = 0; $i < count($datos_contacto); $i++) {
+            $datos[$i] = array(
+                'id' => $i,
+                'contacto' => $datos_contacto[$i],
+                'telefono' => $datos_telefono[$i],
+                'cargo' => $datos_cargo[$i],
+                'correo' => $datos_correo[$i]
+            );
+        }
+
+        // $cli = $request->all();
+        // $cli['contactos'] = json_encode($datos, true);
+        // $clien->update($cli);
+
+        DB::table('clientes')->where('id', $id)->limit(1)->update([
+            'nombre' => $request->get('nombre'),
+            'ruc' => $request->get('ruc'),
+            'referencia' => $request->get('referencia'),
+            'departamento' => $request->get('departamento'),
+            'provincia' => $request->get('provincia'),
+            'distrito' => $request->get('distrito'),
+            'direccion' => $request->get('direccion'),
+            'estado' => $request->get('estado'),
+            'contactos' => json_encode($datos, true),
+            'tipo_servicio' => $request->get('tipo_servicio')
+        ]);
+
+        $mensaje = "Cliente actualizado exitosamente";
+
+        $cliente  = DB::table('clientes')->where('id', $id)->limit(1)->get();
+        $departamentos = DB::table('departamentos')->get();
+        $provincias = DB::table('provincias')->get();
+        $distritos = DB::table('distritos')->get();
+        // dd($vehiculo);
+        return redirect()->route('edit-cliente', $id)->with([
+            'data' => $mensaje, 'cliente' => $cliente,
+            'departamentos' => $departamentos, 'provincias' => $provincias, 'distritos' => $distritos
+        ]);
+    }
+
     // ------------------RUTAS--------------------------------------------
     public function show_listado_rutas()
     {
@@ -738,9 +836,11 @@ class AdminController extends Controller
 
         // echo var_dump($datos_destinos);
 
+        $destinos = json_encode($datos_destinos, true);
         $data = [
             'id_cliente' => $request->get('cliente'),
-            'destinos' => json_encode($datos_destinos, true),
+            'destinos' => $destinos,
+            'cont_destinos' => count($datos_destinos),
             'base' => $request->get('base'),
             'igv' => $request->get('igv'),
             'total' => $request->get('total')
@@ -960,10 +1060,28 @@ class AdminController extends Controller
                 // $alu['image'] = "$profileImage";
                 $arr[] = $firmaImage;
             }
+
+            if ($image2 = $request->file('remision' . $key)) {
+                $destinatarioPath2 = 'pdfs-remision/';
+                $firmaImage2 = date('YmdHis') . "." . $image2->getClientOriginalExtension();
+                $image2->move($destinatarioPath2, $firmaImage2);
+                // $alu['image'] = "$profileImage";
+                $arr2[] = $firmaImage2;
+            }
+
+            $n_gruias[] = $request->get('n_guias' . $key);
+            $n_remision[] = $request->get('n_remision' . $key);
         }
 
+        $fecha_fac = NULL;
+        $n_fac = "";
         $data = [
             'datos_guias' => json_encode($arr, true),
+            'n_guias' => json_encode($n_gruias, true),
+            'datos_remision' => json_encode($arr2, true),
+            'n_remision' => json_encode($n_remision, true),
+            'fecha_fac'  => $fecha_fac,
+            'n_fac'  => $n_fac,
             'indicaciones'  => $indicaciones
         ];
         // dd($data);
@@ -975,6 +1093,27 @@ class AdminController extends Controller
             'estado' => '4'
         ]);
         $mensaje = "Asignación Finalizada";
+        // echo var_dump($arr);
+        return redirect()->route('admin.solicitudes.index')->with(['data' => $mensaje]);
+    }
+
+    public function edit_cierre(Request $request)
+    {
+        $id_soli = $request->get('id_soli');
+        $id_cierre = $request->get('id_cierre');
+        $fecha_fac = $request->get('fecha_fac');
+        $n_fac = $request->get('n_fac');
+
+        DB::table('cierres')->where('id', $id_cierre)->limit(1)->update([
+            'fecha_fac'  => $fecha_fac,
+            'n_fac'  => $n_fac
+        ]);
+
+        DB::table('solicitudes')->where('id', $id_soli)->limit(1)->update([
+            'id_cierre' => $id_cierre,
+            'estado' => '5'
+        ]);
+        $mensaje = "Facturación Terminada";
         // echo var_dump($arr);
         return redirect()->route('admin.solicitudes.index')->with(['data' => $mensaje]);
     }

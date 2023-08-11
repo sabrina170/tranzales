@@ -69,6 +69,12 @@ Route::delete('/DeleteDes/{id}', [AdminController::class, 'delete_destino'])->na
 // ----------------------------------------CLIENTES----------------------------------------------------------------
 Route::get('/clientes', [AdminController::class, 'show_listado_clientes'])->name('admin.clientes.index');
 Route::post('/crearCliente', [AdminController::class, 'create_crear_cliente'])->name('crearcliente');
+// actualiza el estado en vez de eliminarlo
+Route::post('/Deletecli', [AdminController::class, 'delete_cliente'])->name('delete-cliente');
+Route::get('/Editcli/{id}', [AdminController::class, 'edit_cliente'])->name('edit-cliente');
+Route::post('/Updatecli/{id}', [AdminController::class, 'update_cliente'])->name('update-cliente');
+
+
 
 // -----------------------------------------RUTAS-----------------------------------------------------------------
 Route::get('/rutas', [AdminController::class, 'show_listado_rutas'])->name('admin.rutas.index');
@@ -104,3 +110,6 @@ Route::get('/BuscarCho', [AdminController::class, 'buscarchofer'])->name('buscar
 Route::post('/crearPlani', [AdminController::class, 'crear_plani'])->name('crear-plani');
 Route::get('IdEnviar/{id}', [AdminController::class, 'enviar_info_conductor'])->name('enviar_info_conductor');
 Route::post('/crearCierre', [AdminController::class, 'crear_cierre'])->name('crear-cierre');
+Route::post('/editCierre', [AdminController::class, 'edit_cierre'])->name('edit-cierre');
+
+// Clientes

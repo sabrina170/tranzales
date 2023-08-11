@@ -69,7 +69,7 @@ class LoginController extends Controller
                 return redirect()->route('admin.solicitudes.index');
             } else if (Auth::user()->hasRole('operario')) {
                 return redirect()->route('admin.solicitudes.index');
-            } else if (Auth::user()->hasRole('gerente')) {
+            } else if (Auth::user()->hasRole('gestion')) {
                 return redirect()->route('admin.solicitudes.index');
             } else {
                 return redirect()->route('admin.solicitudes.index');

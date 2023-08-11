@@ -34,102 +34,111 @@
         <div class="col-12">
             <div class="card p-1">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-sm" id="solicitudes">
+                    <table class="table table-striped table-bordered dt-responsive table-sm" id="solicitudes">
                         <thead class="text-center">
                             <tr>
                                 {{-- <th>ID</th> --}}
-                                {{-- <th>ID</th> --}}
-                                <th>FECHA TRASLADO</th>
-                                <th>CLIENTE</th>
-                                <th>HORA</th>
-                                <th>CANT.</th>
-                                <th>ORIGEN</th>
-                                {{-- <th>FECHA TRASLADO</th> --}}
-                                
-                                <th>COSTO FLETE</th>
-                                <th>ESTADO</th>
-                                <th>PLANIFICACIÓN <br>(Unidad-Chofer) </th>
-                                <th>PLANIFICACIÓN <br>(Ayudante)</th>
-                                <th>LAVADO</th>
-                                <th>N° COMP.</th>
-                                <th>CIERRE</th>
+                                {{-- <th>CODIGO SOLICITUD</th> --}}
+                                <th style="font-size: 10px;width: 40px">FECHA <br> TRASLADO</th>
+                                <th style="font-size: 10px;width: 40px">CLIENTE</th>
+                                <th style="font-size: 10px; width: 30px">HORA <br> EN GRANJA</th>
+                                <th style="font-size: 10px; width: 20px">CANTIDAD <br> TOTAL</th>
+                                <th style="font-size: 10px;width: 20px">ORIGEN</th>
+                                <th style="font-size: 10px;width: 40px">DESTINOS</th>
+                                <th style="font-size: 10px;width: 40px">ASIGNAR</th>
+                                <th style="font-size: 10px;width: 40px">UNIDAD</th>
+                                <th style="font-size: 10px;width: 40px">PLACA</th>
+                                <th style="font-size: 10px;width: 40px">CHOFER</th>
+                                <th style="font-size: 10px;width: 40px">AYUDANTE</th>
+                                {{-- <th>LAVADO</th>
+                                <th>N° COMP.</th> --}}
+                                <th style="font-size: 10px;width: 40px">HORA <br> EN COCHERA</th>
+                                <th style="font-size: 10px;width: 40px">ESTADO</th>
+
+                                {{-- <th>CIERRE</th> --}}
                                 {{-- <th>ACCIONES</th> --}}
                             </tr>
                         </thead>
                         <tbody>
-                            @php
-                            $i = 0;
-                            @endphp
                             @foreach ($solicitudes as $doc)
-                            <tr> 
+                            
+                            <tr style="font-size: 12px;"> 
+                                {{-- <td>{{$doc->codigo}}</td> --}}
                                 @php
-                                $ii = $i++;
                                 $fecha= $doc->fecha_traslado;
-                                $date = new DateTime($fecha);
+                                $date = new DateTime($fecha);    
                                 @endphp
-                                {{-- <td>{{$ii}}</td> --}}
-                                <td> <strong>{{$date->format('d-m-Y')}}</strong></td>
-                                <td>{{$doc->nombre_cli}}</td>
-                                <td class="table-secondary"> <strong>{{$doc->hora}}</strong></td>
+                                <td><strong>{{$date->format('d-m-Y')}}</strong></td>
+                                <td style="font-size: 12px"><strong>{{$doc->nombre_cli}}</strong></td>
+                                <td><strong>{{$doc->hora}}</strong></td>
                                 <td>{{$doc->cantidad}}</td>
                                 <td>{{$doc->referencia_cli}}</td>
+                               
+                                <td> 
+                                    @foreach (json_decode($doc->destinos) as $item)
+                                    @foreach ($destinos as $des)
+                                        @if ($des->id==$item)
+                                        {{$des->referencia}} <br>
+                                       
+                                        @else
+                                        @endif
+                                    @endforeach
+                                    @endforeach
+                                    @php
+                                    @endphp
+                                </td>
                                 {{-- <td>{{$doc->fecha_traslado}}</td> --}}
                                 {{-- <td>{{$doc->origen}}</td> --}}
-                                <td>{{$doc->costo}}</td>
-                                <td>
-                                    @if ($doc->estado==1)
-                                    <span class="badge bg-info">Creado</span>
-                                    @elseif ($doc->estado==3)
-                                    <span class="badge bg-warning">En proceso</span>
-                                    @elseif ($doc->estado==4)
-                                    <span class="badge bg-success">Entregado</span>
-                                    @else 
-                                    <span class="badge bg-danger">Pendiente Asig.</span>
-                                    @endif
-                                </td>
-                                <td>
-                                       
-                                        @if ($doc->estado==3 || $doc->estado==4) 
+                                
+                               
+                                {{-- <td>{{$doc->costo}}</td> --}}
+                                
+                               <td>
+                                @if ($doc->estado==3 || $doc->estado==4 || $doc->estado==5) 
+                                    <a type="button" class="btn btn-icon btn-icon rounded-circle
+                                    btn-success waves-effect waves-float waves-light"
+                                    href="{{route('enviar_info_conductor',$doc->id)}}">
+                                    <i data-feather='phone'></i> </a>
+                                @elseif ($doc->estado==2) 
+                                    <button type="button" class="btn btn-secondary waves-effect"
+                                    data-bs-toggle="modal" data-bs-target="#editmodal{{$doc->id}}">
+                                     Asignación...
+                                    </button>
+                                @else
+                                    <button type="button" class="btn btn-secondary btn-icon rounded-circle"
+                                    data-bs-toggle="modal" data-bs-target="#crearmodal{{$doc->id}}">
+                                    <i data-feather='plus'></i>
+                                    </button>
+                                @endif
+                               </td>
+                                    @if ($doc->estado==3 || $doc->estado==4 || $doc->estado==5) 
                                         @foreach ($planificaciones as $pla)
-                                        @if ($pla->id ==$doc->id_plani)
-                                                @foreach ($vehiculos as $uni)
-                                                    @if ($uni->id==$pla->id_unidad)
-                                                    <strong> {{$uni->unidad}}</strong>
-                                                    @else
-                                                    @endif
-                                                @endforeach
-                                            -
-                                                @foreach ($choferes as $ch)
-                                                @if ($ch->id==$pla->id_chofer)
-                                               {{$ch->nombres_cho}} {{$ch->apellidos_cho}}
+                                                @if ($pla->id ==$doc->id_plani)
+                                                    @foreach ($vehiculos as $uni)
+
+                                                        @if ($uni->id==$pla->id_unidad)
+                                                        {{-- UNIDAD --}}
+                                                       <td>  {{$uni->unidad}} </td>
+                                                       <td>  {{$uni->placa}} </td>
+                                                        @else
+                                                        @endif
+                                                    @endforeach
+                                                    @foreach ($choferes as $ch)
+                                                        @if ($ch->id==$pla->id_chofer)
+                                                          <td>  {{$ch->nombres_cho}} <br> {{$ch->apellidos_cho}}</td>
+                                                        @else
+                                                        @endif
+                                                    @endforeach
                                                 @else
                                                 @endif
-                                            @endforeach
-                                            
-                                            <a type="button" class="btn btn-icon btn-icon rounded-circle
-                                            btn-success waves-effect waves-float waves-light"
-                                             href="{{route('enviar_info_conductor',$doc->id)}}">
-                                            <i data-feather='phone'></i> </a>
-                                            
-                                        @else
-                                        @endif
                                         @endforeach
-                                       
-                                        @elseif ($doc->estado==2) 
-                                        <button type="button" class="btn btn-secondary waves-effect"
-                                        data-bs-toggle="modal" data-bs-target="#editmodal{{$doc->id}}">
-                                       Asignación...
-                                        </button>
-                                        @else
-                                        <button type="button" class="btn btn-secondary waves-effect"
-                                        data-bs-toggle="modal" data-bs-target="#crearmodal{{$doc->id}}">
-                                       Asignar
-                                        </button>
-                                        @endif
-                                
-                                </td>
+                                    @else
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    @endif
                                 <td>
-                                    @if ($doc->estado==3 || $doc->estado==4) 
+                                    @if ($doc->estado==3 || $doc->estado==4 || $doc->estado==5) 
                                         @foreach ($planificaciones as $pla)
                                             @if ($pla->id ==$doc->id_plani)
                                                         @foreach ($ayudantes as $ayu)
@@ -138,33 +147,29 @@
                                                             @else
                                                             @endif
                                                         @endforeach
-                                                   - <strong>{{$pla->tipo_des}}</strong>
+                                                    - <strong>{{$pla->tipo_des}}</strong>
                                              
                                             @else
                                             @endif
                                         @endforeach
                                     @endif
                                 </td>
-                                <td>{{$doc->lavado}}</td>
-                                <td>{{$doc->comprobante}}</td>
+                                {{-- <td>{{$doc->lavado}}</td> --}}
+                                <td>{{$doc->hora_cochera}}</td>
                                 <td>
-                                        @if ($doc->estado==3) 
-                                        <button type="button" class="btn btn-secondary waves-effect"
-                                        data-bs-toggle="modal" data-bs-target="#crearcierre{{$doc->id}}">
-                                            Asignar
-                                        </button>
-                                        @elseif ($doc->estado==4) 
-                                        <button type="button" class="btn btn-danger waves-effect"
-                                        data-bs-toggle="modal" data-bs-target="#detcierre{{$doc->id}}">
-                                        <i data-feather='download-cloud'></i> Pdfs
-                                        </button>
-                                        @else
-                                        <button type="button" class="btn btn-outline-secondary waves-effect" 
-                                        data-bs-toggle="modal" data-bs-target="#crearcierre{{$doc->id}}" disabled>
-                                            Asignar
-                                        </button>
-                                        @endif
+                                    @if ($doc->estado==1)
+                                    <span class="badge bg-info">Creado</span>
+                                    @elseif ($doc->estado==3)
+                                    <span class="badge bg-warning">En proceso</span>
+                                    @elseif ($doc->estado==4)
+                                    <span class="badge bg-success">Entregado</span>
+                                    @elseif ($doc->estado==5)
+                                    <span class="badge bg-primary">Facturado</span>
+                                    @else 
+                                    <span class="badge bg-danger">Pendiente Asig.</span>
+                                    @endif
                                 </td>
+                                
                                 {{-- <td><i data-feather='edit'></i>Editar</td> --}}
                             </tr>
                             @include('admin.modals.CrearPlani')
@@ -181,6 +186,395 @@
     </div>
     <!-- Basic Tables end -->
     
+     <!-- Basic Tables start -->
+     <div class="row" id="basic-table">
+        <div class="col-12">
+            <div class="card p-1">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered dt-responsive table-sm" id="solicitudes2">
+                        <thead class="text-center">
+                            <tr>
+                                {{-- <th>ID</th> --}}
+                                {{-- <th>CODIGO SOLICITUD</th> --}}
+                                <th style="font-size: 10px;width: 40px">FECHA <br> TRASLADO</th>
+                                <th style="width: 40px">CLIENTE</th>
+                                <th style="font-size: 10px; width: 30px">HORA <br> EN GRANJA</th>
+                                <th style="font-size: 10px; width: 20px">CANT<br> Des 1</th>
+                                <th style="font-size: 10px; width: 20px">CANT <br> Des 2</th>
+                                <th style="font-size: 10px; width: 20px">CANT <br> Des 3</th>
+                                <th style="font-size: 10px; width: 20px">CANT <br> Des 4</th>
+                                <th style="width: 20px">ORIGEN</th>
+                                <th style="width: 40px">DESTINOS</th>
+                                {{-- <th style="font-size: 10px;width: 40px">ASIGNAR</th> --}}
+                                <th style="width: 40px">UNIDAD</th>
+                                <th style="width: 40px">PLACA</th>
+                                <th style="width: 40px">CHOFER</th>
+                                <th style="width: 40px">ASIG</th>
+                                {{-- <th>LAVADO</th>
+                                <th>N° COMP.</th> --}}
+                                <th style="font-size: 10px;width: 40px">GUÍAS DE <br> TRANSPORTISTA</th>
+                                <th style="font-size: 10px;width: 40px">GUÍAS DE <br> CLIENTE</th>
+                                <th style="width: 40px">ESTADO</th>
+
+                                {{-- <th>CIERRE</th> --}}
+                                {{-- <th>ACCIONES</th> --}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($solicitudes as $doc)
+                            
+                            <tr style="font-size: 12px;"> 
+                                {{-- <td>{{$doc->codigo}}</td> --}}
+                                @php
+                                $fecha= $doc->fecha_traslado;
+                                $date = new DateTime($fecha);    
+                                @endphp
+                                <td><strong>{{$date->format('d-m-Y')}}</strong></td>
+                                <td style="font-size: 12px"><strong>{{$doc->nombre_cli}}</strong></td>
+                                <td><strong>{{$doc->hora}}</strong></td>
+                                @php
+                                $datos_destinos2 = json_decode($doc->destinos, true);   
+                                $datos_cantidad2 = json_decode($doc->datos_cantidad, true);   
+                               $cont = count($datos_destinos2);
+                                @endphp
+                                {{-- cantidades --}}
+                                @for($i=0; $i<count($datos_destinos2); $i++)
+                                {{-- {{$i}}  --}}
+                                <td style="font-size: 10px;">
+                                    <strong>
+                                        @foreach ($datos_cantidad2 as $key => $valor)
+                                            @if ($valor[$i]==0)
+                                            @else
+                                                @if ($key!== 'sub')
+                                                    @if ($key=='cant1')
+                                                    {{$valor[$i]}}
+                                                    @else
+                                                    + {{$valor[$i]}}
+                                                    @endif
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    </strong>
+                                </td> 
+                              @endfor 
+                              @php
+                               $new = 4- $cont;
+                              @endphp
+                              @for ($i = 0; $i < $new; $i++)
+                                <td></td>
+                              @endfor
+
+                                {{-- <td>{{$doc->cantidad}}</td>
+                                <td>{{$doc->cantidad}}</td>
+                                <td>{{$doc->cantidad}}</td>
+                                <td>{{$doc->cantidad}}</td> --}}
+                                <td>{{$doc->referencia_cli}}</td>
+                               
+                                <td> 
+                                    @foreach (json_decode($doc->destinos) as $item)
+                                    @foreach ($destinos as $des)
+                                        @if ($des->id==$item)
+                                        {{$des->referencia}} <br>
+                                       
+                                        @else
+                                        @endif
+                                    @endforeach
+                                    @endforeach
+                                    @php
+                                    @endphp
+                                </td>
+                                    @if ($doc->estado==3 || $doc->estado==4 || $doc->estado==5) 
+                                        @foreach ($planificaciones as $pla)
+                                                @if ($pla->id ==$doc->id_plani)
+                                                    @foreach ($vehiculos as $uni)
+
+                                                        @if ($uni->id==$pla->id_unidad)
+                                                        {{-- UNIDAD --}}
+                                                       <td>  {{$uni->unidad}} </td>
+                                                       <td>  {{$uni->placa}} </td>
+                                                        @else
+                                                        @endif
+                                                    @endforeach
+                                                    @foreach ($choferes as $ch)
+                                                        @if ($ch->id==$pla->id_chofer)
+                                                          <td>  {{$ch->nombres_cho}} <br> {{$ch->apellidos_cho}}</td>
+                                                        @else
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                @endif
+                                        @endforeach
+                                    @else
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    @endif
+                                <td>
+                                    @if ($doc->estado==3) 
+                                        <button type="button" class="btn btn-secondary btn-icon rounded-circle"
+                                        data-bs-toggle="modal" data-bs-target="#crearcierre{{$doc->id}}">
+                                        <i data-feather='plus'></i>
+                                        </button>
+                                        @elseif ($doc->estado==4) 
+                                        <button type="button" class="btn btn-danger btn-icon rounded-circle"
+                                        data-bs-toggle="modal" data-bs-target="#detcierre{{$doc->id}}">
+                                        <i data-feather='download-cloud'></i>
+                                        </button>
+                                        @else
+                                        <button type="button" class="btn btn-outline-secondary btn-icon rounded-circle" 
+                                        data-bs-toggle="modal" data-bs-target="#crearcierre{{$doc->id}}" disabled>
+                                        <i data-feather='plus'></i>
+                                        </button>
+                                        @endif
+                                </td>
+                                {{-- GUIAS --}}
+                                @if ($doc->estado==4 || $doc->estado==5)
+                                    @foreach ($cierres as $item)
+                                    {{-- @foreach ($item->datos_guias as $des) --}}
+                                        @if ($doc->id_cierre==$item->id)
+                                                              @php
+                                                            $datos_n_guias = json_decode($item->n_guias, true);
+                                                            $datos_n_remision = json_decode($item->n_remision, true);
+                                                            @endphp
+                                                <td>
+                                                    @foreach ($datos_n_guias as $item)
+                                                    {{$item}} <br>
+                                                @endforeach</td>
+                                                <td>
+                                                    @foreach ($datos_n_remision as $item2)
+                                                    {{$item2}} <br>
+                                                @endforeach
+                                                </td>
+                                        @endif
+                                    @endforeach
+                                @else
+                                <td></td>
+                                <td></td>
+                                @endif
+                                
+                                <td>
+                                    @if ($doc->estado==1)
+                                    <span class="badge bg-info">Creado</span>
+                                    @elseif ($doc->estado==3)
+                                    <span class="badge bg-warning">En proceso</span>
+                                    @elseif ($doc->estado==4)
+                                    <span class="badge bg-success">Entregado</span>
+                                    @elseif ($doc->estado==5)
+                                    <span class="badge bg-primary">Facturado</span>
+                                    @else 
+                                    <span class="badge bg-danger">Pendiente Asig.</span>
+                                    @endif
+                                </td>
+                                
+                                {{-- <td><i data-feather='edit'></i>Editar</td> --}}
+                            </tr>
+                            @include('admin.modals.CrearPlani')
+                            @include('admin.modals.EditPlani')
+                            @include('admin.modals.CrearCierre')
+                            @include('admin.modals.DetCierre')
+                           
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Basic Tables end -->
+
+    <!-- Basic Tables start -->
+    <div class="row" id="basic-table">
+        <div class="col-12">
+            <div class="card p-1">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered dt-responsive table-sm" id="solicitudes3">
+                        <thead class="text-center">
+                            <tr >
+                                {{-- <th>ID</th> --}}
+                                {{-- <th>CODIGO SOLICITUD</th> --}}
+                                <th style="font-size: 10px;width: 40px">FECHA <br> TRASLADO</th>
+                                <th style="font-size: 10px;width: 40px">CLIENTE</th>
+                                <th style="font-size: 10px; width: 30px">HORA <br> EN GRANJA</th>
+                                <th style="font-size: 10px; width: 20px">CANT<br> Des 1</th>
+                                <th style="font-size: 10px; width: 20px">CANT <br> Des 2</th>
+                                <th style="font-size: 10px; width: 20px">CANT <br> Des 3</th>
+                                <th style="font-size: 10px; width: 20px">CANT <br> Des 4</th>
+                                <th style="font-size: 10px;width: 20px">ORIGEN</th>
+                                <th style="font-size: 10px;width: 40px">DESTINOS</th>
+                                {{-- <th style="font-size: 10px;width: 40px">ASIGNAR</th> --}}
+                                <th style="font-size: 10px;width: 40px">UNi.</th>
+                                <th style="font-size: 10px;width: 40px">PLACA</th>
+                                <th style="font-size: 10px;width: 40px">CHOFER</th>
+                               
+                                {{-- <th>LAVADO</th>
+                                <th>N° COMP.</th> --}}
+                                <th style="font-size: 10px;width: 40px">GUÍAS DE <br> TRANSP.</th>
+                                <th style="font-size: 10px;width: 40px">GUÍAS DE <br> CLIENTE</th>
+                                <th style="font-size: 10px;width: 40px">COSTO FLETE</th>
+                                <th style="font-size: 8px;width: 20px">FECHA DE <br> FACTURACIÓN</th>
+                                <th style="font-size: 8px;width: 20px">N° FACTURACIÓN</th>
+                                <th style="font-size: 10px;width: 40px">ESTADO</th>
+                                {{-- <th>ACCIONES</th> --}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($solicitudes as $doc)
+                            
+                            <tr style="font-size: 12px;"> 
+                                {{-- <td>{{$doc->codigo}}</td> --}}
+                                @php
+                                $fecha= $doc->fecha_traslado;
+                                $date = new DateTime($fecha);    
+                                @endphp
+                                <td><strong>{{$date->format('d-m-Y')}}</strong></td>
+                                <td style="font-size: 12px"><strong>{{$doc->nombre_cli}}</strong></td>
+                                <td><strong>{{$doc->hora}}</strong></td>
+                                @php
+                                $datos_destinos2 = json_decode($doc->destinos, true);   
+                                $datos_cantidad2 = json_decode($doc->datos_cantidad, true);   
+                               $cont = count($datos_destinos2);
+                                @endphp
+                                {{-- cantidades --}}
+                                @for($i=0; $i<count($datos_destinos2); $i++)
+                                {{-- {{$i}}  --}}
+                                <td>
+                                    <strong>
+                                        @foreach ($datos_cantidad2 as $key => $valor)
+                                            @if ($valor[$i]==0)
+                                            @else
+                                                @if ($key!== 'sub')
+                                                    @if ($key=='cant1')
+                                                    {{$valor[$i]}}
+                                                    @else
+                                                    + {{$valor[$i]}}
+                                                    @endif
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    </strong>
+                                </td> 
+                              @endfor 
+                              @php
+                               $new = 4- $cont;
+                              @endphp
+                              @for ($i = 0; $i < $new; $i++)
+                                <td></td>
+                              @endfor
+
+                                {{-- <td>{{$doc->cantidad}}</td>
+                                <td>{{$doc->cantidad}}</td>
+                                <td>{{$doc->cantidad}}</td>
+                                <td>{{$doc->cantidad}}</td> --}}
+                                <td>{{$doc->referencia_cli}}</td>
+                               
+                                <td> 
+                                    @foreach (json_decode($doc->destinos) as $item)
+                                    @foreach ($destinos as $des)
+                                        @if ($des->id==$item)
+                                        {{$des->referencia}} <br>
+                                       
+                                        @else
+                                        @endif
+                                    @endforeach
+                                    @endforeach
+                                    @php
+                                    @endphp
+                                </td>
+                                    @if ($doc->estado==3 || $doc->estado==4 || $doc->estado==5) 
+                                        @foreach ($planificaciones as $pla)
+                                                @if ($pla->id ==$doc->id_plani)
+                                                    @foreach ($vehiculos as $uni)
+
+                                                        @if ($uni->id==$pla->id_unidad)
+                                                        {{-- UNIDAD --}}
+                                                       <td>  {{$uni->unidad}} </td>
+                                                       <td>  {{$uni->placa}} </td>
+                                                        @else
+                                                        @endif
+                                                    @endforeach
+                                                    @foreach ($choferes as $ch)
+                                                        @if ($ch->id==$pla->id_chofer)
+                                                          <td>  {{$ch->nombres_cho}} <br> {{$ch->apellidos_cho}}</td>
+                                                        @else
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                @endif
+                                        @endforeach
+                                    @else
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    @endif
+                                
+                                {{-- GUIAS --}}
+                                @if ($doc->estado==4 || $doc->estado==5)
+                                    @foreach ($cierres as $item)
+                                    {{-- @foreach ($item->datos_guias as $des) --}}
+                                        @if ($doc->id_cierre==$item->id)
+                                                           @php
+                                                            $datos_n_guias = json_decode($item->n_guias, true);
+                                                            $datos_n_remision = json_decode($item->n_remision, true);
+                                                            @endphp
+                                                <td>
+                                                    @foreach ($datos_n_guias as $item)
+                                                    {{$item}} <br>
+                                                @endforeach</td>
+                                                <td>
+                                                    @foreach ($datos_n_remision as $item2)
+                                                    {{$item2}} <br>
+                                                @endforeach
+                                                </td>
+                                        @endif
+                                    @endforeach
+                                @else
+                                <td></td>
+                                <td></td>
+                                @endif
+                                <td>{{$doc->costo}}</td>
+                                
+                                    @if ($doc->estado==4)
+                                    <td>
+                                        <button type="button" class="btn btn-secondary btn-icon rounded-circle"
+                                                    data-bs-toggle="modal" data-bs-target="#editcierre{{$doc->id}}">
+                                                    <i data-feather='plus'></i>
+                                        </button>
+                                    </td>
+                                    <td></td>
+                                    @endif
+                                    @if ($doc->estado==5)
+                                    @foreach ($cierres as $item)
+                                        @if ($doc->id_cierre==$item->id)
+                                                <td> {{$item->fecha_fac}}</td>
+                                                <td> {{$item->n_fac}}</td>
+                                        @endif
+                                    @endforeach
+                                    @endif
+                                <td>
+                                    @if ($doc->estado==1)
+                                    <span class="badge bg-info">Creado</span>
+                                    @elseif ($doc->estado==3)
+                                    <span class="badge bg-warning">En proceso</span>
+                                    @elseif ($doc->estado==4)
+                                    <span class="badge bg-success">Entregado</span>
+                                    @elseif ($doc->estado==5)
+                                    <span class="badge bg-primary">Facturado</span>
+                                    @else 
+                                    <span class="badge bg-danger">Pendiente Asig.</span>
+                                    @endif
+                                </td>
+                                {{-- <td><i data-feather='edit'></i>Editar</td> --}}
+                            </tr>
+                            @include('admin.modals.ActualizarCierre')
+                           
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Basic Tables end -->
 </div>
 @endsection
 
@@ -253,31 +647,7 @@ $( function() {
     }
 };
 
-$(document).ready( function () {
-   var table = $('#colegios').DataTable({
-    dom: 'Blfrtip',
-    // "dom": 'Br<"float-left"i><"float-right"f>t<"float-left"l><"float-right"p><"clearfix">',
-    // "lengthMenu": [[5,10,20, -1],[5,10,50,"Mostrar Todo"]],
-    // "dom": 'Bfrt<"col-md-6 inline"i> <"col-md-6 inline"p>',
-    language: idioma,
-    buttons: [
-        'excel'
-    ],
-    exportOptions: {
-        modifier: {
-          // DataTables core
-          order: 'index', // 'current', 'applied',
-          //'index', 'original'
-          page: 'all', // 'all', 'current'
-          search: 'none' // 'none', 'applied', 'removed'
-        },
-    
-            columns: [1, 2, 3, 4, 5, 6, 7,8,9]
-      
-      }
-   });
 
-} );
 
 //Convierte el div a imagen y la descarga
 document.querySelector('button').addEventListener('click', function() {
@@ -383,7 +753,7 @@ var idioma=
                         exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12] }
                         },
                     ],
-                    "order": [[ 0, 'desc' ], [ 4, 'asc' ]],
+                    "order": [[ 4, 'asc' ], [ 5, 'asc' ]],
                     exportOptions: {
                     modifier: {
                     // DataTables core
@@ -393,8 +763,78 @@ var idioma=
                     search: 'none' // 'none', 'applied', 'removed'
                     },
                         columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12]
+                        
                     }
-        });
+                })
+
+        } );
+
+        $(document).ready( function () {
+        var table = $('#solicitudes2').DataTable({
+                    dom: '<"border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                    language: idioma,
+                    buttons: [
+                    // 'excel'
+                        {
+                        extend: 'excel',
+                        text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
+                        className: 'btn btn-sm btn-info round waves-effect',
+                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12] }
+                        },
+                        {
+                            extend: 'print',
+                        text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
+                        className: 'btn btn-sm btn-info round waves-effect',
+                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12] }
+                        },
+                    ],
+                    "order": [[ 4, 'asc' ], [ 5, 'asc' ]],
+                    exportOptions: {
+                    modifier: {
+                    // DataTables core
+                    // 'current', 'applied',
+                    //'index', 'original'
+                    page: 'all', // 'all', 'current'
+                    search: 'none' // 'none', 'applied', 'removed'
+                    },
+                        columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12]
+                        
+                    }
+                })
+
+        } );
+        $(document).ready( function () {
+        var table = $('#solicitudes3').DataTable({
+                    dom: '<"border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                    language: idioma,
+                    buttons: [
+                    // 'excel'
+                        {
+                        extend: 'excel',
+                        text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
+                        className: 'btn btn-sm btn-info round waves-effect',
+                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12] }
+                        },
+                        {
+                            extend: 'print',
+                        text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
+                        className: 'btn btn-sm btn-info round waves-effect',
+                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12] }
+                        },
+                    ],
+                    "order": [[ 4, 'asc' ], [ 5, 'asc' ]],
+                    exportOptions: {
+                    modifier: {
+                    // DataTables core
+                    // 'current', 'applied',
+                    //'index', 'original'
+                    page: 'all', // 'all', 'current'
+                    search: 'none' // 'none', 'applied', 'removed'
+                    },
+                        columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12]
+                        
+                    }
+                })
 
         } );
 </script>
