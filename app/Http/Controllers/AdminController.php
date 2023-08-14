@@ -44,6 +44,10 @@ class AdminController extends Controller
             "solicitudes.datos_destinos as destinos",
             "solicitudes.id_plani as id_plani",
             "solicitudes.id_cierre as id_cierre",
+            "solicitudes.id_combustible as id_combustible",
+            "solicitudes.id_balanza as id_balanza",
+            "solicitudes.id_peaje as id_peaje",
+            "solicitudes.id_viaticos as id_viaticos",
             "solicitudes.lavado as lavado",
             "solicitudes.comprobante as comprobante",
             "solicitudes.datos_cantidad as datos_cantidad",
@@ -114,6 +118,10 @@ class AdminController extends Controller
             'costo' => $request->get('costo-soli'),
             'id_plani' => 0,
             'id_cierre' => 0,
+            'id_combustible' => 0,
+            'id_balanza' => 0,
+            'id_peaje' => 0,
+            'id_viaticos' => 0,
             'lavado' => $request->get('lavado'),
             'comprobante' => $comprobante
         ];
@@ -1057,6 +1065,7 @@ class AdminController extends Controller
         $ayudantes = DB::table('choferes')->orderBy('id', 'desc')->get();
         $planificaciones = DB::table('planificaciones')->orderBy('id', 'desc')->get();
         $destinos = DB::table('destinos')->orderBy('id', 'desc')->get();
+        $cierres = DB::table('cierres')->orderBy('id', 'desc')->get();
 
         $solicitudes = Solicitude::select(
             "solicitudes.id as id",
@@ -1069,6 +1078,7 @@ class AdminController extends Controller
             "solicitudes.costo as costo",
             "solicitudes.estado as estado",
             "solicitudes.id_plani as id_plani",
+            "solicitudes.id_cierre as id_cierre",
             "solicitudes.lavado as lavado",
             "solicitudes.comprobante as comprobante",
             "clientes.nombre as nombre_cli",
@@ -1088,7 +1098,9 @@ class AdminController extends Controller
             'choferes',
             'planificaciones',
             'ayudantes',
-            'destinos'
+            'destinos',
+            'cierres'
+
         ));
         // dd($vehiculo);
     }
@@ -1174,5 +1186,56 @@ class AdminController extends Controller
         $mensaje = "Facturación Terminada";
         // echo var_dump($arr);
         return redirect()->route('admin.solicitudes.index')->with(['data' => $mensaje]);
+    }
+
+    // ------------------------------COSTOSS-------------------------------------
+    public function listarsolicitudes2()
+    {
+        $solicitudes = DB::table('solicitudes')->orderBy('id', 'desc')->get();
+        $vehiculos = DB::table('vehiculos')->orderBy('id', 'desc')->get();
+        $choferes = DB::table('choferes')->where('tipo_cho', 1)->orderBy('id', 'desc')->get();
+        $ayudantes = DB::table('choferes')->orderBy('id', 'desc')->get();
+        $cierres = DB::table('cierres')->orderBy('id', 'desc')->get();
+        $planificaciones = DB::table('planificaciones')->orderBy('id', 'desc')->get();
+        $destinos = DB::table('destinos')->orderBy('id', 'desc')->get();
+
+        $solicitudes = Solicitude::select(
+            "solicitudes.id as id",
+            "solicitudes.codigo_solicitud as codigo",
+            "solicitudes.fecha_solicitud as fecha",
+            "solicitudes.hora as hora",
+            "solicitudes.hora_cochera as hora_cochera",
+            "solicitudes.cantidad as cantidad",
+            "solicitudes.fecha_traslado as fecha_traslado",
+            "solicitudes.costo as costo",
+            "solicitudes.estado as estado",
+            "solicitudes.datos_destinos as destinos",
+            "solicitudes.id_plani as id_plani",
+            "solicitudes.id_cierre as id_cierre",
+            "solicitudes.id_combustible as id_combustible",
+            "solicitudes.id_balanza as id_balanza",
+            "solicitudes.id_peaje as id_peaje",
+            "solicitudes.id_viaticos as id_viaticos",
+            "solicitudes.lavado as lavado",
+            "solicitudes.comprobante as comprobante",
+            "solicitudes.datos_cantidad as datos_cantidad",
+            "clientes.nombre as nombre_cli",
+            "clientes.referencia as referencia_cli",
+            "solicitudes.created_at",
+            "datos_destinos"
+        )
+            ->join("clientes", "clientes.id", "=", "solicitudes.cliente")
+            ->orderBy('solicitudes.costo', 'desc')
+            ->get();
+
+        return view('admin.costos.index', compact(
+            'solicitudes',
+            'vehiculos',
+            'choferes',
+            'planificaciones',
+            'ayudantes',
+            'destinos',
+            'cierres'
+        ));
     }
 }

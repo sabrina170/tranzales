@@ -40,11 +40,11 @@
                             <tr>
                                 {{-- <th>ID</th> --}}
                                 {{-- <th>CODIGO SOLICITUD</th> --}}
-                                <th style="font-size: 10px;width: 40px">FECHA <br> TRASLADO</th>
-                                <th style="font-size: 10px;width: 60px">CLIENTE</th>
-                                <th style="font-size: 10px; width: 40px">HORA <br> EN GRANJA</th>
-                                <th style="font-size: 10px; width: 40px">CANTIDAD <br> TOTAL</th>
-                                <th style="font-size: 10px;width: 40px">ORIGEN</th>
+                                <th style="font-size: 10px">FECHA <br> TRASLADO</th>
+                                <th style="font-size: 10px">CLIENTE</th>
+                                <th style="font-size: 10px">HORA <br> EN GRANJA</th>
+                                <th style="font-size: 10px">CANTIDAD <br> TOTAL</th>
+                                <th style="font-size: 10px">ORIGEN</th>
                                 <th style="font-size: 10px;width: 40px">DESTINOS</th>
                                 <th style="font-size: 10px;width: 40px">ASIGNAR</th>
                                 <th style="font-size: 10px;width: 40px">UNIDAD</th>
@@ -53,8 +53,8 @@
                                 <th style="font-size: 10px;width: 40px">AYUDANTE</th>
                                 {{-- <th>LAVADO</th>
                                 <th>N° COMP.</th> --}}
-                                <th style="font-size: 10px;width: 40px">HORA <br> EN COCHERA</th>
-                                <th style="font-size: 10px;width: 40px">ESTADO</th>
+                                <th style="font-size: 10px">HORA <br> EN COCHERA</th>
+                                <th style="font-size: 10px">ESTADO</th>
 
                                 {{-- <th>CIERRE</th> --}}
                                 <th tyle="font-size: 10px;width: 20px">ACCIONES</th>
@@ -176,10 +176,10 @@
                                         <div class="btn-group" role="group" aria-label="Basic example">
                                             <a type="button" class="btn btn-secondary waves-effect"  href="{{route('detalle-solicitud',$doc->id)}}">
                                                 <i data-feather='eye'></i></a>
-                                            <button type="button" class="btn btn-warning waves-effect">
+                                            {{-- <button type="button" class="btn btn-warning waves-effect">
                                                 <i data-feather='edit'> </i></button>
                                                 <button type="button" class="btn btn-danger waves-effect">
-                                                    <i data-feather='trash-2'></i></button>
+                                                    <i data-feather='trash-2'></i></button> --}}
                                           </div>
                                     </div>
                                    

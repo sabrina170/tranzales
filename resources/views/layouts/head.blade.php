@@ -140,38 +140,52 @@
                     <span class="menu-title text-truncate" data-i18n="Dashboards">OPERACIONES</span></a>
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="{{route('admin.solicitudes.index')}}">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">ORDEN DE SERVICIO</span></a>
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">SOLICITUDES</span></a>
                         </li>
-                        {{-- <li><a class="d-flex align-items-center" href="">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">CAJA</span></a>
+                        <li><a class="d-flex align-items-center" href="{{route('admin.costos.index')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">COSTOS</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">RECARGA COMBUSTIBLE</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">KILOMETRAJE</span></a>
-                        </li> --}}
                     </ul>
                 </li>  
-                @else
+                @elseif (Auth::user()->tipo==2)
                 <li class=" nav-item"><a class="d-flex align-items-center" href="#">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">OPERACIONES</span></a>
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="{{route('admin.solicitudes.index')}}">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">ORDEN DE SERVICIO</span></a>
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">SOLICITUDES</span></a>
                         </li>
-                        {{-- <li><a class="d-flex align-items-center" href="">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">CAJA</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">RECARGA COMBUSTIBLE</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">KILOMETRAJE</span></a>
+                        {{-- <li><a class="d-flex align-items-center" href="{{route('admin.costos.index')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">COSTOS</span></a>
                         </li> --}}
                     </ul>
                 </li>   
+                @elseif (Auth::user()->tipo==3)
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                    <i data-feather="home"></i>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">GESTION DOCUMENTARIA</span></a>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.solicitudes.index')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">SOLICITUDES</span></a>
+                        </li>
+                        {{-- <li><a class="d-flex align-items-center" href="{{route('admin.costos.index')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">COSTOS</span></a>
+                        </li> --}}
+                    </ul>
+                </li>  
+                @elseif (Auth::user()->tipo==4)
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                    <i data-feather="home"></i>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">MODULO DE FACTURACIÓN</span></a>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{route('admin.solicitudes.index')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">SOLICITUDES</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="{{route('admin.costos.index')}}">
+                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">COSTOS</span></a>
+                        </li>
+                    </ul>
+                </li>  
                 @endif
 
 

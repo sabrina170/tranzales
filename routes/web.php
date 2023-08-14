@@ -115,6 +115,7 @@ Route::post('/editCierre', [AdminController::class, 'edit_cierre'])->name('edit-
 
 // CRUD SOLICITUDES
 
-Route::get('IdDetSoli/{id}', [AdminController::class, 'detalle_solicitud'])->name('detalle-solicitud'); 
+Route::get('IdDetSoli/{id}', [AdminController::class, 'detalle_solicitud'])->name('detalle-solicitud');
 
-// Clientes
+// ----------------------------------COSTOS----------------------------------------------------
+Route::get('/costos', [AdminController::class, 'listarsolicitudes2'])->name('admin.costos.index');

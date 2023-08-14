@@ -19,7 +19,7 @@
                                         <div class="row">
                                             @foreach ($datos_destinos as $item)
                                            
-                                    @endforeach
+                                            @endforeach
                                              
                                                 @foreach ($cierres as $item)
                                                 {{-- @foreach ($item->datos_guias as $des) --}}

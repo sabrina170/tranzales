@@ -26,6 +26,11 @@ class Solicitude extends Model
         'costo',
         'id_plani',
         'id_cierre',
+        // nuevos
+        'id_combustible',
+        'id_balanza',
+        'id_peaje',
+        'id_viaticos',
         'lavado',
         'comprobante'
     ];
