@@ -98,6 +98,7 @@
                 <label class="form-label" for="basic-icon-default-company">Contraseña</label>
                 <input type="text" id="basic-icon-default-company" class="form-control dt-contact"
                 value="{{$doc->re_password}}" name="password" required>
+                <input type="hidden" name="id" value="{{$doc->id}}" readonly>
             </div>
             
         </div>

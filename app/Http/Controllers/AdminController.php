@@ -306,11 +306,24 @@ class AdminController extends Controller
     public function update_usuario(Request $request, User $usuario)
     {
 
-        $us = $request->all();
+        // $us = $request->all();
         // dd($data);
-        $usuario->update($us);
+        $id = $request->get('id');
+        // $usuario->update($us);
+        DB::table('users')->where('id', $id)->limit(1)->update([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => Hash::make($request->get('password')),
+            're_password' => $request->get('password'),
+            // 'estado' => $request->get('estado'),
+            'dni' => $request->get('dni'),
+            'apellido_ma' => $request->get('apellido_ma'),
+            'apellido_pa' => $request->get('apellido_pa'),
+            'celular' => $request->get('celular'),
+            'tipo' => $request->get('tipo')
+        ]);
         $mensaje = "Usuario actualizado exitosamente";
-        return redirect()->route('admin.vehiculos.edit-vehiculo', $usuario)->with(['data' => $mensaje]);
+        return redirect()->route('admin.usuarios.index', $usuario)->with(['data' => $mensaje]);
         // return back()->withInput();
     }
     public function delete_usuario(User $id)
@@ -1034,6 +1047,51 @@ class AdminController extends Controller
         // dd($vehiculo);
     }
 
+    public function detalle_solicitud(Solicitude $solicitudes, $id)
+    {
+        // dd($id);
+
+        $solicitudes = DB::table('solicitudes')->orderBy('id', 'desc')->get();
+        $vehiculos = DB::table('vehiculos')->orderBy('id', 'desc')->get();
+        $choferes = DB::table('choferes')->where('tipo_cho', 1)->orderBy('id', 'desc')->get();
+        $ayudantes = DB::table('choferes')->orderBy('id', 'desc')->get();
+        $planificaciones = DB::table('planificaciones')->orderBy('id', 'desc')->get();
+        $destinos = DB::table('destinos')->orderBy('id', 'desc')->get();
+
+        $solicitudes = Solicitude::select(
+            "solicitudes.id as id",
+            "solicitudes.codigo_solicitud as codigo",
+            "solicitudes.fecha_solicitud as fecha",
+            "solicitudes.hora as hora",
+            "solicitudes.hora_cochera as hora_cochera",
+            "solicitudes.cantidad as cantidad",
+            "solicitudes.fecha_traslado as fecha_traslado",
+            "solicitudes.costo as costo",
+            "solicitudes.estado as estado",
+            "solicitudes.id_plani as id_plani",
+            "solicitudes.lavado as lavado",
+            "solicitudes.comprobante as comprobante",
+            "clientes.nombre as nombre_cli",
+            "solicitudes.observaciones as observaciones",
+            "clientes.referencia as referencia_cli",
+            "solicitudes.created_at",
+            "datos_destinos",
+            "datos_cantidad"
+        )
+            ->join("clientes", "clientes.id", "=", "solicitudes.cliente")
+            ->where('solicitudes.id', $id)->limit(1)
+            ->get();
+
+        return view('admin.solicitudes.detalle', compact(
+            'solicitudes',
+            'vehiculos',
+            'choferes',
+            'planificaciones',
+            'ayudantes',
+            'destinos'
+        ));
+        // dd($vehiculo);
+    }
     public function crear_cierre(Request $request)
     {
         $id_soli = $request->get('id_soli');

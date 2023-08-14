@@ -10,7 +10,7 @@
                 <h2 class="content-header-title float-start mb-0">Modulo</h2>
                 <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Solicitudes</a>
+                        <li class="breadcrumb-item"><a href="">Solicitudes</a>
                         </li>
                         <li class="breadcrumb-item active">Detalle
                         </li>
@@ -29,6 +29,7 @@
 
 
 <div class="content-body">
+    @if (Auth::user()->tipo==1 || Auth::user()->tipo==2)
     <!-- Basic Tables start -->
     <div class="row" id="basic-table">
         <div class="col-12">
@@ -40,10 +41,10 @@
                                 {{-- <th>ID</th> --}}
                                 {{-- <th>CODIGO SOLICITUD</th> --}}
                                 <th style="font-size: 10px;width: 40px">FECHA <br> TRASLADO</th>
-                                <th style="font-size: 10px;width: 40px">CLIENTE</th>
-                                <th style="font-size: 10px; width: 30px">HORA <br> EN GRANJA</th>
-                                <th style="font-size: 10px; width: 20px">CANTIDAD <br> TOTAL</th>
-                                <th style="font-size: 10px;width: 20px">ORIGEN</th>
+                                <th style="font-size: 10px;width: 60px">CLIENTE</th>
+                                <th style="font-size: 10px; width: 40px">HORA <br> EN GRANJA</th>
+                                <th style="font-size: 10px; width: 40px">CANTIDAD <br> TOTAL</th>
+                                <th style="font-size: 10px;width: 40px">ORIGEN</th>
                                 <th style="font-size: 10px;width: 40px">DESTINOS</th>
                                 <th style="font-size: 10px;width: 40px">ASIGNAR</th>
                                 <th style="font-size: 10px;width: 40px">UNIDAD</th>
@@ -56,7 +57,7 @@
                                 <th style="font-size: 10px;width: 40px">ESTADO</th>
 
                                 {{-- <th>CIERRE</th> --}}
-                                {{-- <th>ACCIONES</th> --}}
+                                <th tyle="font-size: 10px;width: 20px">ACCIONES</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -170,7 +171,19 @@
                                     @endif
                                 </td>
                                 
-                                {{-- <td><i data-feather='edit'></i>Editar</td> --}}
+                                <td>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <a type="button" class="btn btn-secondary waves-effect"  href="{{route('detalle-solicitud',$doc->id)}}">
+                                                <i data-feather='eye'></i></a>
+                                            <button type="button" class="btn btn-warning waves-effect">
+                                                <i data-feather='edit'> </i></button>
+                                                <button type="button" class="btn btn-danger waves-effect">
+                                                    <i data-feather='trash-2'></i></button>
+                                          </div>
+                                    </div>
+                                   
+                                </td>
                             </tr>
                             @include('admin.modals.CrearPlani')
                             @include('admin.modals.EditPlani')
@@ -185,7 +198,7 @@
         </div>
     </div>
     <!-- Basic Tables end -->
-    
+    @elseif (Auth::user()->tipo==3)
      <!-- Basic Tables start -->
      <div class="row" id="basic-table">
         <div class="col-12">
@@ -381,7 +394,7 @@
         </div>
     </div>
     <!-- Basic Tables end -->
-
+    @elseif (Auth::user()->tipo==4)
     <!-- Basic Tables start -->
     <div class="row" id="basic-table">
         <div class="col-12">
@@ -575,6 +588,8 @@
         </div>
     </div>
     <!-- Basic Tables end -->
+    @else
+    @endif
 </div>
 @endsection
 

@@ -105,11 +105,16 @@ Route::get('/BuscarDesSoli', [AdminController::class, 'buscarclientexdestino'])-
 Route::get('/BuscarCostoDes', [AdminController::class, 'BuscarCosto'])->name('BuscarCosto');
 
 
+
 Route::get('/BuscarUni', [AdminController::class, 'buscarunidad'])->name('buscarunidad');
 Route::get('/BuscarCho', [AdminController::class, 'buscarchofer'])->name('buscarchofer');
 Route::post('/crearPlani', [AdminController::class, 'crear_plani'])->name('crear-plani');
 Route::get('IdEnviar/{id}', [AdminController::class, 'enviar_info_conductor'])->name('enviar_info_conductor');
 Route::post('/crearCierre', [AdminController::class, 'crear_cierre'])->name('crear-cierre');
 Route::post('/editCierre', [AdminController::class, 'edit_cierre'])->name('edit-cierre');
+
+// CRUD SOLICITUDES
+
+Route::get('IdDetSoli/{id}', [AdminController::class, 'detalle_solicitud'])->name('detalle-solicitud'); 
 
 // Clientes

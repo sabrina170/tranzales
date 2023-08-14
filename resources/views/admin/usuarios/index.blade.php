@@ -86,7 +86,7 @@
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div>
                             <h3 class="fw-bolder mb-75">{{$gerentes}}</h3>
-                            <span>Gerentes</span>
+                            <span>Gestión</span>
                         </div>
                         <div class="avatar bg-light-warning p-50">
                             <span class="avatar-content">
@@ -101,7 +101,7 @@
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div>
                             <h3 class="fw-bolder mb-75">{{$contas}}</h3>
-                            <span>Contabilidad</span>
+                            <span>Contabilidad <br>(Facturación)</span>
                         </div>
                         <div class="avatar bg-light-warning p-50">
                             <span class="avatar-content">
@@ -117,7 +117,7 @@
          <!-- Basic Tables start -->
     <div class="row" id="basic-table">
         <div class="col-12">
-            <div class="card">
+            <div class="card p-1">
                 
                 <div class="card-body">
                     {{-- <p class="card-text">
@@ -159,7 +159,7 @@
                                     @elseif ($doc->tipo==2)
                                     <strong>Operador</strong>
                                     @elseif ($doc->tipo==3)
-                                    <strong>Gerente</strong>
+                                    <strong>Gestión</strong>
                                     @else
                                     <strong>Contabilidad</strong>
                                     @endif

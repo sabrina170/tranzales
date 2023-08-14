@@ -88,9 +88,9 @@
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="{{route('admin.estadisticas')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Analytics</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="{{route('admin.usuarios.index')}}">
+                        {{-- <li><a class="d-flex align-items-center" href="{{route('admin.usuarios.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Usuarios</span></a>
-                        </li>
+                        </li> --}}
                         {{-- <li><a class="d-flex align-items-center" href="dashboard-ecommerce.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="eCommerce">eCommerce</span></a> --}}
                         </li>
                     </ul>
@@ -99,7 +99,7 @@
                 {{-- RECURSOS --}}
                 <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Modulos</span><i data-feather="more-horizontal"></i>
                 </li>
-                <li class=" nav-item">
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">RECURSOS</span>
                     <span class="badge badge-light-success rounded-pill ms-auto me-1">3</span></a>
@@ -115,9 +115,9 @@
                         </li>
                     </ul>
                 </li>
-                <li class=" nav-item">
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
                     <i data-feather="home"></i>
-                    <span class="menu-title text-truncate" data-i18n="Dashboards">CLIENTES</span>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">CLIENTES</span></a>
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="{{route('admin.clientes.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">CLIENTES</span></a>
@@ -135,9 +135,9 @@
                         
                     </ul>
                 </li>
-                <li class=" nav-item">
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
                     <i data-feather="home"></i>
-                    <span class="menu-title text-truncate" data-i18n="Dashboards">OPERACIONES</span>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">OPERACIONES</span></a>
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="{{route('admin.solicitudes.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">ORDEN DE SERVICIO</span></a>
@@ -154,9 +154,9 @@
                     </ul>
                 </li>  
                 @else
-                <li class=" nav-item">
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
                     <i data-feather="home"></i>
-                    <span class="menu-title text-truncate" data-i18n="Dashboards">OPERACIONES</span>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">OPERACIONES</span></a>
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="{{route('admin.solicitudes.index')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">ORDEN DE SERVICIO</span></a>
