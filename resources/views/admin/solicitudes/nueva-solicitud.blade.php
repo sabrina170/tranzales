@@ -434,11 +434,11 @@
     
      function Suma() {
         var sum = 0;
-    $('.price2').each(function() {
-        sum += Number($(this).val());
-    });
-    // console.log(sum);
-    $('#cantidad').val(sum);
+        $('.price2').each(function() {
+            sum += Number($(this).val());
+        });
+        // console.log(sum);
+        $('#cantidad').val(sum);
 
     }
 

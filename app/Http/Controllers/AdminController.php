@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chofere;
 use App\Models\Cierre;
 use App\Models\Cliente;
+use App\Models\combustible;
 use App\Models\Destino;
 use App\Models\planificacione;
 use App\Models\Ruta;
@@ -1237,5 +1238,54 @@ class AdminController extends Controller
             'destinos',
             'cierres'
         ));
+    }
+
+    public function crear_combustible(Request $request)
+    {
+
+        if ($request->get('observaciones') == null) {
+            $observaciones = "";
+        } else {
+            $observaciones = $request->get('observaciones');
+        }
+        $accion = $request->get('accion');
+        $id_soli = $request->get('id_soli');
+
+        if ($image = $request->file('img_recarga1')) {
+            $destinatarioPath = 'img-combustibles/';
+            $img_recarga1 = date('YmdHis') . "1" . "." . $image->getClientOriginalExtension();
+            $image->move($destinatarioPath, $img_recarga1);
+        }
+        if ($image = $request->file('img_recarga2')) {
+            $destinatarioPath = 'img-combustibles/';
+            $img_recarga2 = date('YmdHis') . "2" . "." . $image->getClientOriginalExtension();
+            $image->move($destinatarioPath, $img_recarga2);
+        }
+
+        $data = [
+            'costo_total' => $request->get('costo_total'),
+            'recarga1'  => $request->get('recarga1'),
+            'img_recarga1'  => $img_recarga1,
+            'recarga2'  => $request->get('recarga2'),
+            'img_recarga2'  => $img_recarga2,
+            'precio_1re'  => $request->get('precio_1re'),
+            'precio_2re'  => $request->get('precio_2re'),
+            'cant_1re'  => $request->get('cant_1re'),
+            'cant_2re'  => $request->get('cant_2re'),
+            'origen'  => $request->get('origen'),
+            'fecha_fac'  => $request->get('fecha_fac'),
+            'n_fac'  => $request->get('n_fac'),
+            'observaciones' => $observaciones
+
+        ];
+        // dd($data);
+        $combus = combustible::create($data);
+        $id_combustible = $combus->id;
+        DB::table('solicitudes')->where('id', $id_soli)->limit(1)->update([
+            'id_combustible' => $id_combustible
+        ]);
+        $mensaje = "Asignación del Combustible exitosa";
+
+        return redirect()->route('admin.costos.index')->with(['data' => $mensaje]);
     }
 }

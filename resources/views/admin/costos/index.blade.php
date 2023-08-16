@@ -92,7 +92,7 @@
                                 
                                <td>S/. <strong>{{$doc->costo}}</strong></td>
                                     <td><button type="button" class="btn btn-secondary btn-icon rounded-circle"
-                                        data-bs-toggle="modal" data-bs-target="#crearmodal{{$doc->id}}">
+                                        data-bs-toggle="modal" data-bs-target="#crearcombustible{{$doc->id}}">
                                         <i data-feather='plus'></i>
                                         </button></td>
                                     <td><button type="button" class="btn btn-secondary btn-icon rounded-circle"
@@ -136,14 +136,28 @@
                                    
                                 </td>
                             </tr>
-                            @include('admin.modals.CrearPlani')
-                            @include('admin.modals.EditPlani')
-                            @include('admin.modals.CrearCierre')
-                            @include('admin.modals.DetCierre')
+                            @include('admin.modals.CrearCombustible')
+                            @include('admin.modals.CrearBalanza')
+                            @include('admin.modals.CrearPeaje')
+                            @include('admin.modals.CrearViatico')
                            
                             @endforeach
                         </tbody>
                     </table>
+                    {{-- <div id="suma">
+                        <input type="text" onKeyUp="calcular()" class="decimales" name="text" id="valor1" >
+                        <label for="text"> Introduce primer num</label><br>
+                        <input type="text" onKeyUp="calcular()" class="decimales" name="text" id="valor2">
+                        <label for="text"> Introduce segundo num</label><br>
+                        
+                        <div class='text'>Total</div>
+                        <div class='input'>
+                            <input type='text' name='total' id='total' disabled></div>
+                        
+                        <p id="yo"></p>
+                        <p id="po"></p>
+                        <p id="sum"></p>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -166,109 +180,12 @@
 @endif
   <script>
 
-$( function() {
-    $("#ayudantes").change( function() {
-        if ($(this).val() !== "") {
-            $("#carga").prop("disabled", false);
-            $("#descarga").prop("disabled", false);
-            $("#descarga2").prop("disabled", false);
-        } else {
-            $("#carga").prop("disabled", true);
-            $("#descarga").prop("disabled", true);
-            $("#descarga2").prop("disabled", true);
-        }
-    });
-});
-
-    var idioma=
-
-{
-    "sProcessing":     "Procesando...",
-    "sLengthMenu":     "Mostrar _MENU_ registros",
-    "sZeroRecords":    "No se encontraron resultados",
-    "sEmptyTable":     "NingÃºn dato disponible en esta tabla",
-    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-    "sInfoPostFix":    "",
-    "sSearch":         "Buscar:",
-    "sUrl":            "",
-    "sInfoThousands":  ",",
-    "sLoadingRecords": "Cargando...",
-    "oPaginate": {
-        "sFirst":    "Primero",
-        "sLast":     "Ãšltimo",
-        "sNext":     "Siguiente",
-        "sPrevious": "Anterior"
-    },
-    "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-    },
-    "buttons": {
-        "copyTitle": 'Informacion copiada',
-        "copyKeys": 'Use your keyboard or menu to select the copy command',
-        "copySuccess": {
-            "_": '%d filas copiadas al portapapeles',
-            "1": '1 fila copiada al portapapeles'
-        },
-
-        "pageLength": {
-        "_": "Mostrar %d filas",
-        "-1": "Mostrar Todo"
-        }
-    }
-};
-
-
-
 //Convierte el div a imagen y la descarga
 document.querySelector('button').addEventListener('click', function() {
   
 });
 
-
-$('#unidad').on('change', function(){
-       
-       var id = $(this).val();
-       // alert(id);
-       // alert(id);
-           $.ajax({
-           url:'{{ route('buscarunidad') }}',
-           type:'GET',
-           data:{'id':id},
-           dataType:'json',
-           success:function (data) {
-               console.log(data);
-               // $('#product_list').html(data);
-               $('#datos_unidad').val(data);
-               // alert(data.table_data);
-           }
-       })
-   });
-
-   $('#chofer').on('change', function(){
-
-var id = $(this).val();
-// alert(id);
-// alert(id);
-  $.ajax({
-  url:'{{ route('buscarchofer') }}',
-  type:'GET',
-  data:{'id':id},
-  dataType:'json',
-  success:function (data) {
-      console.log(data);
-      // $('#product_list').html(data);
-      $('#datos_chofer').val(data);
-      // alert(data.table_data);
-  }
-})
-});
-
-
-var idioma=
-
+    var idioma=
         {
             "sProcessing":     "Procesando...",
             "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -342,74 +259,26 @@ var idioma=
 
         } );
 
-        $(document).ready( function () {
-        var table = $('#solicitudes2').DataTable({
-                    dom: '<"border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-                    language: idioma,
-                    buttons: [
-                    // 'excel'
-                        {
-                        extend: 'excel',
-                        text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
-                        className: 'btn btn-sm btn-info round waves-effect',
-                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12] }
-                        },
-                        {
-                            extend: 'print',
-                        text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
-                        className: 'btn btn-sm btn-info round waves-effect',
-                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12] }
-                        },
-                    ],
-                    "order": [[ 4, 'asc' ], [ 5, 'asc' ]],
-                    exportOptions: {
-                    modifier: {
-                    // DataTables core
-                    // 'current', 'applied',
-                    //'index', 'original'
-                    page: 'all', // 'all', 'current'
-                    search: 'none' // 'none', 'applied', 'removed'
-                    },
-                        columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12]
-                        
-                    }
-                })
+        $('.decimales').on('input', function () {
+  this.value = this.value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');
+});
 
-        } );
-        $(document).ready( function () {
-        var table = $('#solicitudes3').DataTable({
-                    dom: '<"border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-                    language: idioma,
-                    buttons: [
-                    // 'excel'
-                        {
-                        extend: 'excel',
-                        text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
-                        className: 'btn btn-sm btn-info round waves-effect',
-                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12] }
-                        },
-                        {
-                            extend: 'print',
-                        text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
-                        className: 'btn btn-sm btn-info round waves-effect',
-                        exportOptions: { columns: [0,1,2,3, 4, 5, 6,7,8,9,10,11,12] }
-                        },
-                    ],
-                    "order": [[ 4, 'asc' ], [ 5, 'asc' ]],
-                    exportOptions: {
-                    modifier: {
-                    // DataTables core
-                    // 'current', 'applied',
-                    //'index', 'original'
-                    page: 'all', // 'all', 'current'
-                    search: 'none' // 'none', 'applied', 'removed'
-                    },
-                        columns: [0,1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12]
-                        
-                    }
-                })
+$(document).ready(inicio);
+function inicio(){
+	$("#suma input").keyup(calcular);
+ 
+}
+ 
+function calcular(){
+ 
+    var valor1 = Number($('#valor1').val())
+    var valor2 = Number($('#valor2').val())
+    // ca=Number(valor1);
+    var total = valor1 +valor2;
+    $('#total').val(total)
+    console.log(total);
+}
 
-        } );
 </script>
 @endsection
 

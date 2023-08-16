@@ -119,3 +119,4 @@ Route::get('IdDetSoli/{id}', [AdminController::class, 'detalle_solicitud'])->nam
 
 // ----------------------------------COSTOS----------------------------------------------------
 Route::get('/costos', [AdminController::class, 'listarsolicitudes2'])->name('admin.costos.index');
+Route::post('/crearCombustible', [AdminController::class, 'crear_combustible'])->name('crear-combustible');
