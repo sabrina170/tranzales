@@ -15,9 +15,9 @@
                                 <h4 class="card-title"></h4>
                                 <div class="d-flex align-items-center">
                                     <p class="card-text font-small-2 me-25 mb-0">COSTO TOTAL COMBUSTIBLE</p>
-                                    <input id="costo_total" name="costo_total"
+                                    <input id="costo_total{{$doc->id}}" name="costo_total"
                                      class="form-control form-control" type="number"
-                                     placeholder="100.00" required>
+                                     placeholder="100.00" readonly>
                                 </div>
                             </div>
                         </div>
@@ -26,7 +26,7 @@
                             <div class="row">
                                 <div class="col-xl-6 col-md-6 col-12">
                                     <div class="mb-1">
-                                        <input type="number" id="recarga1" name="recarga1" class="form-control"
+                                        <input type="number" id="recarga1{{$doc->id}}" name="recarga1" class="form-control"
                                          placeholder="100" readonly>
                                         <p><small class="text-muted">1ra Recarga</small></p>
                                         <input type="file" id="img_recarga1" name="img_recarga1"
@@ -35,7 +35,8 @@
                                 </div>
                                 <div class="col-xl-6 col-md-6 col-12">
                                     <div class="mb-1">
-                                        <input type="number" id="recarga2" name="recarga2" class="form-control" placeholder="100" disabled>
+                                        <input type="number" id="recarga2{{$doc->id}}" name="recarga2" 
+                                        class="form-control" placeholder="100" readonly>
                                         <p><small class="text-muted">2da Recarga</small></p>
                                         <input type="file"  id="img_recarga2" name="img_recarga2"
                                          class="form-control" accept="image/*" required>
@@ -47,31 +48,33 @@
                             <div class="row taby">
                                 <div class="col-xl-6 col-md-6 col-12">
                                     <div class="mb-1">
-                                        <input type="text"  id="precio_1re" name="precio_1re" class="form-control decimales"
-                                         placeholder="14.59" required>
+                                        <input type="text"  id="precio_1re{{$doc->id}}"
+                                         name="precio_1re" class="form-control decimales"
+                                         placeholder="14.59" onkeyup="calculo({{$doc->id}});" required>
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-md-6 col-12">
                                     <div class="mb-1">
-                                        <input type="number" id="precio_2re" name="precio_2re"
-                                         class="form-control" placeholder="14.59" required>
+                                        <input type="number" id="precio_2re{{$doc->id}}" name="precio_2re"
+                                         class="form-control" placeholder="14.59"
+                                         onkeyup="calculo({{$doc->id}});" required>
                                     </div>
                                 </div>
                             </div> 
                             
-                            <label class="form-label" for="select2-basic">CANTIDAD COMBUSTIBLE (GL)</label>
+                            <label class="form-label" for="select2-basic">CANTIDAD COMBUSTIBLE (GL) </label>
                             <div class="row">
                                 <div class="col-xl-6 col-md-6 col-12">
                                     <div class="mb-1">
-                                        <input type="text"  id="cant_1re" name="cant_1re" 
-                                        class="form-control decimales" >
+                                        <input type="text"  id="cant_1re{{$doc->id}}" name="cant_1re" 
+                                        class="form-control decimales" onkeyup="calculo({{$doc->id}});" >
                                         <p><small class="text-center">galones</small></p>
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-md-6 col-12">
                                     <div class="mb-1">
-                                        <input type="number" id="cant_2re" name="cant_2re" class="form-control"
-                                         placeholder="10.23" required>
+                                        <input type="number" id="cant_2re{{$doc->id}}" name="cant_2re" class="form-control"
+                                         placeholder="10.23" onkeyup="calculo({{$doc->id}});" required>
                                          <p><small class="text-center">galones</small></p>
                                     </div>
                                 </div>

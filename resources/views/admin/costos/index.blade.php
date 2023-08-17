@@ -269,16 +269,27 @@ function inicio(){
  
 }
  
-function calcular(){
- 
-    var valor1 = Number($('#valor1').val())
-    var valor2 = Number($('#valor2').val())
-    // ca=Number(valor1);
-    var total = valor1 +valor2;
-    $('#total').val(total)
-    console.log(total);
-}
+function calculo(val) {
+    var precio = document.getElementById("precio_1re" + val).value;
+  var cantidad = document.getElementById("cant_1re" + val).value;
+  var resultado = document.getElementById("recarga1" + val);
+//   var totalgeneral = document.getElementById("totgen");
+  resultado.value = Math.round(cantidad * precio);
+    resul =cantidad * precio;
 
+  var precio2 = document.getElementById("precio_2re" + val).value;
+  var cantidad2 = document.getElementById("cant_2re" + val).value;
+  var resultado2 = document.getElementById("recarga2" + val);
+//   var totalgeneral = document.getElementById("totgen");
+  resultado2.value = Math.round(cantidad2 * precio2);
+  resul2 =cantidad2 * precio2;
+
+    total= resul+ resul2;
+  var costo_total = document.getElementById("costo_total" + val);
+  costo_total.value= Math.round(total);
+
+console.log(cantidad);
+}
 </script>
 @endsection
 

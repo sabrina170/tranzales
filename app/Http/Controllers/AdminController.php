@@ -1253,12 +1253,12 @@ class AdminController extends Controller
 
         if ($image = $request->file('img_recarga1')) {
             $destinatarioPath = 'img-combustibles/';
-            $img_recarga1 = date('YmdHis') . "1" . "." . $image->getClientOriginalExtension();
+            $img_recarga1 = date('YHis') . "1" . "." . $image->getClientOriginalExtension();
             $image->move($destinatarioPath, $img_recarga1);
         }
         if ($image = $request->file('img_recarga2')) {
             $destinatarioPath = 'img-combustibles/';
-            $img_recarga2 = date('YmdHis') . "2" . "." . $image->getClientOriginalExtension();
+            $img_recarga2 = date('YHis') . "2" . "." . $image->getClientOriginalExtension();
             $image->move($destinatarioPath, $img_recarga2);
         }
 
