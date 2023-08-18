@@ -57,7 +57,7 @@
                                 <th style="font-size: 10px">ESTADO</th>
 
                                 {{-- <th>CIERRE</th> --}}
-                                <th tyle="font-size: 10px;width: 20px">ACCIONES</th>
+                                {{-- <th tyle="font-size: 10px;width: 20px">ACCIONES</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -171,19 +171,19 @@
                                     @endif
                                 </td>
                                 
-                                <td>
+                                {{-- <td>
                                     <div class="col-lg-6 col-12">
                                         <div class="btn-group" role="group" aria-label="Basic example">
                                             <a type="button" class="btn btn-secondary waves-effect"  href="{{route('detalle-solicitud',$doc->id)}}">
                                                 <i data-feather='eye'></i></a>
-                                            {{-- <button type="button" class="btn btn-warning waves-effect">
+                                            <button type="button" class="btn btn-warning waves-effect">
                                                 <i data-feather='edit'> </i></button>
                                                 <button type="button" class="btn btn-danger waves-effect">
-                                                    <i data-feather='trash-2'></i></button> --}}
+                                                    <i data-feather='trash-2'></i></button>
                                           </div>
                                     </div>
                                    
-                                </td>
+                                </td> --}}
                             </tr>
                             @include('admin.modals.CrearPlani')
                             @include('admin.modals.EditPlani')

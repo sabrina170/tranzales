@@ -19,7 +19,7 @@
            
             {{-- <button class="btn btn-primary">Volver</button> --}}
         </div>
-        <a href="{{route('admin.solicitudes.index')}}" type="button" class="btn btn-icon btn-outline-primary waves-effect mt-2">
+        <a href="{{route('admin.costos.index')}}" type="button" class="btn btn-icon btn-outline-primary waves-effect mt-2">
             <i data-feather='arrow-left'></i>Volver
         </a>
     </div>

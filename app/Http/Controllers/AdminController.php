@@ -1200,6 +1200,11 @@ class AdminController extends Controller
         $planificaciones = DB::table('planificaciones')->orderBy('id', 'desc')->get();
         $destinos = DB::table('destinos')->orderBy('id', 'desc')->get();
 
+        $combustibles = DB::table('combustibles')->orderBy('id', 'desc')->get();
+        $balanzas = DB::table('balanzas')->orderBy('id', 'desc')->get();
+        $peajes = DB::table('peajes')->orderBy('id', 'desc')->get();
+        $viaticos = DB::table('viaticos')->orderBy('id', 'desc')->get();
+
         $solicitudes = Solicitude::select(
             "solicitudes.id as id",
             "solicitudes.codigo_solicitud as codigo",
@@ -1236,7 +1241,11 @@ class AdminController extends Controller
             'planificaciones',
             'ayudantes',
             'destinos',
-            'cierres'
+            'cierres',
+            'combustibles',
+            'balanzas',
+            'peajes',
+            'viaticos'
         ));
     }
 

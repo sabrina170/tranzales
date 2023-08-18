@@ -91,10 +91,20 @@
                                 {{-- <td>{{$doc->costo}}</td> --}}
                                 
                                <td>S/. <strong>{{$doc->costo}}</strong></td>
-                                    <td><button type="button" class="btn btn-secondary btn-icon rounded-circle"
+                                    <td>
+                                        
+                                        @if ($doc->id_combustible ==0)
+                                        <button type="button" class="btn btn-secondary btn-icon rounded-circle"
                                         data-bs-toggle="modal" data-bs-target="#crearcombustible{{$doc->id}}">
                                         <i data-feather='plus'></i>
-                                        </button></td>
+                                        </button>
+                                        @else
+                                        <button type="button" class="btn btn-danger btn-icon rounded-circle"
+                                        data-bs-toggle="modal" data-bs-target="#detcombustible{{$doc->id}}">
+                                        <i data-feather='eye'></i>
+                                        </button>
+                                        @endif
+                                    </td>
                                     <td><button type="button" class="btn btn-secondary btn-icon rounded-circle"
                                         data-bs-toggle="modal" data-bs-target="#crearmodal{{$doc->id}}">
                                         <i data-feather='plus'></i>
@@ -140,7 +150,10 @@
                             @include('admin.modals.CrearBalanza')
                             @include('admin.modals.CrearPeaje')
                             @include('admin.modals.CrearViatico')
-                           
+                            @include('admin.modals.DetCombustible')
+                            {{-- @include('admin.modals.DetBalanza')
+                            @include('admin.modals.DetPeaje')
+                            @include('admin.modals.DetViatico') --}}
                             @endforeach
                         </tbody>
                     </table>
