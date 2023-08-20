@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('img_recarga2');
             $table->double('precio_1re', 3);
             $table->double('precio_2re', 3);
+            $table->double('cant_1re', 3);
+            $table->double('cant_2re', 3);
             $table->string('origen');
             $table->date('fecha_fac');
             $table->string('n_fac');

@@ -94,7 +94,8 @@
                                     <td><button type="button" class="btn btn-secondary btn-icon rounded-circle"
                                         data-bs-toggle="modal" data-bs-target="#crearcombustible{{$doc->id}}">
                                         <i data-feather='plus'></i>
-                                        </button></td>
+                                        </button>
+                                    </td>
                                     <td><button type="button" class="btn btn-secondary btn-icon rounded-circle"
                                         data-bs-toggle="modal" data-bs-target="#crearmodal{{$doc->id}}">
                                         <i data-feather='plus'></i>
