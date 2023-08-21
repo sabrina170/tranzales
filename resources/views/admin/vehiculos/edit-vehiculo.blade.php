@@ -45,7 +45,8 @@
                        
                 <div class="mb-1">
                     <label class="form-label" for="first-name-column">Imagen</label>
-                    <input type="file" id="imagenSeleccionada" class="form-control" name="vehiculo_img">
+                    <input type="file" id="imagenSeleccionada" class="form-control"
+                    onchange="ValidarTamaño(this);" accept=".jpeg,.jpg,.png" name="vehiculo_img">
                 </div>
             </div>
             <div class="col-md-4 col-12">
@@ -197,6 +198,22 @@
     }
 
     window.addEventListener('load', init, false);
+    function ValidarTamaño(obj)
+{
+  var uploadFile = obj.files[0];
+  var sizeByte = obj.files[0].size;
+  var siezekiloByte = parseInt(sizeByte / 1024);
+  if(siezekiloByte >800){
+    Swal.fire(
+        'Upss !',
+        'El tamaño supera el limite permitido de 800KB :'+ '<b>Tu imagen tiene </b>:' +siezekiloByte +'KB',
+        'info'
+        )
+    //   alert('El tamaño supera el limite permitido de 800KB :'+ siezekiloByte);
+      $(obj).val('');
+      return;
+  }
+  }
 </script>
 
 @endsection

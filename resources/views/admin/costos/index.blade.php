@@ -91,23 +91,60 @@
                                 {{-- <td>{{$doc->costo}}</td> --}}
                                 
                                <td>S/. <strong>{{$doc->costo}}</strong></td>
-                                    <td><button type="button" class="btn btn-secondary btn-icon rounded-circle"
+                                    <td>
+                                        
+                                        @if ($doc->id_combustible ==0)
+                                        <button type="button" class="btn btn-secondary btn-icon rounded-circle"
                                         data-bs-toggle="modal" data-bs-target="#crearcombustible{{$doc->id}}">
                                         <i data-feather='plus'></i>
                                         </button>
+                                        @else
+                                        <button type="button" class="btn btn-danger btn-icon rounded-circle"
+                                        data-bs-toggle="modal" data-bs-target="#detcombustible{{$doc->id}}">
+                                        <i data-feather='eye'></i>
+                                        </button>
+                                        @endif
                                     </td>
-                                    <td><button type="button" class="btn btn-secondary btn-icon rounded-circle"
-                                        data-bs-toggle="modal" data-bs-target="#crearmodal{{$doc->id}}">
+                                    <td>
+                                        
+                                        @if ($doc->id_peaje ==0)
+                                        <button type="button" class="btn btn-secondary btn-icon rounded-circle"
+                                        data-bs-toggle="modal" data-bs-target="#crearpeaje{{$doc->id}}">
                                         <i data-feather='plus'></i>
-                                        </button></td>
-                                    <td><button type="button" class="btn btn-secondary btn-icon rounded-circle"
-                                        data-bs-toggle="modal" data-bs-target="#crearmodal{{$doc->id}}">
+                                        </button>
+                                        @else
+                                        <button type="button" class="btn btn-danger btn-icon rounded-circle"
+                                        data-bs-toggle="modal" data-bs-target="#detpeaje{{$doc->id}}">
+                                        <i data-feather='eye'></i>
+                                        </button>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($doc->id_balanza ==0)
+                                        <button type="button" class="btn btn-secondary btn-icon rounded-circle"
+                                        data-bs-toggle="modal" data-bs-target="#crearbalanza{{$doc->id}}">
                                         <i data-feather='plus'></i>
-                                        </button></td>
-                                     <td> <button type="button" class="btn btn-secondary btn-icon rounded-circle"
-                                    data-bs-toggle="modal" data-bs-target="#crearmodal{{$doc->id}}">
-                                    <i data-feather='plus'></i>
-                                    </button></td>
+                                        </button>
+                                        @else
+                                        <button type="button" class="btn btn-danger btn-icon rounded-circle"
+                                        data-bs-toggle="modal" data-bs-target="#detbalanza{{$doc->id}}">
+                                        <i data-feather='eye'></i>
+                                        </button>
+                                        @endif
+                                    </td>
+                                     <td> 
+                                        @if ($doc->id_viaticos ==0)
+                                        <button type="button" class="btn btn-secondary btn-icon rounded-circle"
+                                        data-bs-toggle="modal" data-bs-target="#crearviatico{{$doc->id}}">
+                                        <i data-feather='plus'></i>
+                                        </button>
+                                        @else
+                                        <button type="button" class="btn btn-danger btn-icon rounded-circle"
+                                        data-bs-toggle="modal" data-bs-target="#detviatico{{$doc->id}}">
+                                        <i data-feather='eye'></i>
+                                        </button>
+                                        @endif
+                                </td>
                                 {{-- <td>{{$doc->lavado}}</td> --}}
                                 <td>
                                     @if ($doc->estado==1)
@@ -141,7 +178,10 @@
                             @include('admin.modals.CrearBalanza')
                             @include('admin.modals.CrearPeaje')
                             @include('admin.modals.CrearViatico')
-                           
+                            @include('admin.modals.DetCombustible')
+                            @include('admin.modals.DetBalanza')
+                            @include('admin.modals.DetPeaje')
+                            @include('admin.modals.DetViatico')
                             @endforeach
                         </tbody>
                     </table>
@@ -271,15 +311,15 @@ function inicio(){
 }
  
 function calculo(val) {
-    var precio = document.getElementById("precio_1re" + val).value;
-  var cantidad = document.getElementById("cant_1re" + val).value;
+    var precio = Number(document.getElementById("precio_1re" + val).value);
+  var cantidad = Number(document.getElementById("cant_1re" + val).value);
   var resultado = document.getElementById("recarga1" + val);
 //   var totalgeneral = document.getElementById("totgen");
   resultado.value = Math.round(cantidad * precio);
     resul =cantidad * precio;
 
-  var precio2 = document.getElementById("precio_2re" + val).value;
-  var cantidad2 = document.getElementById("cant_2re" + val).value;
+  var precio2 = Number(document.getElementById("precio_2re" + val).value);
+  var cantidad2 = Number(document.getElementById("cant_2re" + val).value);
   var resultado2 = document.getElementById("recarga2" + val);
 //   var totalgeneral = document.getElementById("totgen");
   resultado2.value = Math.round(cantidad2 * precio2);
@@ -289,8 +329,45 @@ function calculo(val) {
   var costo_total = document.getElementById("costo_total" + val);
   costo_total.value= Math.round(total);
 
-console.log(cantidad);
+//   PARA LOS PEAJES
+
+    var peaje1 = Number(document.getElementById("peaje1" + val).value);
+    var peaje2 = Number(document.getElementById("peaje2" + val).value);
+    var peaje3 = Number(document.getElementById("peaje3" + val).value);
+    var peaje4 = Number(document.getElementById("peaje4" + val).value);
+
+    var precio1 = Number(document.getElementById("precio_peaje1" + val).value);
+    var precio2 = Number(document.getElementById("precio_peaje2" + val).value);
+    var precio3 = Number(document.getElementById("precio_peaje3" + val).value);
+    var precio4 = Number(document.getElementById("precio_peaje4" + val).value);
+
+    var total1 = Math.round(peaje1 * precio1);
+    var total2 = Math.round(peaje2 * precio2);
+    var total3 = Math.round(peaje3 * precio3);
+    var total4 = Math.round(peaje4 * precio4);
+    total_peaje = total1+total2+total3+total4;
+    var resultado_peaje = document.getElementById("costo_total_peaje" + val);
+    resultado_peaje.value = total_peaje ;
+    var resultado_total1 = document.getElementById("total1" + val);
+    var resultado_total2 = document.getElementById("total2" + val);
+    var resultado_total3 = document.getElementById("total3" + val);
+    var resultado_total4 = document.getElementById("total4" + val);
+    resultado_total1.value = total1;
+    resultado_total2.value = total2;
+    resultado_total3.value = total3;
+    resultado_total4.value = total4;
+
+    // PARA VIATICOS
+
+    var movilidad = Number(document.getElementById("movilidad" + val).value);
+    var alimento = Number(document.getElementById("alimento" + val).value);
+    var servicio = Number(document.getElementById("servicio" + val).value);
+
+    total_viatico = movilidad+alimento+servicio;
+    var resultado_viatico= document.getElementById("costo_total_viatico" + val);
+    resultado_viatico.value = Math.round(total_viatico);
+    
+    console.log(total_viatico);
 }
 </script>
 @endsection
-

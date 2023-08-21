@@ -120,3 +120,6 @@ Route::get('IdDetSoli/{id}', [AdminController::class, 'detalle_solicitud'])->nam
 // ----------------------------------COSTOS----------------------------------------------------
 Route::get('/costos', [AdminController::class, 'listarsolicitudes2'])->name('admin.costos.index');
 Route::post('/crearCombustible', [AdminController::class, 'crear_combustible'])->name('crear-combustible');
+Route::post('/crearBalanza', [AdminController::class, 'crear_balanza'])->name('crear-balanza');
+Route::post('/crearPeaje', [AdminController::class, 'crear_peaje'])->name('crear-peaje');
+Route::post('/crearViatico', [AdminController::class, 'crear_viatico'])->name('crear-viatico');

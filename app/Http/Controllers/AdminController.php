@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\balanza;
 use App\Models\Chofere;
 use App\Models\Cierre;
 use App\Models\Cliente;
 use App\Models\combustible;
 use App\Models\Destino;
+use App\Models\peaje;
 use App\Models\planificacione;
 use App\Models\Ruta;
 use App\Models\Solicitude;
 use App\Models\Tarifa;
 use App\Models\User;
 use App\Models\Vehiculo;
+use App\Models\viatico;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -195,11 +198,20 @@ class AdminController extends Controller
     {
 
         if ($image = $request->file('vehiculo_img')) {
+            $tamañoArchivoByte = filesize($image);
+            // if ($tamañoArchivoByte < 820000) {
             $destinatarioPath = 'images-vehiculos/';
             $firmaImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinatarioPath, $firmaImage);
+            // } else {
+            //     $mensaje = "Imagen debe ser menor a 800 KB";
+            //     return redirect()->route('admin.vehiculos.index')->with(['data' => $mensaje]);
+            // }
+
+
             // $alu['image'] = "$profileImage";
         }
+
 
         $data = [
             'unidad' => $request->get('unidad'),
@@ -1200,6 +1212,11 @@ class AdminController extends Controller
         $planificaciones = DB::table('planificaciones')->orderBy('id', 'desc')->get();
         $destinos = DB::table('destinos')->orderBy('id', 'desc')->get();
 
+        $combustibles = DB::table('combustibles')->orderBy('id', 'desc')->get();
+        $balanzas = DB::table('balanzas')->orderBy('id', 'desc')->get();
+        $peajes = DB::table('peajes')->orderBy('id', 'desc')->get();
+        $viaticos = DB::table('viaticos')->orderBy('id', 'desc')->get();
+
         $solicitudes = Solicitude::select(
             "solicitudes.id as id",
             "solicitudes.codigo_solicitud as codigo",
@@ -1236,7 +1253,11 @@ class AdminController extends Controller
             'planificaciones',
             'ayudantes',
             'destinos',
-            'cierres'
+            'cierres',
+            'combustibles',
+            'balanzas',
+            'peajes',
+            'viaticos'
         ));
     }
 
@@ -1285,6 +1306,137 @@ class AdminController extends Controller
             'id_combustible' => $id_combustible
         ]);
         $mensaje = "Asignación del Combustible exitosa";
+
+        return redirect()->route('admin.costos.index')->with(['data' => $mensaje]);
+    }
+    public function crear_balanza(Request $request)
+    {
+
+        if ($request->get('observaciones') == null) {
+            $observaciones = "";
+        } else {
+            $observaciones = $request->get('observaciones');
+        }
+        $accion = $request->get('accion');
+        $id_soli = $request->get('id_soli');
+
+        if ($image = $request->file('img_fac')) {
+            $destinatarioPath = 'img-balanzas/';
+            $img_fac = date('YHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinatarioPath, $img_fac);
+        }
+
+
+        $data = [
+            'costo_total' => $request->get('costo_total'),
+            'precio_ba'  => $request->get('precio_ba'),
+            'img_fac'  => $img_fac,
+            'origen'  => $request->get('origen'),
+            'fecha_fac'  => $request->get('fecha_fac'),
+            'n_fac'  => $request->get('n_fac'),
+            'observaciones' => $observaciones
+
+        ];
+        // dd($data);
+        $balan = balanza::create($data);
+        $id_balan = $balan->id;
+        DB::table('solicitudes')->where('id', $id_soli)->limit(1)->update([
+            'id_balanza' => $id_balan
+        ]);
+        $mensaje = "Asignación de la Balanza exitosa";
+
+        return redirect()->route('admin.costos.index')->with(['data' => $mensaje]);
+    }
+
+    public function crear_peaje(Request $request)
+    {
+
+        if ($request->get('observaciones') == null) {
+            $observaciones = "";
+        } else {
+            $observaciones = $request->get('observaciones');
+        }
+        $accion = $request->get('accion');
+        $id_soli = $request->get('id_soli');
+
+        if ($image = $request->file('img_peaje1')) {
+            $destinatarioPath = 'img-peajes/';
+            $img_peaje1 = date('YHis') . "1" . "." . $image->getClientOriginalExtension();
+            $image->move($destinatarioPath, $img_peaje1);
+        }
+        if ($image = $request->file('img_peaje2')) {
+            $destinatarioPath = 'img-peajes/';
+            $img_peaje2 = date('YHis') . "2" . "." . $image->getClientOriginalExtension();
+            $image->move($destinatarioPath, $img_peaje2);
+        }
+        if ($image = $request->file('img_peaje3')) {
+            $destinatarioPath = 'img-peajes/';
+            $img_peaje3 = date('YHis') . "3" . "." . $image->getClientOriginalExtension();
+            $image->move($destinatarioPath, $img_peaje3);
+        }
+        if ($image = $request->file('img_peaje4')) {
+            $destinatarioPath = 'img-peajes/';
+            $img_peaje4 = date('YHis') . "4" . "." . $image->getClientOriginalExtension();
+            $image->move($destinatarioPath, $img_peaje4);
+        }
+
+        $data = [
+            'costo_total' => $request->get('costo_total'),
+            'peaje1' => $request->get('peaje1'),
+            'precio_peaje1' => $request->get('precio_peaje1'),
+            'img_peaje1' => $img_peaje1,
+            'peaje2' => $request->get('peaje2'),
+            'precio_peaje2' => $request->get('precio_peaje2'),
+            'img_peaje2' => $img_peaje2,
+            'peaje3' => $request->get('peaje3'),
+            'precio_peaje3' => $request->get('precio_peaje3'),
+            'img_peaje3' => $img_peaje3,
+            'peaje4' => $request->get('peaje4'),
+            'precio_peaje4' => $request->get('precio_peaje4'),
+            'img_peaje4' => $img_peaje4,
+            'origen' => $request->get('origen'),
+            'fecha_fac' => $request->get('fecha_fac'),
+            'n_fac' => $request->get('n_fac'),
+            'observaciones' => $observaciones
+        ];
+        // dd($data);
+        $pea = peaje::create($data);
+        $id_peaje = $pea->id;
+        DB::table('solicitudes')->where('id', $id_soli)->limit(1)->update([
+            'id_peaje' => $id_peaje
+        ]);
+        $mensaje = "Asignación del peaje exitosa";
+
+        return redirect()->route('admin.costos.index')->with(['data' => $mensaje]);
+    }
+
+    public function crear_viatico(Request $request)
+    {
+
+        if ($request->get('observaciones') == null) {
+            $observaciones = "";
+        } else {
+            $observaciones = $request->get('observaciones');
+        }
+        $id_soli = $request->get('id_soli');
+        $data = [
+            'costo_total' => $request->get('costo_total'),
+            'movilidad' => $request->get('movilidad'),
+            'motivo_mo' => $request->get('motivo_mo'),
+            'alimento' => $request->get('alimento'),
+            'motivo_ali' => $request->get('motivo_ali'),
+            'servicio' => $request->get('servicio'),
+            'motivo_ser' => $request->get('motivo_ser'),
+            'origen' => $request->get('origen'),
+            'observaciones' => $observaciones
+        ];
+        // dd($data);
+        $via = viatico::create($data);
+        $id_viatico = $via->id;
+        DB::table('solicitudes')->where('id', $id_soli)->limit(1)->update([
+            'id_viaticos' => $id_viatico
+        ]);
+        $mensaje = "Asignación de viaticos exitosa";
 
         return redirect()->route('admin.costos.index')->with(['data' => $mensaje]);
     }

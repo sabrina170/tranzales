@@ -44,19 +44,20 @@
             <form action="{{ route('crear-vehiculo') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col-md-4 col-12">
+                    <div class="col-md-6 col-12">
                         <div class="mb-1">
                             <label class="form-label" for="first-name-column">Imagen</label>
-                            <input type="file" id="first-name-column" class="form-control" name="vehiculo_img" required>
+                            <input type="file" id="first-name-column" class="form-control"
+                             name="vehiculo_img" onchange="ValidarTamaño(this);" accept=".jpeg,.jpg,.png" required>
                         </div>
                     </div>
-                    <div class="col-md-4 col-12">
+                    <div class="col-md-3 col-12">
                         <div class="mb-1">
                             <label class="form-label" for="first-name-column">Unidades</label>
                             <input type="text" id="first-name-column" class="form-control" placeholder="INTER" name="unidad" required>
                         </div>
                     </div>
-                    <div class="col-md-4 col-12">
+                    <div class="col-md-3 col-12">
                         <div class="mb-1">
                             <label class="form-label" for="last-name-column">Marca</label>
                             <input type="text" id="last-name-column" class="form-control" placeholder="INTERNACIONAL" name="marca" required>
@@ -315,7 +316,22 @@
     });
 });
 
-   
+function ValidarTamaño(obj)
+{
+  var uploadFile = obj.files[0];
+  var sizeByte = obj.files[0].size;
+  var siezekiloByte = parseInt(sizeByte / 1024);
+  if(siezekiloByte >800){
+    Swal.fire(
+        'Upss !',
+        'El tamaño supera el limite permitido de 800KB :'+ '<b>Tu imagen tiene </b>:' +siezekiloByte +'KB',
+        'info'
+        )
+    //   alert('El tamaño supera el limite permitido de 800KB :'+ siezekiloByte);
+      $(obj).val('');
+      return;
+  }
+  }
 </script>
 @endsection
 

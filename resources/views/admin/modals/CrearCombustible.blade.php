@@ -48,15 +48,15 @@
                             <div class="row taby">
                                 <div class="col-xl-6 col-md-6 col-12">
                                     <div class="mb-1">
-                                        <input type="text"  id="precio_1re{{$doc->id}}"
-                                         name="precio_1re" class="form-control decimales"
+                                        <input type="number"  id="precio_1re{{$doc->id}}"
+                                         name="precio_1re" class="form-control"
                                          placeholder="14.59" onkeyup="calculo({{$doc->id}});" required>
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-md-6 col-12">
                                     <div class="mb-1">
-                                        <input type="text" id="precio_2re{{$doc->id}}" name="precio_2re"
-                                         class="form-control decimales" placeholder="14.59"
+                                        <input type="number" id="precio_2re{{$doc->id}}" name="precio_2re"
+                                         class="form-control" placeholder="14.59"
                                          onkeyup="calculo({{$doc->id}});" required>
                                     </div>
                                 </div>
@@ -66,15 +66,15 @@
                             <div class="row">
                                 <div class="col-xl-6 col-md-6 col-12">
                                     <div class="mb-1">
-                                        <input type="text"  id="cant_1re{{$doc->id}}" name="cant_1re" 
-                                        class="form-control decimales" onkeyup="calculo({{$doc->id}});" >
+                                        <input type="number"  id="cant_1re{{$doc->id}}" name="cant_1re" 
+                                        class="form-control" onkeyup="calculo({{$doc->id}});" >
                                         <p><small class="text-center">galones</small></p>
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-md-6 col-12">
                                     <div class="mb-1">
-                                        <input type="text" id="cant_2re{{$doc->id}}" name="cant_2re"
-                                         class="form-control decimales"
+                                        <input type="number" id="cant_2re{{$doc->id}}" name="cant_2re"
+                                         class="form-control"
                                          placeholder="10.23" onkeyup="calculo({{$doc->id}});" required>
                                          <p><small class="text-center">galones</small></p>
                                     </div>
